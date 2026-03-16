@@ -88,7 +88,7 @@
   }
   .header-search input {
     width: 100%;
-    padding: 0.55rem 1rem 0.55rem 2.8rem;
+    padding: 0.55rem 2.4rem 0.55rem 2.8rem;
     border-radius: 99px;
     border: 1.5px solid rgba(255,255,255,0.15);
     background: rgba(255,255,255,0.10);
@@ -104,6 +104,16 @@
     position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
     color: rgba(255,255,255,0.5); font-size: 0.85rem;
   }
+  .search-clear {
+    position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.5); font-size: 0.85rem;
+    display: none; align-items: center; justify-content: center;
+    padding: 0; line-height: 1;
+    transition: color 0.15s;
+  }
+  .search-clear:hover { color: white; }
+  .search-clear.visible { display: flex; }
 
   .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
   .btn-cart {
@@ -378,6 +388,11 @@
   .mol-tag.cosme { background: #fce4ec; color: #c2185b; }
   .mol-tag.food { background: #fff8e1; color: #f57f17; }
   .mol-tag.poly { background: #f3e5f5; color: #7b1fa2; }
+  .mol-tag.uvprotect { background: #fff8e1; color: #f57f17; }
+  .mol-tag.conservative { background: #e3f2fd; color: #0277bd; }
+  .mol-tag.polymeraddit { background: #f3e5f5; color: #7b1fa2; }
+  .mol-tag.odors { background: #fce4ec; color: #c2185b; }
+  .mol-tag.greenchem { background: #e0f2f1; color: #00695c; }
 
   .mol-data-row {
     display: flex; gap: 0.5rem; flex-wrap: wrap;
@@ -777,7 +792,10 @@
     </a>
     <div class="header-search">
       <i class="fas fa-search search-icon"></i>
-      <input type="text" id="globalSearch" placeholder="Search by name, SMILES, CAS number…" oninput="filterMolecules()">
+      <input type="text" id="globalSearch" placeholder="Search by name, SMILES, CAS number…" oninput="filterMolecules(); toggleClearBtn()">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear search">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
     <div class="header-actions">
       <button class="btn-cart" onclick="openOrderModal()">
@@ -806,16 +824,16 @@
     </div>
     <div class="hero-stats">
       <div class="stat">
-        <div class="num" id="statTotal">12</div>
+        <div class="num" id="statTotal">—</div>
         <div class="label">Molecules</div>
       </div>
       <div class="stat">
-        <div class="num">5</div>
-        <div class="label">Families</div>
+        <div class="num" id="statPatents">17</div>
+        <div class="label">Patents</div>
       </div>
       <div class="stat">
-        <div class="num">100%</div>
-        <div class="label">Bio-based</div>
+        <div class="num" id="statPublications">—</div>
+        <div class="label">Publications</div>
       </div>
     </div>
   </div>
@@ -830,11 +848,16 @@
       <h3><i class="fas fa-tags"></i> Chemical Family</h3>
       <div class="filter-tags" id="familyFilters">
         <span class="tag active" data-family="all" onclick="setFamilyFilter(this, 'all')">All</span>
-        <span class="tag" data-family="Phenolic" onclick="setFamilyFilter(this, 'Phenolic')">Phenolic</span>
-        <span class="tag" data-family="Ferulate" onclick="setFamilyFilter(this, 'Ferulate')">Ferulic acids</span>
+        <span class="tag" data-family="Phenols" onclick="setFamilyFilter(this, 'Phenols')">Phenols</span>
+        <span class="tag" data-family="Sinapic" onclick="setFamilyFilter(this, 'Sinapic')">Sinapic</span>
+        <span class="tag" data-family="Ferulic" onclick="setFamilyFilter(this, 'Ferulic')">Ferulic</span>
+        <span class="tag" data-family="Coumaric" onclick="setFamilyFilter(this, 'Coumaric')">Coumaric</span>
+        <span class="tag" data-family="Caffeic" onclick="setFamilyFilter(this, 'Caffeic')">Caffeic</span>
         <span class="tag" data-family="Flavonoid" onclick="setFamilyFilter(this, 'Flavonoid')">Flavonoids</span>
-        <span class="tag" data-family="Terpene" onclick="setFamilyFilter(this, 'Terpene')">Terpenes</span>
-        <span class="tag" data-family="Polymer" onclick="setFamilyFilter(this, 'Polymer')">Polymers</span>
+        <span class="tag" data-family="Polyphenols" onclick="setFamilyFilter(this, 'Polyphenols')">Polyphenols</span>
+        <span class="tag" data-family="Furans" onclick="setFamilyFilter(this, 'Furans')">Furans</span>
+        <span class="tag" data-family="SugarDerivs" onclick="setFamilyFilter(this, 'SugarDerivs')">Sugar derivs</span>
+        <span class="tag" data-family="Extracts" onclick="setFamilyFilter(this, 'Extracts')">Extracts</span>
       </div>
     </div>
 
@@ -848,14 +871,13 @@
     </div>
 
     <div class="filter-card">
-      <h3><i class="fas fa-bullseye"></i> Application</h3>
+      <h3><i class="fas fa-bullseye"></i> Activity</h3>
       <div class="filter-tags" id="appFilters">
-        <span class="tag" data-app="bioactive" onclick="toggleAppFilter(this, 'bioactive')">Bioactive</span>
-        <span class="tag" data-app="green" onclick="toggleAppFilter(this, 'green')">Green Chem.</span>
-        <span class="tag" data-app="pharma" onclick="toggleAppFilter(this, 'pharma')">Pharma</span>
-        <span class="tag" data-app="food" onclick="toggleAppFilter(this, 'food')">Food/Feed</span>
-        <span class="tag" data-app="cosme" onclick="toggleAppFilter(this, 'cosme')">Cosmetics</span>
-        <span class="tag" data-app="poly" onclick="toggleAppFilter(this, 'poly')">Polymers</span>
+        <span class="tag" data-app="uvprotect" onclick="toggleAppFilter(this, 'uvprotect')">UV protect.</span>
+        <span class="tag" data-app="conservative" onclick="toggleAppFilter(this, 'conservative')">Conservative</span>
+        <span class="tag" data-app="polymeraddit" onclick="toggleAppFilter(this, 'polymeraddit')">Polymer addit.</span>
+        <span class="tag" data-app="odors" onclick="toggleAppFilter(this, 'odors')">Odors</span>
+        <span class="tag" data-app="greenchem" onclick="toggleAppFilter(this, 'greenchem')">Green Chem.</span>
       </div>
     </div>
 
@@ -885,6 +907,11 @@
     <div class="content-toolbar">
       <div class="result-count"><strong id="resultCount">12</strong> molecules found</div>
       <div class="toolbar-right">
+        <select class="sort-select" onchange="changePerPage(this.value)">
+          <option value="12">12 / page</option>
+          <option value="24">24 / page</option>
+          <option value="48">48 / page</option>
+        </select>
         <select class="sort-select" onchange="sortMolecules(this.value)">
           <option value="name">Sort: Name</option>
           <option value="mw">Sort: MW ↑</option>
@@ -1026,7 +1053,7 @@ const DEMO_MOLECULES = [
     family: "Phenolic", smiles: "COC(=O)/C=C/c1cc(OC)c(O)c(OC)c1",
     mw: 238.24, logP: 1.82, mp: "89–91°C", solubility: "DMSO, EtOH",
     purity: ">98%", availability: "yes",
-    applications: ["green", "pharma", "food"],
+    applications: ["uvprotect", "greenchem"],
     ic50: "48 µM (antioxidant, DPPH)", target: "ROS scavenging",
     nmr: true, uv: true, ms: true, bioData: true,
     color: "#2d7a4f",
@@ -1055,7 +1082,7 @@ const DEMO_MOLECULES = [
     family: "Phenolic", smiles: "COc1cc(CCC(=O)O)cc(OC)c1O",
     mw: 226.23, logP: 1.35, mp: "102–104°C", solubility: "EtOH, water (pH>7)",
     purity: ">97%", availability: "yes",
-    applications: ["green", "food", "pharma"],
+    applications: ["greenchem"],
     ic50: "32 µM (antioxidant)", target: "Lipid peroxidation",
     nmr: true, uv: false, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
@@ -1085,7 +1112,7 @@ const DEMO_MOLECULES = [
     family: "Phenolic", smiles: "COc1cc(Cc2ccc(O)c(OC)c2)ccc1O",
     mw: 260.29, logP: 2.41, mp: "118–121°C", solubility: "EtOH, DCM",
     purity: ">99%", availability: "yes",
-    applications: ["poly", "green", "pharma"],
+    applications: ["polymeraddit", "greenchem"],
     ic50: "—", target: "Epoxy monomer (biobased BPA alternative)",
     nmr: true, uv: true, ms: true, bioData: false,
     svgPath: `<svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1125,7 +1152,7 @@ const DEMO_MOLECULES = [
     family: "Phenolic", smiles: "OC/C=C/c1ccc(O)cc1",
     mw: 150.17, logP: 1.22, mp: "125–127°C", solubility: "EtOH, MeOH",
     purity: ">98%", availability: "limited",
-    applications: ["bioactive", "food", "green"],
+    applications: ["conservative", "uvprotect"],
     ic50: "65 µM (antimicrobial)", target: "Cell membrane disruption",
     nmr: true, uv: true, ms: false, bioData: true,
     svgPath: `<svg viewBox="0 0 190 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
@@ -1151,7 +1178,7 @@ const DEMO_MOLECULES = [
     family: "Ferulate", smiles: "COc1cc(/C=C/C=O)cc(OC)c1O",
     mw: 222.24, logP: 1.68, mp: "78–80°C", solubility: "EtOH, DCM",
     purity: ">97%", availability: "yes",
-    applications: ["bioactive", "pharma", "cosme"],
+    applications: ["uvprotect"],
     ic50: "22 µM (anti-inflammatory, COX-2)", target: "COX-2 inhibition",
     nmr: true, uv: true, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
@@ -1181,7 +1208,7 @@ const DEMO_MOLECULES = [
     family: "Ferulate", smiles: "COc1cc(/C=C/C(=O)O)ccc1O",
     mw: 194.18, logP: 1.51, mp: "168–172°C", solubility: "EtOH, alkali",
     purity: ">99%", availability: "yes",
-    applications: ["food", "cosme", "pharma", "bioactive"],
+    applications: ["uvprotect", "conservative"],
     ic50: "18 µM (antioxidant)", target: "ROS / free radical scavenging",
     nmr: true, uv: true, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
@@ -1210,7 +1237,7 @@ const DEMO_MOLECULES = [
     family: "Flavonoid", smiles: "O=c1c(OC2OC(CO)C(O)C(O)C2O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12",
     mw: 464.38, logP: -0.85, mp: ">240°C (dec.)", solubility: "Water, MeOH",
     purity: ">95%", availability: "limited",
-    applications: ["bioactive", "pharma", "food"],
+    applications: ["conservative"],
     ic50: "5.2 µM (anti-inflammatory, NF-κB)", target: "NF-κB pathway",
     nmr: true, uv: true, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1242,7 +1269,7 @@ const DEMO_MOLECULES = [
     family: "Ferulate", smiles: "COc1cc(/C=C/C(=O)OCC[N+](C)(C)C)cc(OC)c1O.[S-]C#N",
     mw: 370.45, logP: -1.2, mp: "193–196°C", solubility: "Water, MeOH",
     purity: ">96%", availability: "yes",
-    applications: ["bioactive", "pharma"],
+    applications: ["conservative"],
     ic50: "38 µM (neuroprotective)", target: "Acetylcholinesterase inhibition",
     nmr: true, uv: false, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1272,7 +1299,7 @@ const DEMO_MOLECULES = [
     family: "Terpene", smiles: "OC1CCC(=C(C)C)[C@@](O)(C)C1",
     mw: 172.22, logP: 1.15, mp: "65–68°C", solubility: "EtOH, acetone",
     purity: ">98%", availability: "yes",
-    applications: ["green", "cosme", "food"],
+    applications: ["odors", "greenchem"],
     ic50: "—", target: "Fragrance / polymer precursor",
     nmr: true, uv: false, ms: true, bioData: false,
     svgPath: `<svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1294,7 +1321,7 @@ const DEMO_MOLECULES = [
     family: "Polymer", smiles: "n/a (oligomeric)",
     mw: "1200–3500 (Mn)", logP: "n/a", mp: "Tg = 78°C", solubility: "THF, DMSO",
     purity: ">90%", availability: "limited",
-    applications: ["poly", "green"],
+    applications: ["polymeraddit", "greenchem"],
     ic50: "—", target: "Bio-based thermoset / antioxidant coating",
     nmr: true, uv: false, ms: false, bioData: false,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1321,7 +1348,7 @@ const DEMO_MOLECULES = [
     family: "Phenolic", smiles: "COc1cc(/C=C/COC(=O)c2ccccc2)ccc1O",
     mw: 298.33, logP: 2.98, mp: "70–73°C", solubility: "EtOH, DCM, acetone",
     purity: ">97%", availability: "no",
-    applications: ["pharma", "cosme", "bioactive"],
+    applications: ["conservative"],
     ic50: "15 µM (cytotoxic, MCF-7)", target: "Cancer cell lines",
     nmr: true, uv: true, ms: true, bioData: true,
     svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
@@ -1353,7 +1380,7 @@ const DEMO_MOLECULES = [
     family: "Terpene", smiles: "OC(=O)CC(=C)C(=O)O",
     mw: 130.10, logP: -0.75, mp: "166–168°C", solubility: "Water, EtOH",
     purity: ">99%", availability: "yes",
-    applications: ["poly", "green", "food"],
+    applications: ["polymeraddit", "greenchem"],
     ic50: "—", target: "Monomer for bio-based polymers",
     nmr: true, uv: false, ms: true, bioData: false,
     svgPath: `<svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
@@ -1381,7 +1408,7 @@ let activeApps = new Set();
 let cart = [];
 let currentMolecule = null;
 let currentPage = 1;
-const perPage = 8;
+let perPage = 12;
 
 // ===== SPECTRA DOWNLOAD HELPER =====
 async function checkFileExists(event, url) {
@@ -1508,9 +1535,17 @@ async function loadCatalogue() {
     if (catalogueResult.value.catalogue_metadata?.last_updated) {
       document.title = 'URD ABI — Chemical Library (' + catalogueResult.value.catalogue_metadata.last_updated + ')';
     }
+    if (catalogueResult.value.catalogue_metadata?.publications != null) {
+      window._cataloguePublications = catalogueResult.value.catalogue_metadata.publications;
+    }
+    if (catalogueResult.value.catalogue_metadata?.patents != null) {
+      window._cataloguePatents = catalogueResult.value.catalogue_metadata.patents;
+    }
   } else {
     console.warn('catalogue.json not loaded, using demo data.');
     rawMolecules = DEMO_MOLECULES;
+    window._cataloguePatents = 17;
+    window._cataloguePublications = 208;
   }
 
   // Generate SVGs — use RDKit if available, else fallback
@@ -1536,6 +1571,10 @@ function renderGrid() {
 
   document.getElementById('resultCount').textContent = filteredMolecules.length;
   document.getElementById('statTotal').textContent = molecules.length;
+  if (window._cataloguePatents != null)
+    document.getElementById('statPatents').textContent = window._cataloguePatents;
+  if (window._cataloguePublications != null)
+    document.getElementById('statPublications').textContent = window._cataloguePublications;
 
   if (page.length === 0) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--gray-400)">
@@ -1589,7 +1628,10 @@ function renderGrid() {
 }
 
 function appLabel(a) {
-  const map = { bioactive:'Bioactive', green:'Green Chem.', pharma:'Pharma', food:'Food', cosme:'Cosmetics', poly:'Polymers' };
+  const map = {
+    uvprotect:'UV protect.', conservative:'Conservative',
+    polymeraddit:'Polymer addit.', odors:'Odors', greenchem:'Green Chem.'
+  };
   return map[a] || a;
 }
 
@@ -1628,6 +1670,19 @@ function toggleAppFilter(el, app) {
   filterMolecules();
 }
 
+function clearSearch() {
+  const input = document.getElementById('globalSearch');
+  input.value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  filterMolecules();
+}
+
+function toggleClearBtn() {
+  const input = document.getElementById('globalSearch');
+  const btn = document.getElementById('searchClear');
+  btn.classList.toggle('visible', input.value.length > 0);
+}
+
 function filterMolecules() {
   const search = document.getElementById('globalSearch').value.toLowerCase();
   const mwMin = parseInt(document.getElementById('mwMin').value);
@@ -1649,7 +1704,8 @@ function filterMolecules() {
     if (search && !m.name.toLowerCase().includes(search) &&
         !m.id.toLowerCase().includes(search) &&
         !m.iupac.toLowerCase().includes(search) &&
-        !m.smiles.toLowerCase().includes(search)) return false;
+        !(m.smiles && m.smiles.toLowerCase().includes(search)) &&
+        !(m.casNumber && m.casNumber.toLowerCase().includes(search))) return false;
     return true;
   });
 
@@ -1662,6 +1718,12 @@ function updateMWRange() {
   const max = parseInt(document.getElementById('mwMax').value);
   document.getElementById('mwVal').textContent = `${Math.min(min,max)} – ${Math.max(min,max)} g/mol`;
   filterMolecules();
+}
+
+function changePerPage(val) {
+  perPage = parseInt(val);
+  currentPage = 1;
+  renderGrid();
 }
 
 function sortMolecules(val) {
