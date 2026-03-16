@@ -269,8 +269,7 @@
     cursor: pointer;
   }
   .sort-select:focus { border-color: var(--green-bright); }
-  .view-toggle { display: flex; gap: 0.3rem; }
-  .view-btn {
+  .view-btn-unused {
     background: white;
     border: 1.5px solid var(--gray-200);
     border-radius: 8px;
@@ -892,10 +891,6 @@
           <option value="mw-desc">Sort: MW ↓</option>
           <option value="ref">Sort: Reference</option>
         </select>
-        <div class="view-toggle">
-          <button class="view-btn active" title="Grid view"><i class="fas fa-th"></i></button>
-          <button class="view-btn" title="List view"><i class="fas fa-list"></i></button>
-        </div>
       </div>
     </div>
 
@@ -1575,8 +1570,8 @@ function renderGrid() {
         </div>
         <div class="mol-data-row">
           <span class="mol-data-pill"><strong>MW</strong> ${mol.mw} g/mol</span>
-          <span class="mol-data-pill"><strong>logP</strong> ${mol.logP}</span>
-          <span class="mol-data-pill"><strong>Pur.</strong> ${mol.purity}</span>
+          <span class="mol-data-pill"><strong>CAS</strong> ${mol.casNumber || '—'}</span>
+          <span class="mol-data-pill"><strong>State</strong> ${mol.state || '—'}</span>
         </div>
       </div>
       <div class="card-footer">
@@ -1694,6 +1689,7 @@ function openDetailModal(id) {
     ['CAS Number',       m.casNumber],
     ['Formula',          m.formula],
     ['Molecular Weight', m.mw != null ? (typeof m.mw === 'number' ? m.mw + ' g/mol' : m.mw) : null],
+    ['State',            m.state],
     ['Melting Point',    m.mp],
     ['Boiling Point',    m.bp],
     ['Solubility',       m.solubility],
