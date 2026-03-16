@@ -64,7 +64,8 @@
       "actAntioxidant": "true/false — Antioxidant activity",
       "actAntibacterial": "true/false — Antibacterial activity",
       "actUVFilter": "true/false — UV Filter activity",
-      "actPolymer": "true/false — Polymer additive activity"
+      "actPolymer": "true/false — Polymer additive activity",
+      "state": "Physical state of the compound, e.g. 'Solid', 'Liquid', 'Oil', 'Amorphous solid', 'Viscous liquid'"
     }
   },
   "catalogue_metadata": {
@@ -118,7 +119,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-002",
@@ -158,7 +160,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-003",
@@ -200,7 +203,8 @@
       "actAntioxidant": false,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": true
+      "actPolymer": true,
+      "state": "Solid"
     },
     {
       "id": "ABI-004",
@@ -240,7 +244,8 @@
       "actAntioxidant": true,
       "actAntibacterial": true,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-005",
@@ -282,7 +287,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-006",
@@ -323,7 +329,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": true,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-007",
@@ -365,7 +372,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-008",
@@ -404,7 +412,8 @@
       "actAntioxidant": true,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-009",
@@ -444,7 +453,8 @@
       "actAntioxidant": false,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-010",
@@ -485,7 +495,8 @@
       "actAntioxidant": false,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": true
+      "actPolymer": true,
+      "state": "Amorphous solid"
     },
     {
       "id": "ABI-011",
@@ -527,7 +538,8 @@
       "actAntioxidant": false,
       "actAntibacterial": true,
       "actUVFilter": false,
-      "actPolymer": false
+      "actPolymer": false,
+      "state": "Solid"
     },
     {
       "id": "ABI-012",
@@ -567,7 +579,8 @@
       "actAntioxidant": false,
       "actAntibacterial": false,
       "actUVFilter": false,
-      "actPolymer": true
+      "actPolymer": true,
+      "state": "Solid"
     }
   ]
 }
