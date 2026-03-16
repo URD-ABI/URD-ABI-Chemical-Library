@@ -30,7 +30,8 @@
         "food",
         "cosme",
         "poly"
-      ]
+      ],
+      "spectra_files": "Place PDF spectra in: spectra/ABI-XXX/ABI-XXX_NMR.pdf, ABI-XXX_UV.pdf, ABI-XXX_MS.pdf. The site generates these paths automatically from the molecule ID. To override, use the optional 'spectraPaths' field (see field_reference)."
     },
     "field_reference": {
       "id": "Unique internal reference (required)",
@@ -47,17 +48,23 @@
       "purity": "Purity string, e.g. '>98%' or null",
       "availability": "'yes', 'limited', or 'no' (required)",
       "applications": "Array of application tags — see application_values",
-      "ic50": "IC50 or key activity as string, '—' if not applicable",
-      "target": "Biological target or main application",
       "nmr": "true/false — NMR spectra available",
       "uv": "true/false — UV-Vis spectra available",
       "ms": "true/false — Mass spectrum available",
-      "bioData": "true/false — Biological data recorded",
       "svgPath": "SVG string for 2D structure, or '' for auto placeholder",
       "synthesizedBy": "Name or initials of synthesizer",
       "dateAdded": "ISO date string YYYY-MM-DD",
       "notes": "Free text notes (storage, hazards, batch info…)",
-      "references": "Array of DOI strings"
+      "references": "Array of DOI strings",
+      "spectraPaths": "(Optional) Custom paths to spectra files. Overrides the auto-generated path. Example: { \"nmr\": \"spectra/ABI-001/ABI-001_NMR.pdf\", \"uv\": \"spectra/ABI-001/ABI-001_UV.pdf\", \"ms\": \"spectra/ABI-001/ABI-001_MS.pdf\" }. Leave absent to use the auto-generated path: spectra/{id}/{id}_NMR.pdf etc.",
+      "formula": "Molecular formula as string, e.g. 'C12H14O5'",
+      "bp": "Boiling point as string, e.g. '312°C' or null",
+      "storage": "Storage conditions, e.g. 'Room temperature, protect from light' or null",
+      "sds": "true/false — Security Data Sheet (SDS) available as PDF",
+      "actAntioxidant": "true/false — Antioxidant activity",
+      "actAntibacterial": "true/false — Antibacterial activity",
+      "actUVFilter": "true/false — UV Filter activity",
+      "actPolymer": "true/false — Polymer additive activity"
     }
   },
   "catalogue_metadata": {
@@ -102,7 +109,16 @@
       "notes": "Store at room temperature, protected from light.",
       "references": [
         "10.1039/C8GC00282G"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-002",
@@ -133,7 +149,16 @@
       "synthesizedBy": "",
       "dateAdded": "2024-02-10",
       "notes": "",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-003",
@@ -166,7 +191,16 @@
       "notes": "BPA-free epoxy resin precursor. See patent FR3XXXXXX.",
       "references": [
         "10.1039/C9GC00123B"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": false,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": true
     },
     {
       "id": "ABI-004",
@@ -197,7 +231,16 @@
       "synthesizedBy": "",
       "dateAdded": "2024-04-18",
       "notes": "Limited stock — contact lab before ordering.",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-005",
@@ -230,7 +273,16 @@
       "notes": "",
       "references": [
         "10.1021/acs.jmedchem.4b00321"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-006",
@@ -262,7 +314,16 @@
       "synthesizedBy": "",
       "dateAdded": "2023-11-20",
       "notes": "",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": true,
+      "actPolymer": false
     },
     {
       "id": "ABI-007",
@@ -295,7 +356,16 @@
       "notes": "",
       "references": [
         "10.1016/j.phytochem.2024.01.005"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-008",
@@ -325,7 +395,16 @@
       "synthesizedBy": "",
       "dateAdded": "2024-07-01",
       "notes": "Hygroscopic — store under inert atmosphere.",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-009",
@@ -356,7 +435,16 @@
       "synthesizedBy": "",
       "dateAdded": "2024-08-22",
       "notes": "",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": false,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-010",
@@ -388,7 +476,16 @@
       "notes": "Molar mass by SEC in THF vs PS standards. Batch variation in Mn expected.",
       "references": [
         "10.1039/D0GC01234A"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": false,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": true
     },
     {
       "id": "ABI-011",
@@ -421,7 +518,16 @@
       "notes": "Currently out of stock. New synthesis planned Q2 2026.",
       "references": [
         "10.1021/acs.jnatprod.3c01122"
-      ]
+      ],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": false,
+      "actAntibacterial": true,
+      "actUVFilter": false,
+      "actPolymer": false
     },
     {
       "id": "ABI-012",
@@ -452,7 +558,16 @@
       "synthesizedBy": "",
       "dateAdded": "2023-12-05",
       "notes": "",
-      "references": []
+      "references": [],
+      "spectraPaths": {},
+      "formula": null,
+      "bp": null,
+      "storage": null,
+      "sds": true,
+      "actAntioxidant": false,
+      "actAntibacterial": false,
+      "actUVFilter": false,
+      "actPolymer": true
     }
   ]
 }
