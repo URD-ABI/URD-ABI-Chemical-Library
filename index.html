@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URD ABI — Chemical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+<!-- RDKit.js — WebAssembly cheminformatics for molecule rendering -->
+<script src="https://unpkg.com/@rdkit/rdkit/dist/RDKit_minimal.js"></script>
+<style>
+  :root {
+    --green-dark: #1a4a2e;
+    --green-mid: #2d7a4f;
+    --green-bright: #3db872;
+    --green-light: #a8e6c1;
+    --green-pale: #e8f7ef;
+    --teal: #1a9e7a;
+    --amber: #f5a623;
+    --coral: #e8654a;
+    --sky: #4fc3f7;
+    --white: #ffffff;
+    --off-white: #f8fdfb;
+    --gray-100: #f0f4f2;
+    --gray-200: #d9e4de;
+    --gray-400: #8aa898;
+    --gray-600: #4a6358;
+    --gray-800: #1e2e27;
+    --font-main: 'Outfit', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --shadow: 0 4px 20px rgba(26,74,46,0.10);
+    --shadow-lg: 0 12px 40px rgba(26,74,46,0.16);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--off-white);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--green-dark);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    gap: 1.5rem;
+  }
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo-badge {
+    height: 42px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  .logo-text { color: white; }
+  .logo-text span { display: block; }
+  .logo-text .lab { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); opacity: 0.8; }
+  .logo-text .title { font-size: 1rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.2; }
+
+  .header-search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+  }
+  .header-search input {
+    width: 100%;
+    padding: 0.55rem 1rem 0.55rem 2.8rem;
+    border-radius: 99px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.10);
+    color: white;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .header-search input::placeholder { color: rgba(255,255,255,0.45); }
+  .header-search input:focus { background: rgba(255,255,255,0.18); border-color: var(--green-bright); }
+  .header-search .search-icon {
+    position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,0.5); font-size: 0.85rem;
+  }
+
+  .header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+  .btn-cart {
+    position: relative;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: white;
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-main);
+    font-size: 0.88rem; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-cart:hover { background: rgba(255,255,255,0.2); }
+  .cart-count {
+    background: var(--green-bright);
+    color: white;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+
+  /* ===== HERO BAND ===== */
+  .hero-band {
+    background: linear-gradient(120deg, var(--green-dark) 0%, #1a5c3a 50%, var(--teal) 100%);
+    color: white;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-band::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 80% 50%, rgba(61,184,114,0.15) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-text h1 { font-size: 2rem; font-weight: 800; line-height: 1.15; margin-bottom: 0.5rem; }
+  .hero-text h1 span { color: var(--green-light); }
+  .hero-text p { font-size: 1rem; opacity: 0.8; max-width: 500px; line-height: 1.6; }
+  .hero-stats {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius);
+    padding: 1rem 1.5rem;
+    min-width: 90px;
+  }
+  .stat .num { font-size: 1.8rem; font-weight: 800; color: var(--green-light); line-height: 1; }
+  .stat .label { font-size: 0.72rem; opacity: 0.7; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 1rem; }
+  .filter-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-200);
+  }
+  .filter-card h3 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--green-dark);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .filter-card h3 i { color: var(--green-bright); }
+
+  .filter-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    color: var(--gray-600);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag:hover, .tag.active {
+    background: var(--green-pale);
+    border-color: var(--green-bright);
+    color: var(--green-dark);
+  }
+  .tag.active { font-weight: 600; }
+
+  .range-group { margin-top: 0.5rem; }
+  .range-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem; color: var(--gray-600); margin-bottom: 0.4rem;
+  }
+  .range-label span { font-family: var(--font-mono); font-weight: 500; color: var(--green-mid); }
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--green-bright);
+    height: 4px;
+  }
+
+  .filter-check { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; }
+  .filter-check input { accent-color: var(--green-bright); width: 15px; height: 15px; }
+  .filter-check label { font-size: 0.84rem; color: var(--gray-600); cursor: pointer; }
+
+  /* ===== CONTENT ===== */
+  .content-area { min-width: 0; }
+  .content-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .result-count {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+  }
+  .result-count strong { color: var(--green-dark); font-weight: 700; }
+  .toolbar-right { display: flex; align-items: center; gap: 0.7rem; }
+  .sort-select {
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    font-family: var(--font-main);
+    font-size: 0.84rem;
+    color: var(--gray-800);
+    outline: none;
+    cursor: pointer;
+  }
+  .sort-select:focus { border-color: var(--green-bright); }
+  .view-toggle { display: flex; gap: 0.3rem; }
+  .view-btn {
+    background: white;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--gray-400);
+    transition: all 0.15s;
+  }
+  .view-btn.active { background: var(--green-pale); border-color: var(--green-bright); color: var(--green-mid); }
+  .view-btn:hover { color: var(--green-mid); }
+
+  /* ===== MOLECULE GRID ===== */
+  .molecules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .mol-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--gray-200);
+    overflow: hidden;
+    transition: all 0.25s;
+    cursor: pointer;
+    position: relative;
+  }
+  .mol-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--green-light);
+  }
+  .mol-card:hover .card-actions { opacity: 1; }
+
+  .card-structure {
+    height: 180px;
+    background: linear-gradient(135deg, var(--gray-100) 0%, #edf7f2 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-structure svg { max-width: 100%; max-height: 100%; }
+  .card-structure canvas { max-width: 100%; max-height: 100%; }
+
+  .mol-id-badge {
+    position: absolute;
+    top: 0.6rem; left: 0.6rem;
+    background: var(--green-dark);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 99px;
+    letter-spacing: 0.05em;
+  }
+
+  .availability-dot {
+    position: absolute;
+    top: 0.6rem; right: 0.6rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  .avail-yes { background: var(--green-bright); }
+  .avail-limited { background: var(--amber); }
+  .avail-no { background: var(--coral); }
+
+  .card-actions {
+    position: absolute; bottom: 0.6rem; right: 0.6rem;
+    display: flex; gap: 0.4rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card-action-btn {
+    background: white;
+    border: none;
+    border-radius: 7px;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    color: var(--green-mid);
+    font-size: 0.8rem;
+    transition: all 0.15s;
+  }
+  .card-action-btn:hover { background: var(--green-pale); transform: scale(1.1); }
+  .card-action-btn.add-to-cart { color: white; background: var(--green-bright); }
+  .card-action-btn.add-to-cart:hover { background: var(--green-mid); }
+
+  .card-body { padding: 1rem; }
+  .mol-name { font-size: 0.95rem; font-weight: 700; color: var(--green-dark); margin-bottom: 0.2rem; line-height: 1.3; }
+  .mol-iupac { font-size: 0.72rem; color: var(--gray-400); font-style: italic; margin-bottom: 0.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .mol-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.8rem; }
+  .mol-tag {
+    font-size: 0.68rem; font-weight: 600;
+    padding: 0.18rem 0.55rem;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .mol-tag.bio { background: #e8f5e9; color: #2e7d32; }
+  .mol-tag.green { background: #e0f2f1; color: #00695c; }
+  .mol-tag.pharma { background: #e8eaf6; color: #3949ab; }
+  .mol-tag.cosme { background: #fce4ec; color: #c2185b; }
+  .mol-tag.food { background: #fff8e1; color: #f57f17; }
+  .mol-tag.poly { background: #f3e5f5; color: #7b1fa2; }
+
+  .mol-data-row {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .mol-data-pill {
+    background: var(--gray-100);
+    border-radius: 7px;
+    padding: 0.28rem 0.6rem;
+    font-size: 0.72rem;
+    color: var(--gray-600);
+    font-family: var(--font-mono);
+  }
+  .mol-data-pill strong { color: var(--gray-800); }
+
+  .card-footer {
+    border-top: 1px solid var(--gray-100);
+    padding: 0.7rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .mol-spectra { display: flex; gap: 0.35rem; }
+  .spectra-badge {
+    font-size: 0.65rem; font-weight: 700;
+    padding: 0.18rem 0.45rem;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+  .spec-nmr { background: #e3f2fd; color: #0277bd; }
+  .spec-uv { background: #f8bbd0; color: #880e4f; }
+  .spec-ms { background: #fff3e0; color: #e65100; }
+  .spec-sds { background: #ede7f6; color: #4527a0; }
+
+  .btn-detail {
+    background: none;
+    border: 1.5px solid var(--green-bright);
+    border-radius: 7px;
+    color: var(--green-mid);
+    font-size: 0.78rem; font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: all 0.15s;
+  }
+  .btn-detail:hover { background: var(--green-pale); }
+
+  /* ===== PAGINATION ===== */
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.4rem;
+    margin-top: 2.5rem;
+  }
+  .page-btn {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    font-family: var(--font-main);
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .page-btn.active { background: var(--green-dark); color: white; border-color: var(--green-dark); font-weight: 700; }
+  .page-btn:hover:not(.active) { border-color: var(--green-bright); color: var(--green-mid); }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10, 30, 20, 0.65);
+    backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 880px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .modal-header {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .modal-header .mol-ref { font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.7; margin-bottom: 0.3rem; }
+  .modal-header h2 { font-size: 1.4rem; font-weight: 800; line-height: 1.2; }
+  .modal-header .mol-iupac-full { font-size: 0.82rem; opacity: 0.65; font-style: italic; margin-top: 0.3rem; }
+  .modal-close {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.25); }
+
+  .modal-body { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 600px) { .modal-body { grid-template-columns: 1fr; } }
+
+  .modal-section h3 {
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--green-mid);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--green-pale);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .structure-display {
+    background: linear-gradient(135deg, var(--gray-100), #edf7f2);
+    border-radius: var(--radius);
+    height: 240px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table tr:nth-child(even) td { background: var(--gray-100); }
+  .data-table td {
+    padding: 0.55rem 0.7rem;
+    font-size: 0.84rem;
+    border-radius: 4px;
+  }
+  .data-table td:first-child { color: var(--gray-600); font-weight: 500; width: 45%; }
+  .data-table td:last-child { font-family: var(--font-mono); font-weight: 500; color: var(--green-dark); }
+
+  .spectra-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .spectra-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--gray-100);
+    border-radius: 9px;
+    padding: 0.7rem 1rem;
+  }
+  .spectra-item .spec-name { font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+  .btn-download {
+    background: var(--green-pale);
+    border: 1.5px solid var(--green-bright);
+    border-radius: 7px;
+    color: var(--green-mid);
+    font-size: 0.78rem; font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    font-family: var(--font-main);
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: all 0.15s;
+  }
+  .btn-download:hover { background: var(--green-bright); color: white; }
+
+  .smiles-box {
+    background: var(--gray-800);
+    color: var(--green-light);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    word-break: break-all;
+    line-height: 1.6;
+    position: relative;
+  }
+  .smiles-copy {
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    background: rgba(255,255,255,0.1);
+    border: none; border-radius: 5px;
+    color: rgba(255,255,255,0.6);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .smiles-copy:hover { background: rgba(255,255,255,0.2); color: white; }
+
+  .modal-footer {
+    border-top: 1px solid var(--gray-200);
+    padding: 1.5rem 2rem;
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  }
+  .btn-order {
+    flex: 1; min-width: 200px;
+    background: linear-gradient(135deg, var(--green-bright), var(--teal));
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-family: var(--font-main);
+    font-size: 0.95rem; font-weight: 700;
+    padding: 0.9rem 1.5rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    transition: all 0.2s;
+  }
+  .btn-order:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(61,184,114,0.4); }
+  .btn-add-list {
+    background: white;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    color: var(--gray-600);
+    font-family: var(--font-main);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.9rem 1.5rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: all 0.15s;
+  }
+  .btn-add-list:hover { border-color: var(--green-bright); color: var(--green-mid); }
+
+  /* ===== ORDER MODAL ===== */
+  .order-modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 560px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease;
+    overflow: hidden;
+  }
+  .order-modal-header {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .order-modal-header h2 { font-size: 1.2rem; font-weight: 700; }
+  .order-modal-body { padding: 2rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .form-input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 9px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s;
+    background: var(--off-white);
+  }
+  .form-input:focus { border-color: var(--green-bright); background: white; }
+  textarea.form-input { resize: vertical; min-height: 90px; }
+  .cart-items-preview {
+    background: var(--gray-100);
+    border-radius: 9px;
+    padding: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .cart-item-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.84rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .cart-item-row:last-child { border-bottom: none; }
+  .cart-item-name { font-weight: 600; color: var(--green-dark); }
+  .cart-item-qty { font-family: var(--font-mono); color: var(--gray-600); }
+  .remove-item { background: none; border: none; color: var(--coral); cursor: pointer; font-size: 0.8rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--green-bright), var(--teal));
+    border: none;
+    border-radius: var(--radius);
+    color: white;
+    font-family: var(--font-main);
+    font-size: 1rem; font-weight: 700;
+    padding: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(61,184,114,0.4); }
+
+  /* ===== SUCCESS ===== */
+  .success-message {
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  .success-icon {
+    width: 70px; height: 70px;
+    background: linear-gradient(135deg, var(--green-bright), var(--teal));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.8rem; color: white;
+  }
+  .success-message h2 { font-size: 1.4rem; font-weight: 800; color: var(--green-dark); margin-bottom: 0.5rem; }
+  .success-message p { color: var(--gray-600); line-height: 1.6; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--green-dark);
+    color: white;
+    padding: 0.9rem 1.4rem;
+    border-radius: var(--radius);
+    font-size: 0.88rem; font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; gap: 0.6rem;
+    z-index: 300;
+    transform: translateY(120%);
+    transition: transform 0.3s ease;
+  }
+  .toast.show { transform: translateY(0); }
+  .toast i { color: var(--green-bright); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.7);
+    margin-top: 4rem;
+    padding: 2.5rem;
+    text-align: center;
+  }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .footer-logo { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+  footer .footer-sub { font-size: 0.82rem; }
+
+  /* ===== MOLECULE SVG STRUCTURES ===== */
+  .mol-svg-wrapper {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+  @media (max-width: 640px) {
+    .hero-band { padding: 2rem 1rem; }
+    .hero-text h1 { font-size: 1.4rem; }
+    .main-layout { padding: 1rem; }
+    .modal-body { padding: 1rem; }
+  }
+
+  /* ===== RDKIT LOADING OVERLAY ===== */
+  .rdkit-loading-banner {
+    background: linear-gradient(90deg, var(--green-dark), var(--teal));
+    color: white;
+    text-align: center;
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.4s;
+  }
+  .rdkit-loading-banner.hidden {
+    height: 0; padding: 0; overflow: hidden; opacity: 0;
+  }
+  .rdkit-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo-area">
+      <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
+      <div class="logo-text">
+        <span class="lab">URD ABI — AgroParisTech</span>
+        <span class="title">Chemical Library</span>
+      </div>
+    </a>
+    <div class="header-search">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="globalSearch" placeholder="Search by name, SMILES, CAS number…" oninput="filterMolecules()">
+    </div>
+    <div class="header-actions">
+      <button class="btn-cart" onclick="openOrderModal()">
+        <i class="fas fa-flask"></i>
+        Request List
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- RDKIT LOADING BANNER -->
+<div class="rdkit-loading-banner" id="rdkitBanner">
+  <div class="rdkit-spinner"></div>
+  <span>Loading molecule renderer (RDKit.js)…</span>
+</div>
+
+
+<!-- HERO -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>URD ABI <span>Chemical Library</span></h1>
+      <p>Explore our catalogue of bio-based molecules synthesized from agro-resources. Browse structures, physicochemical data, and biological activities — then request the compounds you need.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="num" id="statTotal">12</div>
+        <div class="label">Molecules</div>
+      </div>
+      <div class="stat">
+        <div class="num">5</div>
+        <div class="label">Families</div>
+      </div>
+      <div class="stat">
+        <div class="num">100%</div>
+        <div class="label">Bio-based</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-card">
+      <h3><i class="fas fa-tags"></i> Chemical Family</h3>
+      <div class="filter-tags" id="familyFilters">
+        <span class="tag active" data-family="all" onclick="setFamilyFilter(this, 'all')">All</span>
+        <span class="tag" data-family="Phenolic" onclick="setFamilyFilter(this, 'Phenolic')">Phenolic</span>
+        <span class="tag" data-family="Ferulate" onclick="setFamilyFilter(this, 'Ferulate')">Ferulic acids</span>
+        <span class="tag" data-family="Flavonoid" onclick="setFamilyFilter(this, 'Flavonoid')">Flavonoids</span>
+        <span class="tag" data-family="Terpene" onclick="setFamilyFilter(this, 'Terpene')">Terpenes</span>
+        <span class="tag" data-family="Polymer" onclick="setFamilyFilter(this, 'Polymer')">Polymers</span>
+      </div>
+    </div>
+
+    <div class="filter-card">
+      <h3><i class="fas fa-weight"></i> Molecular Weight</h3>
+      <div class="range-group">
+        <div class="range-label">MW: <span id="mwVal">100 – 600 g/mol</span></div>
+        <input type="range" id="mwMin" min="50" max="600" value="100" oninput="updateMWRange()">
+        <input type="range" id="mwMax" min="50" max="600" value="600" oninput="updateMWRange()">
+      </div>
+    </div>
+
+    <div class="filter-card">
+      <h3><i class="fas fa-bullseye"></i> Application</h3>
+      <div class="filter-tags" id="appFilters">
+        <span class="tag" data-app="bioactive" onclick="toggleAppFilter(this, 'bioactive')">Bioactive</span>
+        <span class="tag" data-app="green" onclick="toggleAppFilter(this, 'green')">Green Chem.</span>
+        <span class="tag" data-app="pharma" onclick="toggleAppFilter(this, 'pharma')">Pharma</span>
+        <span class="tag" data-app="food" onclick="toggleAppFilter(this, 'food')">Food/Feed</span>
+        <span class="tag" data-app="cosme" onclick="toggleAppFilter(this, 'cosme')">Cosmetics</span>
+        <span class="tag" data-app="poly" onclick="toggleAppFilter(this, 'poly')">Polymers</span>
+      </div>
+    </div>
+
+    <div class="filter-card">
+      <h3><i class="fas fa-file-alt"></i> Data Available</h3>
+      <div class="filter-check">
+        <input type="checkbox" id="chk-nmr" onchange="filterMolecules()">
+        <label for="chk-nmr">NMR spectra</label>
+      </div>
+      <div class="filter-check">
+        <input type="checkbox" id="chk-uv" onchange="filterMolecules()">
+        <label for="chk-uv">UV spectra</label>
+      </div>
+      <div class="filter-check">
+        <input type="checkbox" id="chk-bio" onchange="filterMolecules()">
+        <label for="chk-bio">Activity data</label>
+      </div>
+      <div class="filter-check">
+        <input type="checkbox" id="chk-avail" onchange="filterMolecules()">
+        <label for="chk-avail">Available only</label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+    <div class="content-toolbar">
+      <div class="result-count"><strong id="resultCount">12</strong> molecules found</div>
+      <div class="toolbar-right">
+        <select class="sort-select" onchange="sortMolecules(this.value)">
+          <option value="name">Sort: Name</option>
+          <option value="mw">Sort: MW ↑</option>
+          <option value="mw-desc">Sort: MW ↓</option>
+          <option value="ref">Sort: Reference</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" title="Grid view"><i class="fas fa-th"></i></button>
+          <button class="view-btn" title="List view"><i class="fas fa-list"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="molecules-grid" id="moleculesGrid">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div class="pagination" id="pagination">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- MOLECULE DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="closeDetailOnOverlay(event)">
+  <div class="modal" id="detailModalContent">
+    <div class="modal-header" id="modalHeader">
+      <div>
+        <div class="mol-ref" id="modalRef"></div>
+        <h2 id="modalName"></h2>
+        <div class="mol-iupac-full" id="modalIupac"></div>
+      </div>
+      <button class="modal-close" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <h3><i class="fas fa-atom"></i> 2D Structure</h3>
+        <div class="structure-display" id="modalStructure"></div>
+        <h3 style="margin-top:1rem"><i class="fas fa-code"></i> SMILES</h3>
+        <div class="smiles-box" id="modalSmiles">
+          <button class="smiles-copy" onclick="copySmiles()"><i class="fas fa-copy"></i> Copy</button>
+          <span id="smilesText"></span>
+        </div>
+        <div style="margin-top:1rem">
+          <h3><i class="fas fa-chart-line"></i> Spectra & Data</h3>
+          <div class="spectra-list" id="modalSpectra"></div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <h3><i class="fas fa-flask"></i> Physicochemical Data</h3>
+        <table class="data-table" id="modalPhysicoChem"></table>
+        <div style="margin-top:1.5rem">
+          <h3><i class="fas fa-leaf"></i> Activity</h3>
+          <div id="modalBioData"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-add-list" id="addToListBtn" onclick="addCurrentToCart()">
+        <i class="fas fa-plus-circle"></i> Add to request list
+      </button>
+      <button class="btn-order" onclick="closeDetailAndOrder()">
+        <i class="fas fa-paper-plane"></i> Request this molecule
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal" onclick="closeOrderOnOverlay(event)">
+  <div class="order-modal" id="orderModalContent">
+    <div class="order-modal-header">
+      <h2><i class="fas fa-paper-plane" style="margin-right:0.5rem"></i>Request Molecules</h2>
+      <button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="order-modal-body" id="orderModalBody">
+      <div id="orderStep1">
+        <div class="cart-items-preview" id="cartPreview"></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name *</label>
+            <input type="text" class="form-input" id="fname" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label>Last name *</label>
+            <input type="text" class="form-input" id="lname" placeholder="Doe">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Institution / Laboratory *</label>
+          <input type="text" class="form-input" id="institution" placeholder="University of…">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" class="form-input" id="email" placeholder="john.doe@example.com">
+        </div>
+        <div class="form-group">
+          <label>Intended use / Project</label>
+          <textarea class="form-input" id="usecase" placeholder="Brief description of your research project and how you plan to use the molecule(s)…"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Desired quantity (each)</label>
+          <input type="text" class="form-input" id="quantity" placeholder="e.g. 10 mg, 100 mg…">
+        </div>
+        <button class="btn-submit" onclick="submitOrder()">
+          <i class="fas fa-paper-plane"></i> Send Request
+        </button>
+      </div>
+      <div id="orderStep2" style="display:none">
+        <div class="success-message">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <h2>Request Sent!</h2>
+          <p>Thank you for your interest. Our team will review your request and get back to you within 5 business days at <strong id="confirmEmail"></strong>.</p>
+          <br>
+          <button class="btn-order" style="max-width:240px;margin:0 auto" onclick="closeOrderModal()">
+            <i class="fas fa-flask"></i> Back to catalogue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">URD ABI — Chemical Library</div>
+  <div class="footer-sub">
+    AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle · 
+    <a href="/cdn-cgi/l/email-protection#9efdf1f0eafffdeadeebecfab3fffcf7b0f8ec"><span class="__cf_email__" data-cfemail="2744484953464453675255430a46454e094155">[email&#160;protected]</span></a> · 
+    <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ===== MOLECULE DATA =====
+const DEMO_MOLECULES = [
+  {
+    id: "ABI-001", name: "Methyl sinapate", commonName: "Methyl 3,5-dimethoxy-4-hydroxycinnamate",
+    iupac: "methyl (E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acrylate",
+    family: "Phenolic", smiles: "COC(=O)/C=C/c1cc(OC)c(O)c(OC)c1",
+    mw: 238.24, logP: 1.82, mp: "89–91°C", solubility: "DMSO, EtOH",
+    purity: ">98%", availability: "yes",
+    applications: ["green", "pharma", "food"],
+    ic50: "48 µM (antioxidant, DPPH)", target: "ROS scavenging",
+    nmr: true, uv: true, ms: true, bioData: true,
+    color: "#2d7a4f",
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="100" y1="65" x2="75" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="100" y1="65" x2="125" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="75" y1="45" x2="50" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="125" y1="45" x2="150" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="65" x2="75" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="150" y1="65" x2="125" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="75" y1="85" x2="100" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="52" y1="63" x2="77" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="77" y1="87" x2="102" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="100" y1="65" x2="160" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="102" y1="62" x2="162" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="160" y1="65" x2="175" y2="50" stroke="#333" stroke-width="1.5"/>
+      <text x="22" y="68" fill="#e74c3c">HO</text>
+      <text x="43" y="95" fill="#333">MeO</text>
+      <text x="143" y="95" fill="#333">OMe</text>
+      <text x="172" y="45" fill="#333">CO</text><text x="183" y="45" fill="#e74c3c">2</text><text x="188" y="45" fill="#333">Me</text>
+    </svg>`
+  },
+  {
+    id: "ABI-002", name: "Dihydrosinapic acid", commonName: "3-(4-Hydroxy-3,5-dimethoxyphenyl)propionic acid",
+    iupac: "3-(4-hydroxy-3,5-dimethoxyphenyl)propanoic acid",
+    family: "Phenolic", smiles: "COc1cc(CCC(=O)O)cc(OC)c1O",
+    mw: 226.23, logP: 1.35, mp: "102–104°C", solubility: "EtOH, water (pH>7)",
+    purity: ">97%", availability: "yes",
+    applications: ["green", "food", "pharma"],
+    ic50: "32 µM (antioxidant)", target: "Lipid peroxidation",
+    nmr: true, uv: false, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="80" y1="65" x2="60" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="80" y1="65" x2="100" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="45" x2="40" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="100" y1="45" x2="120" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="40" y1="65" x2="60" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="120" y1="65" x2="100" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="85" x2="80" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="42" y1="63" x2="62" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="62" y1="87" x2="82" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="120" y1="65" x2="140" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="140" y1="65" x2="155" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="155" y1="65" x2="170" y2="52" stroke="#333" stroke-width="1.5"/>
+      <line x1="157" y1="63" x2="172" y2="50" stroke="#333" stroke-width="1.5"/>
+      <text x="12" y="68" fill="#e74c3c">HO</text>
+      <text x="26" y="92" fill="#333">MeO</text>
+      <text x="112" y="92" fill="#333">OMe</text>
+      <text x="168" y="46" fill="#e74c3c">OH</text>
+      <text x="168" y="58" fill="#333">O</text>
+    </svg>`
+  },
+  {
+    id: "ABI-003", name: "Bisguaiacol F", commonName: "4,4'-Methylenebis(2-methoxyphenol)",
+    iupac: "4,4'-methylenebis(2-methoxyphenol)",
+    family: "Phenolic", smiles: "COc1cc(Cc2ccc(O)c(OC)c2)ccc1O",
+    mw: 260.29, logP: 2.41, mp: "118–121°C", solubility: "EtOH, DCM",
+    purity: ">99%", availability: "yes",
+    applications: ["poly", "green", "pharma"],
+    ic50: "—", target: "Epoxy monomer (biobased BPA alternative)",
+    nmr: true, uv: true, ms: true, bioData: false,
+    svgPath: `<svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <g transform="translate(0,0)">
+        <line x1="60" y1="65" x2="45" y2="45" stroke="#333" stroke-width="1.5"/>
+        <line x1="60" y1="65" x2="78" y2="45" stroke="#333" stroke-width="1.5"/>
+        <line x1="45" y1="45" x2="30" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="78" y1="45" x2="93" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="30" y1="65" x2="45" y2="85" stroke="#333" stroke-width="1.5"/>
+        <line x1="93" y1="65" x2="78" y2="85" stroke="#333" stroke-width="1.5"/>
+        <line x1="45" y1="85" x2="60" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="32" y1="63" x2="47" y2="43" stroke="#333" stroke-width="1.5"/>
+        <line x1="47" y1="87" x2="62" y2="67" stroke="#333" stroke-width="1.5"/>
+        <text x="8" y="68" fill="#e74c3c">HO</text>
+        <text x="15" y="90" fill="#333">MeO</text>
+      </g>
+      <line x1="93" y1="65" x2="127" y2="65" stroke="#333" stroke-width="1.5"/>
+      <text x="106" y="62" fill="#333">CH₂</text>
+      <g transform="translate(127,0)">
+        <line x1="0" y1="65" x2="17" y2="45" stroke="#333" stroke-width="1.5"/>
+        <line x1="0" y1="65" x2="-15" y2="45" stroke="#333" stroke-width="1.5"/>
+        <line x1="17" y1="45" x2="32" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="-15" y1="45" x2="-30" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="32" y1="65" x2="17" y2="85" stroke="#333" stroke-width="1.5"/>
+        <line x1="-30" y1="65" x2="-15" y2="85" stroke="#333" stroke-width="1.5"/>
+        <line x1="17" y1="85" x2="0" y2="65" stroke="#333" stroke-width="1.5"/>
+        <line x1="34" y1="63" x2="19" y2="43" stroke="#333" stroke-width="1.5"/>
+        <line x1="-28" y1="63" x2="-13" y2="43" stroke="#333" stroke-width="1.5"/>
+        <text x="33" y="68" fill="#e74c3c">OH</text>
+        <text x="22" y="92" fill="#333">OMe</text>
+      </g>
+    </svg>`
+  },
+  {
+    id: "ABI-004", name: "p-Coumaryl alcohol", commonName: "4-Hydroxycinnamyl alcohol",
+    iupac: "(E)-3-(4-hydroxyphenyl)prop-2-en-1-ol",
+    family: "Phenolic", smiles: "OC/C=C/c1ccc(O)cc1",
+    mw: 150.17, logP: 1.22, mp: "125–127°C", solubility: "EtOH, MeOH",
+    purity: ">98%", availability: "limited",
+    applications: ["bioactive", "food", "green"],
+    ic50: "65 µM (antimicrobial)", target: "Cell membrane disruption",
+    nmr: true, uv: true, ms: false, bioData: true,
+    svgPath: `<svg viewBox="0 0 190 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="85" y1="65" x2="65" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="85" y1="65" x2="105" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="65" y1="45" x2="45" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="105" y1="45" x2="125" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="45" y1="65" x2="65" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="125" y1="65" x2="105" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="65" y1="85" x2="85" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="47" y1="63" x2="67" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="107" y1="87" x2="127" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="125" y1="65" x2="145" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="127" y1="62" x2="147" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="145" y1="65" x2="160" y2="78" stroke="#333" stroke-width="1.5"/>
+      <text x="15" y="68" fill="#e74c3c">HO</text>
+      <text x="156" y="82" fill="#e74c3c">OH</text>
+    </svg>`
+  },
+  {
+    id: "ABI-005", name: "Sinapaldehyde", commonName: "3,5-Dimethoxy-4-hydroxycinnamaldehyde",
+    iupac: "(E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acrylaldehyde",
+    family: "Ferulate", smiles: "COc1cc(/C=C/C=O)cc(OC)c1O",
+    mw: 222.24, logP: 1.68, mp: "78–80°C", solubility: "EtOH, DCM",
+    purity: ">97%", availability: "yes",
+    applications: ["bioactive", "pharma", "cosme"],
+    ic50: "22 µM (anti-inflammatory, COX-2)", target: "COX-2 inhibition",
+    nmr: true, uv: true, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="90" y1="65" x2="70" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="65" x2="110" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="70" y1="45" x2="50" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="110" y1="45" x2="130" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="65" x2="70" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="130" y1="65" x2="110" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="70" y1="85" x2="90" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="52" y1="63" x2="72" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="72" y1="87" x2="92" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="130" y1="65" x2="150" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="132" y1="62" x2="152" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="150" y1="65" x2="165" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="165" y1="55" x2="178" y2="48" stroke="#333" stroke-width="1.5"/>
+      <line x1="167" y1="53" x2="180" y2="46" stroke="#333" stroke-width="1.5"/>
+      <text x="20" y="68" fill="#e74c3c">HO</text>
+      <text x="30" y="95" fill="#333">MeO</text>
+      <text x="118" y="95" fill="#333">OMe</text>
+      <text x="175" y="43" fill="#333">CHO</text>
+    </svg>`
+  },
+  {
+    id: "ABI-006", name: "Ferulic acid", commonName: "trans-Ferulic acid",
+    iupac: "(E)-3-(4-hydroxy-3-methoxyphenyl)acrylic acid",
+    family: "Ferulate", smiles: "COc1cc(/C=C/C(=O)O)ccc1O",
+    mw: 194.18, logP: 1.51, mp: "168–172°C", solubility: "EtOH, alkali",
+    purity: ">99%", availability: "yes",
+    applications: ["food", "cosme", "pharma", "bioactive"],
+    ic50: "18 µM (antioxidant)", target: "ROS / free radical scavenging",
+    nmr: true, uv: true, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="80" y1="65" x2="60" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="80" y1="65" x2="100" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="45" x2="40" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="100" y1="45" x2="120" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="40" y1="65" x2="60" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="120" y1="65" x2="100" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="85" x2="80" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="42" y1="63" x2="62" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="62" y1="87" x2="82" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="120" y1="65" x2="140" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="122" y1="62" x2="142" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="140" y1="65" x2="156" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="156" y1="55" x2="170" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="158" y1="53" x2="172" y2="43" stroke="#333" stroke-width="1.5"/>
+      <text x="12" y="68" fill="#e74c3c">HO</text>
+      <text x="26" y="92" fill="#333">MeO</text>
+      <text x="168" y="40" fill="#333">CO₂H</text>
+    </svg>`
+  },
+  {
+    id: "ABI-007", name: "Quercetin 3-O-glucoside", commonName: "Isoquercetin",
+    iupac: "3,3',4',5,7-pentahydroxyflavone 3-glucoside",
+    family: "Flavonoid", smiles: "O=c1c(OC2OC(CO)C(O)C(O)C2O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12",
+    mw: 464.38, logP: -0.85, mp: ">240°C (dec.)", solubility: "Water, MeOH",
+    purity: ">95%", availability: "limited",
+    applications: ["bioactive", "pharma", "food"],
+    ic50: "5.2 µM (anti-inflammatory, NF-κB)", target: "NF-κB pathway",
+    nmr: true, uv: true, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <rect x="85" y="50" width="40" height="35" rx="4" fill="none" stroke="#333" stroke-width="1.5"/>
+      <line x1="85" y1="67" x2="65" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="65" y1="55" x2="45" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="45" y1="65" x2="50" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="85" x2="70" y2="88" stroke="#333" stroke-width="1.5"/>
+      <line x1="70" y1="88" x2="80" y2="75" stroke="#333" stroke-width="1.5"/>
+      <line x1="47" y1="63" x2="67" y2="53" stroke="#333" stroke-width="1.5"/>
+      <line x1="72" y1="90" x2="82" y2="77" stroke="#333" stroke-width="1.5"/>
+      <line x1="125" y1="67" x2="145" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="145" y1="55" x2="162" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="162" y1="65" x2="158" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="158" y1="85" x2="138" y2="88" stroke="#333" stroke-width="1.5"/>
+      <line x1="138" y1="88" x2="128" y2="75" stroke="#333" stroke-width="1.5"/>
+      <line x1="147" y1="53" x2="164" y2="63" stroke="#333" stroke-width="1.5"/>
+      <line x1="160" y1="87" x2="140" y2="90" stroke="#333" stroke-width="1.5"/>
+      <text x="97" y="63" fill="#e74c3c" font-size="7">O</text>
+      <text x="97" y="80" fill="#333" font-size="7">=O</text>
+      <text x="15" y="68" fill="#e74c3c">HO</text>
+      <text x="165" y="68" fill="#e74c3c">OH</text>
+      <text x="165" y="90" fill="#e74c3c">OH</text>
+    </svg>`
+  },
+  {
+    id: "ABI-008", name: "Sinapine thiocyanate", commonName: "Sinapine (thiocyanate salt)",
+    iupac: "(E)-[2-(3,5-dimethoxy-4-hydroxyphenyl)vinyl]choline thiocyanate",
+    family: "Ferulate", smiles: "COc1cc(/C=C/C(=O)OCC[N+](C)(C)C)cc(OC)c1O.[S-]C#N",
+    mw: 370.45, logP: -1.2, mp: "193–196°C", solubility: "Water, MeOH",
+    purity: ">96%", availability: "yes",
+    applications: ["bioactive", "pharma"],
+    ic50: "38 µM (neuroprotective)", target: "Acetylcholinesterase inhibition",
+    nmr: true, uv: false, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <line x1="70" y1="65" x2="50" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="70" y1="65" x2="90" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="45" x2="30" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="45" x2="110" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="30" y1="65" x2="50" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="110" y1="65" x2="90" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="85" x2="70" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="32" y1="63" x2="52" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="52" y1="87" x2="72" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="110" y1="65" x2="125" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="112" y1="62" x2="127" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="125" y1="65" x2="140" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="140" y1="55" x2="155" y2="55" stroke="#333" stroke-width="1.5"/>
+      <text x="8" y="68" fill="#e74c3c">HO</text>
+      <text x="14" y="92" fill="#333">MeO</text>
+      <text x="100" y="92" fill="#333">OMe</text>
+      <text x="153" y="52" fill="#0000cc">[N⁺]</text>
+      <text x="153" y="64" fill="#333">Me₃</text>
+    </svg>`
+  },
+  {
+    id: "ABI-009", name: "Limonene-1,2-diol", commonName: "(1R,2S,4R)-Limonene-1,2-diol",
+    iupac: "(1R,2S,4R)-1-methyl-4-(propan-2-ylidene)cyclohexane-1,2-diol",
+    family: "Terpene", smiles: "OC1CCC(=C(C)C)[C@@](O)(C)C1",
+    mw: 172.22, logP: 1.15, mp: "65–68°C", solubility: "EtOH, acetone",
+    purity: ">98%", availability: "yes",
+    applications: ["green", "cosme", "food"],
+    ic50: "—", target: "Fragrance / polymer precursor",
+    nmr: true, uv: false, ms: true, bioData: false,
+    svgPath: `<svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <polygon points="90,30 120,50 120,90 90,110 60,90 60,50" fill="none" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="30" x2="90" y2="15" stroke="#333" stroke-width="1.5"/>
+      <text x="85" y="12" fill="#333">Me</text>
+      <line x1="120" y1="70" x2="140" y2="60" stroke="#333" stroke-width="1.5"/>
+      <line x1="140" y1="60" x2="152" y2="50" stroke="#333" stroke-width="1.5"/>
+      <line x1="140" y1="60" x2="152" y2="68" stroke="#333" stroke-width="1.5"/>
+      <text x="153" y="48" fill="#333">Me</text>
+      <text x="153" y="72" fill="#333">Me</text>
+      <text x="48" y="53" fill="#e74c3c">OH</text>
+      <text x="118" y="97" fill="#e74c3c">OH</text>
+    </svg>`
+  },
+  {
+    id: "ABI-010", name: "Poly(sinapyl alcohol)", commonName: "Lignin-inspired polyphenol",
+    iupac: "Poly[(E)-3-(4-hydroxy-3,5-dimethoxyphenyl)allyl alcohol]",
+    family: "Polymer", smiles: "n/a (oligomeric)",
+    mw: "1200–3500 (Mn)", logP: "n/a", mp: "Tg = 78°C", solubility: "THF, DMSO",
+    purity: ">90%", availability: "limited",
+    applications: ["poly", "green"],
+    ic50: "—", target: "Bio-based thermoset / antioxidant coating",
+    nmr: true, uv: false, ms: false, bioData: false,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <text x="10" y="65" fill="#333" font-size="14" font-weight="bold">[</text>
+      <line x1="28" y1="65" x2="44" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="28" y1="65" x2="44" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="44" y1="45" x2="60" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="44" y1="85" x2="60" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="46" y1="43" x2="62" y2="63" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="65" x2="80" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="62" y1="62" x2="82" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="80" y1="65" x2="95" y2="55" stroke="#333" stroke-width="1.5"/>
+      <text x="20" y="48" fill="#e74c3c">HO</text>
+      <text x="20" y="88" fill="#333">MeO</text>
+      <text x="80" y="50" fill="#333">OMe</text>
+      <text x="95" y="52" fill="#333">─CH₂</text>
+      <text x="148" y="65" fill="#333" font-size="14" font-weight="bold">]</text>
+      <text x="158" y="58" fill="#333" font-size="9">n</text>
+    </svg>`
+  },
+  {
+    id: "ABI-011", name: "Coniferyl benzoate", commonName: "4-Hydroxy-3-methoxycinnamyl benzoate",
+    iupac: "[(E)-3-(4-hydroxy-3-methoxyphenyl)allyl] benzoate",
+    family: "Phenolic", smiles: "COc1cc(/C=C/COC(=O)c2ccccc2)ccc1O",
+    mw: 298.33, logP: 2.98, mp: "70–73°C", solubility: "EtOH, DCM, acetone",
+    purity: ">97%", availability: "no",
+    applications: ["pharma", "cosme", "bioactive"],
+    ic50: "15 µM (cytotoxic, MCF-7)", target: "Cancer cell lines",
+    nmr: true, uv: true, ms: true, bioData: true,
+    svgPath: `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="8">
+      <line x1="60" y1="65" x2="45" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="60" y1="65" x2="75" y2="45" stroke="#333" stroke-width="1.5"/>
+      <line x1="45" y1="45" x2="30" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="75" y1="45" x2="90" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="30" y1="65" x2="45" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="65" x2="75" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="45" y1="85" x2="60" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="32" y1="63" x2="47" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="77" y1="87" x2="92" y2="67" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="65" x2="108" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="92" y1="62" x2="110" y2="62" stroke="#333" stroke-width="1.5"/>
+      <line x1="108" y1="65" x2="122" y2="57" stroke="#333" stroke-width="1.5"/>
+      <line x1="122" y1="57" x2="138" y2="65" stroke="#333" stroke-width="1.5"/>
+      <line x1="138" y1="65" x2="155" y2="57" stroke="#333" stroke-width="1.5"/>
+      <line x1="155" y1="57" x2="155" y2="43" stroke="#333" stroke-width="1.5"/>
+      <line x1="157" y1="55" x2="157" y2="41" stroke="#333" stroke-width="1.5"/>
+      <text x="8" y="68" fill="#e74c3c">HO</text>
+      <text x="15" y="92" fill="#333">MeO</text>
+      <text x="133" y="53" fill="#333">O</text>
+      <text x="152" y="38" fill="#333">Ph</text>
+    </svg>`
+  },
+  {
+    id: "ABI-012", name: "Itaconic acid", commonName: "Methylenesuccinic acid",
+    iupac: "2-methylidenebutanedioic acid",
+    family: "Terpene", smiles: "OC(=O)CC(=C)C(=O)O",
+    mw: 130.10, logP: -0.75, mp: "166–168°C", solubility: "Water, EtOH",
+    purity: ">99%", availability: "yes",
+    applications: ["poly", "green", "food"],
+    ic50: "—", target: "Monomer for bio-based polymers",
+    nmr: true, uv: false, ms: true, bioData: false,
+    svgPath: `<svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="Arial" font-size="9">
+      <line x1="90" y1="65" x2="70" y2="50" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="65" x2="110" y2="50" stroke="#333" stroke-width="1.5"/>
+      <line x1="90" y1="65" x2="90" y2="85" stroke="#333" stroke-width="1.5"/>
+      <line x1="70" y1="50" x2="50" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="72" y1="47" x2="52" y2="52" stroke="#333" stroke-width="1.5"/>
+      <line x1="50" y1="55" x2="30" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="110" y1="50" x2="130" y2="55" stroke="#333" stroke-width="1.5"/>
+      <line x1="112" y1="47" x2="132" y2="52" stroke="#333" stroke-width="1.5"/>
+      <line x1="130" y1="55" x2="150" y2="55" stroke="#333" stroke-width="1.5"/>
+      <text x="16" y="59" fill="#333">HO</text><text x="30" y="59" fill="#e74c3c">O</text>
+      <text x="148" y="59" fill="#e74c3c">O</text><text x="158" y="59" fill="#333">OH</text>
+      <text x="84" y="100" fill="#333">=CH₂</text>
+    </svg>`
+  }
+];
+
+// ===== STATE =====
+let molecules = [];
+let filteredMolecules = [];
+let currentFamily = 'all';
+let activeApps = new Set();
+let cart = [];
+let currentMolecule = null;
+let currentPage = 1;
+const perPage = 8;
+
+// ===== SPECTRA DOWNLOAD HELPER =====
+async function checkFileExists(event, url) {
+  // Let the browser handle the download naturally.
+  // If the file doesn't exist (404), show a friendly toast instead.
+  event.preventDefault();
+  try {
+    const res = await fetch(url, { method: 'HEAD' });
+    if (res.ok) {
+      // File exists — open/download it
+      window.open(url, '_blank');
+    } else {
+      showToast('File not found: ' + url.split('/').pop() + ' — check that it has been uploaded to GitHub.');
+    }
+  } catch (e) {
+    // Network error or CORS — open anyway (will show 404 in new tab)
+    window.open(url, '_blank');
+  }
+}
+
+// ===== RDKIT ENGINE =====
+let RDKitReady = false;
+const DRAW_OPTS = JSON.stringify({
+  width: 300, height: 200,
+  bondLineWidth: 1.8,
+  addStereoAnnotation: true,
+  padding: 0.15,
+  backgroundColour: [0, 0, 0, 0],   // transparent
+  atomColourPalette: {               // URD ABI green-tinted palette
+    6:  [0.13, 0.29, 0.18],         // carbon → dark green
+    7:  [0.10, 0.45, 0.70],         // nitrogen → blue
+    8:  [0.80, 0.15, 0.15],         // oxygen → red
+    16: [0.70, 0.55, 0.00],         // sulfur → amber
+    17: [0.10, 0.55, 0.25],         // chlorine → teal
+    9:  [0.60, 0.80, 0.20],         // fluorine → lime
+    15: [0.70, 0.35, 0.10]          // phosphorus → orange
+  }
+});
+
+function molToSVG(smiles) {
+  if (!RDKitReady || !window.RDKit) return null;
+  if (!smiles || smiles.startsWith('n/a') || smiles === '') return null;
+  let mol = null;
+  try {
+    mol = window.RDKit.get_mol(smiles);
+    if (!mol || !mol.is_valid()) return null;
+    const svg = mol.get_svg_with_highlights(DRAW_OPTS);
+    return svg || null;
+  } catch (e) {
+    console.warn('RDKit SVG error for SMILES:', smiles, e);
+    return null;
+  } finally {
+    if (mol) mol.delete();
+  }
+}
+
+function fallbackSVG(mol) {
+  const initials = mol.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,3);
+  const colors = { Phenolic:'#2d7a4f', Ferulate:'#1a9e7a', Flavonoid:'#7b1fa2',
+                   Terpene:'#e65100', Polymer:'#1565c0', 'Amino acid':'#c62828',
+                   Sugar:'#f57f17', 'Fatty acid':'#558b2f', Other:'#546e7a' };
+  const col = colors[mol.family] || '#546e7a';
+  return '<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">'
+    + '<rect width="300" height="200" fill="#f5f9f7" rx="4"/>'
+    + '<circle cx="150" cy="88" r="44" fill="none" stroke="' + col + '" stroke-width="2" stroke-dasharray="8 4" opacity="0.5"/>'
+    + '<text x="150" y="97" text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="' + col + '">' + initials + '</text>'
+    + '<text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">' + mol.family + '</text>'
+    + '<text x="150" y="170" text-anchor="middle" font-family="monospace" font-size="10" fill="#aaa">MW ' + mol.mw + '</text>'
+    + '</svg>';
+}
+
+function getSVG(mol) {
+  // Priority: 1) existing svgPath in JSON, 2) RDKit render, 3) fallback
+  if (mol.svgPath && mol.svgPath.trim() !== '') return mol.svgPath;
+  const rdkSvg = molToSVG(mol.smiles);
+  if (rdkSvg) return rdkSvg;
+  return fallbackSVG(mol);
+}
+
+// ===== INIT RDKIT + LOAD CATALOGUE =====
+async function initRDKit() {
+  return new Promise((resolve) => {
+    if (window.RDKit) { RDKitReady = true; resolve(); return; }
+    const check = setInterval(() => {
+      if (typeof window.initRDKitModule === 'function') {
+        clearInterval(check);
+        window.initRDKitModule({
+          locateFile: () => 'https://unpkg.com/@rdkit/rdkit/dist/RDKit_minimal.wasm'
+        }).then(rdkit => {
+          window.RDKit = rdkit;
+          RDKitReady = true;
+          console.log('RDKit.js loaded:', rdkit.version());
+          resolve();
+        }).catch(err => {
+          console.warn('RDKit.js failed to load:', err);
+          resolve(); // continue without RDKit
+        });
+      }
+    }, 50);
+    // Timeout after 10s — continue without RDKit
+    setTimeout(() => { clearInterval(check); resolve(); }, 10000);
+  });
+}
+
+async function loadCatalogue() {
+  document.getElementById('moleculesGrid').innerHTML =
+    '<div style="grid-column:1/-1;text-align:center;padding:5rem 2rem;color:var(--gray-400)">'
+    + '<i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block;color:var(--green-bright)"></i>'
+    + 'Loading catalogue…</div>';
+
+  // Load RDKit in parallel with catalogue data
+  const [_, catalogueResult] = await Promise.allSettled([
+    initRDKit(),
+    fetch('urd-abi-catalogue.json').then(r => r.ok ? r.json() : Promise.reject('not found'))
+  ]);
+
+  // Hide loading banner
+  const banner = document.getElementById('rdkitBanner');
+  if (banner) banner.classList.add('hidden');
+
+  let rawMolecules;
+  if (catalogueResult.status === 'fulfilled') {
+    rawMolecules = catalogueResult.value.molecules || [];
+    if (catalogueResult.value.catalogue_metadata?.last_updated) {
+      document.title = 'URD ABI — Chemical Library (' + catalogueResult.value.catalogue_metadata.last_updated + ')';
+    }
+  } else {
+    console.warn('catalogue.json not loaded, using demo data.');
+    rawMolecules = DEMO_MOLECULES;
+  }
+
+  // Generate SVGs — use RDKit if available, else fallback
+  molecules = rawMolecules.map(m => ({ ...m, _svg: getSVG(m) }));
+  filteredMolecules = [...molecules];
+
+  // Show RDKit status in console
+  if (RDKitReady) {
+    console.log('%cRDKit.js active — structures rendered from SMILES', 'color:#2d7a4f;font-weight:bold');
+  } else {
+    console.warn('RDKit.js unavailable — using placeholder SVGs');
+  }
+
+  renderGrid();
+}
+
+// ===== RENDER =====
+function renderGrid() {
+  const grid = document.getElementById('moleculesGrid');
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const page = filteredMolecules.slice(start, end);
+
+  document.getElementById('resultCount').textContent = filteredMolecules.length;
+  document.getElementById('statTotal').textContent = molecules.length;
+
+  if (page.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--gray-400)">
+      <i class="fas fa-search" style="font-size:2rem;margin-bottom:1rem;display:block"></i>
+      No molecule matches your criteria.
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = page.map(mol => `
+    <div class="mol-card" onclick="openDetailModal('${mol.id}')">
+      <div class="card-structure">
+        <div class="mol-svg-wrapper">${mol._svg || mol.svgPath || ""}</div>
+        <span class="mol-id-badge">${mol.id}</span>
+        <span class="availability-dot ${mol.availability === 'yes' ? 'avail-yes' : mol.availability === 'limited' ? 'avail-limited' : 'avail-no'}"
+              title="${mol.availability === 'yes' ? 'Available' : mol.availability === 'limited' ? 'Limited stock' : 'Unavailable'}"></span>
+        <div class="card-actions">
+          <button class="card-action-btn" title="View details" onclick="event.stopPropagation(); openDetailModal('${mol.id}')">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="card-action-btn add-to-cart" title="Add to request list" onclick="event.stopPropagation(); addToCart('${mol.id}')">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mol-name">${mol.name}</div>
+        <div class="mol-iupac">${mol.iupac}</div>
+        <div class="mol-tags">
+          <span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${mol.family}</span>
+          ${mol.applications.slice(0,2).map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}
+        </div>
+        <div class="mol-data-row">
+          <span class="mol-data-pill"><strong>MW</strong> ${mol.mw} g/mol</span>
+          <span class="mol-data-pill"><strong>logP</strong> ${mol.logP}</span>
+          <span class="mol-data-pill"><strong>Pur.</strong> ${mol.purity}</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="mol-spectra">
+          ${mol.nmr ? '<span class="spectra-badge spec-nmr">NMR</span>' : ''}
+          ${mol.uv ? '<span class="spectra-badge spec-uv">UV</span>' : ''}
+          ${mol.sds ? '<span class="spectra-badge spec-sds">SDS</span>' : ''}
+        </div>
+        <button class="btn-detail" onclick="event.stopPropagation(); openDetailModal('${mol.id}')">Details →</button>
+      </div>
+    </div>
+  `).join('');
+
+  renderPagination();
+}
+
+function appLabel(a) {
+  const map = { bioactive:'Bioactive', green:'Green Chem.', pharma:'Pharma', food:'Food', cosme:'Cosmetics', poly:'Polymers' };
+  return map[a] || a;
+}
+
+function renderPagination() {
+  const total = Math.ceil(filteredMolecules.length / perPage);
+  const pg = document.getElementById('pagination');
+  if (total <= 1) { pg.innerHTML = ''; return; }
+
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= total; i++) {
+    html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
+  pg.innerHTML = html;
+}
+
+function goPage(n) {
+  const total = Math.ceil(filteredMolecules.length / perPage);
+  if (n < 1 || n > total) return;
+  currentPage = n;
+  renderGrid();
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+
+// ===== FILTERS =====
+function setFamilyFilter(el, family) {
+  currentFamily = family;
+  document.querySelectorAll('#familyFilters .tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  filterMolecules();
+}
+
+function toggleAppFilter(el, app) {
+  if (activeApps.has(app)) { activeApps.delete(app); el.classList.remove('active'); }
+  else { activeApps.add(app); el.classList.add('active'); }
+  filterMolecules();
+}
+
+function filterMolecules() {
+  const search = document.getElementById('globalSearch').value.toLowerCase();
+  const mwMin = parseInt(document.getElementById('mwMin').value);
+  const mwMax = parseInt(document.getElementById('mwMax').value);
+  const needNmr = document.getElementById('chk-nmr').checked;
+  const needUv = document.getElementById('chk-uv').checked;
+  const needBio = document.getElementById('chk-bio').checked;
+  const onlyAvail = document.getElementById('chk-avail').checked;
+
+  filteredMolecules = molecules.filter(m => {
+    const mwVal = parseFloat(m.mw) || 0;
+    if (currentFamily !== 'all' && m.family !== currentFamily) return false;
+    if (activeApps.size > 0 && !m.applications.some(a => activeApps.has(a))) return false;
+    if (mwVal < mwMin || mwVal > mwMax) return false;
+    if (needNmr && !m.nmr) return false;
+    if (needUv && !m.uv) return false;
+    if (needBio && !m.bioData) return false;
+    if (onlyAvail && m.availability !== 'yes') return false;
+    if (search && !m.name.toLowerCase().includes(search) &&
+        !m.id.toLowerCase().includes(search) &&
+        !m.iupac.toLowerCase().includes(search) &&
+        !m.smiles.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  currentPage = 1;
+  renderGrid();
+}
+
+function updateMWRange() {
+  const min = parseInt(document.getElementById('mwMin').value);
+  const max = parseInt(document.getElementById('mwMax').value);
+  document.getElementById('mwVal').textContent = `${Math.min(min,max)} – ${Math.max(min,max)} g/mol`;
+  filterMolecules();
+}
+
+function sortMolecules(val) {
+  if (val === 'name') filteredMolecules.sort((a,b) => a.name.localeCompare(b.name));
+  else if (val === 'mw') filteredMolecules.sort((a,b) => (parseFloat(a.mw)||0) - (parseFloat(b.mw)||0));
+  else if (val === 'mw-desc') filteredMolecules.sort((a,b) => (parseFloat(b.mw)||0) - (parseFloat(a.mw)||0));
+  else if (val === 'ref') filteredMolecules.sort((a,b) => a.id.localeCompare(b.id));
+  renderGrid();
+}
+
+// ===== DETAIL MODAL =====
+function openDetailModal(id) {
+  currentMolecule = molecules.find(m => m.id === id);
+  const m = currentMolecule;
+  if (!m) return;
+
+  document.getElementById('modalRef').textContent = m.id;
+  document.getElementById('modalName').textContent = m.name;
+  document.getElementById('modalIupac').textContent = m.iupac;
+  document.getElementById('modalStructure').innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:1rem">${m._svg || m.svgPath || ""}</div>`;
+  document.getElementById('smilesText').textContent = m.smiles;
+
+  // Physicochemical data — ordered, skip empty/null values
+  const physRows = [
+    ['CAS Number',       m.casNumber],
+    ['Formula',          m.formula],
+    ['Molecular Weight', m.mw != null ? (typeof m.mw === 'number' ? m.mw + ' g/mol' : m.mw) : null],
+    ['Melting Point',    m.mp],
+    ['Boiling Point',    m.bp],
+    ['Solubility',       m.solubility],
+    ['Purity',           m.purity],
+    ['Storage',          m.storage],
+  ].filter(([k, v]) => v != null && v !== '' && v !== 'null');
+  document.getElementById('modalPhysicoChem').innerHTML = physRows.length
+    ? physRows.map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')
+    : '<tr><td colspan="2" style="color:var(--gray-400);font-style:italic">No data recorded yet.</td></tr>';
+
+  // Activity badges
+  const ACTIVITY_DEFS = [
+    { key: 'actAntioxidant',  label: 'Antioxidant',      bg: '#e8f5e9', color: '#2e7d32' },
+    { key: 'actAntibacterial',label: 'Antibacterial',     bg: '#e3f2fd', color: '#0277bd' },
+    { key: 'actUVFilter',     label: 'UV Filter',         bg: '#fff8e1', color: '#f57f17' },
+    { key: 'actPolymer',      label: 'Polymer additive',  bg: '#f3e5f5', color: '#7b1fa2' },
+  ];
+  const activeActivities = ACTIVITY_DEFS.filter(a => m[a.key]);
+  document.getElementById('modalBioData').innerHTML = activeActivities.length
+    ? '<div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.4rem 0">'
+      + activeActivities.map(a =>
+          `<span style="background:${a.bg};color:${a.color};border-radius:99px;padding:0.35rem 1rem;font-size:0.84rem;font-weight:600;border:1.5px solid ${a.color}40">${a.label}</span>`
+        ).join('')
+      + '</div>'
+    : '<p style="color:var(--gray-400);font-size:0.84rem;font-style:italic">No activity recorded.</p>';
+
+  // Build spectra list — check file existence then render download links
+  const spectraDefs = [
+    { key: 'nmr', type: 'NMR', label: '¹H / ¹³C NMR',           cls: 'spec-nmr' },
+    { key: 'uv',  type: 'UV',  label: 'UV-Vis Spectrum',          cls: 'spec-uv'  },
+    { key: 'sds', type: 'SDS', label: 'Security Data Sheet (SDS)', cls: 'spec-sds' },
+  ];
+
+  const availableSpectra = spectraDefs.filter(s => m[s.key]);
+
+  if (availableSpectra.length === 0) {
+    document.getElementById('modalSpectra').innerHTML =
+      '<p style="color:var(--gray-400);font-size:0.84rem;font-style:italic">No spectra available.</p>';
+  } else {
+    // Build items — use custom path from JSON if present, otherwise auto-generate
+    const items = availableSpectra.map(s => {
+      // Check if a custom path is defined in the JSON, e.g. m.spectraPaths.nmr
+      const customPath = m.spectraPaths && m.spectraPaths[s.key.toLowerCase()];
+      const autoPath = `spectra/${m.id}/${m.id}_${s.type}.pdf`;
+      const filePath = customPath || autoPath;
+      return { ...s, filePath };
+    });
+
+    document.getElementById('modalSpectra').innerHTML = items.map(s => `
+      <div class="spectra-item">
+        <div class="spec-name">
+          <span class="spectra-badge ${s.cls}">${s.type}</span> ${s.label}
+        </div>
+        <a class="btn-download" href="${s.filePath}" target="_blank" download
+           onclick="checkFileExists(event, '${s.filePath}')">
+          <i class="fas fa-download"></i> Download
+        </a>
+      </div>
+    `).join('');
+  }
+
+  const inCart = cart.find(c => c.id === id);
+  document.getElementById('addToListBtn').innerHTML = inCart
+    ? '<i class="fas fa-check-circle"></i> Added to list'
+    : '<i class="fas fa-plus-circle"></i> Add to request list';
+  document.getElementById('addToListBtn').style.color = inCart ? 'var(--green-mid)' : '';
+
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetailModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeDetailOnOverlay(e) {
+  if (e.target === document.getElementById('detailModal')) closeDetailModal();
+}
+
+function copySmiles() {
+  navigator.clipboard.writeText(currentMolecule?.smiles || '');
+  showToast('SMILES copied to clipboard!');
+}
+
+// ===== CART =====
+function addToCart(id) {
+  const mol = molecules.find(m => m.id === id);
+  if (!mol) return;
+  if (cart.find(c => c.id === id)) { showToast(`${mol.name} already in your list`); return; }
+  cart.push({ id, name: mol.name });
+  updateCartCount();
+  showToast(`${mol.name} added to request list`);
+}
+
+function addCurrentToCart() {
+  if (!currentMolecule) return;
+  addToCart(currentMolecule.id);
+  document.getElementById('addToListBtn').innerHTML = '<i class="fas fa-check-circle"></i> Added to list';
+  document.getElementById('addToListBtn').style.color = 'var(--green-mid)';
+}
+
+function updateCartCount() {
+  document.getElementById('cartCount').textContent = cart.length;
+}
+
+function closeDetailAndOrder() {
+  if (currentMolecule && !cart.find(c => c.id === currentMolecule.id)) {
+    cart.push({ id: currentMolecule.id, name: currentMolecule.name });
+    updateCartCount();
+  }
+  closeDetailModal();
+  setTimeout(openOrderModal, 200);
+}
+
+// ===== ORDER MODAL =====
+function openOrderModal() {
+  if (cart.length === 0) { showToast('Add molecules to your request list first!'); return; }
+  renderCartPreview();
+  document.getElementById('orderStep1').style.display = '';
+  document.getElementById('orderStep2').style.display = 'none';
+  document.getElementById('orderModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderCartPreview() {
+  document.getElementById('cartPreview').innerHTML = cart.map(c => `
+    <div class="cart-item-row">
+      <span class="cart-item-name">${c.name}</span>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <span class="cart-item-qty" id="molecules" style="font-size:0.78rem">${molecules.find(m=>m.id===c.id)?.id || ''}</span>
+        <button class="remove-item" onclick="removeFromCart('${c.id}')"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartCount();
+  if (cart.length === 0) { closeOrderModal(); showToast('Request list is empty'); return; }
+  renderCartPreview();
+}
+
+function closeOrderModal() {
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeOrderOnOverlay(e) {
+  if (e.target === document.getElementById('orderModal')) closeOrderModal();
+}
+
+function submitOrder() {
+  const email = document.getElementById('email').value;
+  const fname = document.getElementById('fname').value;
+  const lname = document.getElementById('lname').value;
+  if (!email || !fname || !lname) { showToast('Please fill in required fields'); return; }
+
+  document.getElementById('confirmEmail').textContent = email;
+  document.getElementById('orderStep1').style.display = 'none';
+  document.getElementById('orderStep2').style.display = '';
+  cart = [];
+  updateCartCount();
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+
+// ===== INIT =====
+loadCatalogue();
+</script>
+</body>
+</html>
