@@ -31,7 +31,8 @@
         "cosme",
         "poly"
       ],
-      "spectra_files": "Place PDF spectra in: spectra/ABI-XXX/ABI-XXX_NMR.pdf, ABI-XXX_UV.pdf, ABI-XXX_MS.pdf. The site generates these paths automatically from the molecule ID. To override, use the optional 'spectraPaths' field (see field_reference)."
+      "spectra_files": "Place PDF spectra in: spectra/ABI-XXX/ABI-XXX_NMR.pdf, ABI-XXX_UV.pdf, ABI-XXX_MS.pdf. The site generates these paths automatically from the molecule ID. To override, use the optional 'spectraPaths' field (see field_reference).",
+      "stats_banner": "The hero banner stats are driven by: 'total_molecules' (auto-counted), 'patents' (set manually here), 'publications' (set manually here)."
     },
     "field_reference": {
       "id": "Unique internal reference (required)",
@@ -39,7 +40,7 @@
       "commonName": "Alternative name or synonym",
       "iupac": "Full IUPAC name (required)",
       "casNumber": "CAS number string or null",
-      "family": "Chemical family — see family_values (required)",
+      "family": "Chemical family — must match one of: 'Phenols', 'Sinapic', 'Ferulic', 'Coumaric', 'Caffeic', 'Flavonoid', 'Polyphenols', 'Furans', 'SugarDerivs', 'Extracts', 'Other'",
       "smiles": "Canonical SMILES string (required)",
       "mw": "Molecular weight as number in g/mol, or string for polymers (required)",
       "logP": "logP as number or null",
@@ -47,7 +48,7 @@
       "solubility": "Solubility description string or null",
       "purity": "Purity string, e.g. '>98%' or null",
       "availability": "'yes', 'limited', or 'no' (required)",
-      "applications": "Array of application tags — see application_values",
+      "applications": "Array of activity tags — choose from: 'uvprotect', 'conservative', 'polymeraddit', 'odors', 'greenchem'",
       "nmr": "true/false — NMR spectra available",
       "uv": "true/false — UV-Vis spectra available",
       "ms": "true/false — Mass spectrum available",
@@ -65,8 +66,36 @@
       "actAntibacterial": "true/false — Antibacterial activity",
       "actUVFilter": "true/false — UV Filter activity",
       "actPolymer": "true/false — Polymer additive activity",
-      "state": "Physical state of the compound, e.g. 'Solid', 'Liquid', 'Oil', 'Amorphous solid', 'Viscous liquid'"
-    }
+      "state": "Physical state of the compound, e.g. 'Solid', 'Liquid', 'Oil', 'Amorphous solid', 'Viscous liquid'",
+      "patents": "Number of patents — displayed in the hero banner. Update manually.",
+      "publications": "Number of publications linked to the catalogue — displayed in the hero banner. Update manually."
+    },
+    "application_tags": {
+      "uvprotect": "UV protection",
+      "conservative": "Conservative / antimicrobial",
+      "polymeraddit": "Polymer additive",
+      "odors": "Odors / fragrance",
+      "greenchem": "Green chemistry"
+    },
+    "family_values": [
+      "Phenols",
+      "Sinapic",
+      "Ferulic",
+      "Coumaric",
+      "Caffeic",
+      "Flavonoid",
+      "Polyphenols",
+      "Furans",
+      "SugarDerivs",
+      "Extracts"
+    ],
+    "application_values": [
+      "uvprotect",
+      "conservative",
+      "polymeraddit",
+      "odors",
+      "greenchem"
+    ]
   },
   "catalogue_metadata": {
     "lab_name": "URD ABI — Agro Biotechnologies Industrielles",
@@ -76,7 +105,9 @@
     "website": "https://urd-abi-agroparistech.com",
     "catalogue_version": "1.0",
     "last_updated": "2026-03-13",
-    "total_molecules": 12
+    "total_molecules": 12,
+    "patents": 17,
+    "publications": 208
   },
   "molecules": [
     {
@@ -85,7 +116,7 @@
       "commonName": "Methyl 3,5-dimethoxy-4-hydroxycinnamate",
       "iupac": "methyl (E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acrylate",
       "casNumber": "14737-46-3",
-      "family": "Phenolic",
+      "family": "Sinapic",
       "smiles": "COC(=O)/C=C/c1cc(OC)c(O)c(OC)c1",
       "mw": 238.24,
       "logP": 1.82,
@@ -94,9 +125,8 @@
       "purity": ">98%",
       "availability": "yes",
       "applications": [
-        "green",
-        "pharma",
-        "food"
+        "uvprotect",
+        "greenchem"
       ],
       "ic50": "48 µM (antioxidant, DPPH)",
       "target": "ROS scavenging",
@@ -128,7 +158,7 @@
       "commonName": "3-(4-Hydroxy-3,5-dimethoxyphenyl)propionic acid",
       "iupac": "3-(4-hydroxy-3,5-dimethoxyphenyl)propanoic acid",
       "casNumber": "81005-05-2",
-      "family": "Phenolic",
+      "family": "Sinapic",
       "smiles": "COc1cc(CCC(=O)O)cc(OC)c1O",
       "mw": 226.23,
       "logP": 1.35,
@@ -137,9 +167,7 @@
       "purity": ">97%",
       "availability": "yes",
       "applications": [
-        "green",
-        "food",
-        "pharma"
+        "greenchem"
       ],
       "ic50": "32 µM (antioxidant)",
       "target": "Lipid peroxidation inhibition",
@@ -169,7 +197,7 @@
       "commonName": "4,4'-Methylenebis(2-methoxyphenol)",
       "iupac": "4,4'-methylenebis(2-methoxyphenol)",
       "casNumber": "2577-67-7",
-      "family": "Phenolic",
+      "family": "Phenols",
       "smiles": "COc1cc(Cc2ccc(O)c(OC)c2)ccc1O",
       "mw": 260.29,
       "logP": 2.41,
@@ -178,9 +206,8 @@
       "purity": ">99%",
       "availability": "yes",
       "applications": [
-        "poly",
-        "green",
-        "pharma"
+        "polymeraddit",
+        "greenchem"
       ],
       "ic50": "—",
       "target": "Epoxy monomer — biobased BPA alternative",
@@ -212,7 +239,7 @@
       "commonName": "4-Hydroxycinnamyl alcohol",
       "iupac": "(E)-3-(4-hydroxyphenyl)prop-2-en-1-ol",
       "casNumber": "2315-56-2",
-      "family": "Phenolic",
+      "family": "Coumaric",
       "smiles": "OC/C=C/c1ccc(O)cc1",
       "mw": 150.17,
       "logP": 1.22,
@@ -221,9 +248,8 @@
       "purity": ">98%",
       "availability": "limited",
       "applications": [
-        "bioactive",
-        "food",
-        "green"
+        "conservative",
+        "uvprotect"
       ],
       "ic50": "65 µM (antimicrobial)",
       "target": "Cell membrane disruption",
@@ -253,7 +279,7 @@
       "commonName": "3,5-Dimethoxy-4-hydroxycinnamaldehyde",
       "iupac": "(E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acrylaldehyde",
       "casNumber": "4206-58-0",
-      "family": "Ferulate",
+      "family": "Sinapic",
       "smiles": "COc1cc(/C=C/C=O)cc(OC)c1O",
       "mw": 222.24,
       "logP": 1.68,
@@ -262,9 +288,7 @@
       "purity": ">97%",
       "availability": "yes",
       "applications": [
-        "bioactive",
-        "pharma",
-        "cosme"
+        "uvprotect"
       ],
       "ic50": "22 µM (anti-inflammatory, COX-2)",
       "target": "COX-2 inhibition",
@@ -296,7 +320,7 @@
       "commonName": "trans-Ferulic acid",
       "iupac": "(E)-3-(4-hydroxy-3-methoxyphenyl)acrylic acid",
       "casNumber": "1135-24-6",
-      "family": "Ferulate",
+      "family": "Ferulic",
       "smiles": "COc1cc(/C=C/C(=O)O)ccc1O",
       "mw": 194.18,
       "logP": 1.51,
@@ -305,10 +329,8 @@
       "purity": ">99%",
       "availability": "yes",
       "applications": [
-        "food",
-        "cosme",
-        "pharma",
-        "bioactive"
+        "uvprotect",
+        "conservative"
       ],
       "ic50": "18 µM (antioxidant)",
       "target": "ROS / free radical scavenging",
@@ -347,9 +369,7 @@
       "purity": ">95%",
       "availability": "limited",
       "applications": [
-        "bioactive",
-        "pharma",
-        "food"
+        "conservative"
       ],
       "ic50": "5.2 µM (anti-inflammatory, NF-κB)",
       "target": "NF-κB pathway",
@@ -381,7 +401,7 @@
       "commonName": "Sinapine (thiocyanate salt)",
       "iupac": "(E)-[2-(3,5-dimethoxy-4-hydroxyphenyl)vinyl]choline thiocyanate",
       "casNumber": "18696-26-9",
-      "family": "Ferulate",
+      "family": "Sinapic",
       "smiles": "COc1cc(/C=C/C(=O)OCC[N+](C)(C)C)cc(OC)c1O.[S-]C#N",
       "mw": 370.45,
       "logP": -1.2,
@@ -390,8 +410,7 @@
       "purity": ">96%",
       "availability": "yes",
       "applications": [
-        "bioactive",
-        "pharma"
+        "conservative"
       ],
       "ic50": "38 µM (neuroprotective)",
       "target": "Acetylcholinesterase inhibition",
@@ -421,7 +440,7 @@
       "commonName": "(1R,2S,4R)-Limonene-1,2-diol",
       "iupac": "(1R,2S,4R)-1-methyl-4-(propan-2-ylidene)cyclohexane-1,2-diol",
       "casNumber": "138281-23-9",
-      "family": "Terpene",
+      "family": "Other",
       "smiles": "OC1CCC(=C(C)C)[C@@](O)(C)C1",
       "mw": 172.22,
       "logP": 1.15,
@@ -430,9 +449,8 @@
       "purity": ">98%",
       "availability": "yes",
       "applications": [
-        "green",
-        "cosme",
-        "food"
+        "odors",
+        "greenchem"
       ],
       "ic50": "—",
       "target": "Fragrance / polymer precursor",
@@ -462,7 +480,7 @@
       "commonName": "Lignin-inspired polyphenol",
       "iupac": "Poly[(E)-3-(4-hydroxy-3,5-dimethoxyphenyl)allyl alcohol]",
       "casNumber": null,
-      "family": "Polymer",
+      "family": "Other",
       "smiles": "n/a (oligomeric)",
       "mw": "1200–3500 (Mn)",
       "logP": null,
@@ -471,8 +489,8 @@
       "purity": ">90%",
       "availability": "limited",
       "applications": [
-        "poly",
-        "green"
+        "polymeraddit",
+        "greenchem"
       ],
       "ic50": "—",
       "target": "Bio-based thermoset / antioxidant coating",
@@ -504,7 +522,7 @@
       "commonName": "4-Hydroxy-3-methoxycinnamyl benzoate",
       "iupac": "[(E)-3-(4-hydroxy-3-methoxyphenyl)allyl] benzoate",
       "casNumber": "3034-13-7",
-      "family": "Phenolic",
+      "family": "Ferulic",
       "smiles": "COc1cc(/C=C/COC(=O)c2ccccc2)ccc1O",
       "mw": 298.33,
       "logP": 2.98,
@@ -513,9 +531,7 @@
       "purity": ">97%",
       "availability": "no",
       "applications": [
-        "pharma",
-        "cosme",
-        "bioactive"
+        "conservative"
       ],
       "ic50": "15 µM (cytotoxic, MCF-7)",
       "target": "Cancer cell lines",
@@ -547,7 +563,7 @@
       "commonName": "Methylenesuccinic acid",
       "iupac": "2-methylidenebutanedioic acid",
       "casNumber": "97-65-4",
-      "family": "Terpene",
+      "family": "Other",
       "smiles": "OC(=O)CC(=C)C(=O)O",
       "mw": 130.1,
       "logP": -0.75,
@@ -556,9 +572,8 @@
       "purity": ">99%",
       "availability": "yes",
       "applications": [
-        "poly",
-        "green",
-        "food"
+        "polymeraddit",
+        "greenchem"
       ],
       "ic50": "—",
       "target": "Monomer for bio-based polymers",
