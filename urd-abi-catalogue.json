@@ -68,14 +68,18 @@
       "actPolymer": "true/false — Polymer additive activity",
       "state": "Physical state of the compound, e.g. 'Solid', 'Liquid', 'Oil', 'Amorphous solid', 'Viscous liquid'",
       "patents": "Number of patents — displayed in the hero banner. Update manually.",
-      "publications": "Number of publications linked to the catalogue — displayed in the hero banner. Update manually."
+      "publications": "Number of publications linked to the catalogue — displayed in the hero banner. Update manually.",
+      "patented": "true → affiche le badge 'Patented' sur la carte. false ou absent → badge masqué.",
+      "tg": "Température de transition vitreuse en °C. Ex: \"78°C\" ou null si non applicable."
     },
     "application_tags": {
       "uvprotect": "UV protection",
       "conservative": "Conservative / antimicrobial",
       "polymeraddit": "Polymer additive",
       "odors": "Odors / fragrance",
-      "greenchem": "Green chemistry"
+      "greenchem": "Green chemistry",
+      "emollients": "Emollients",
+      "materials": "Materials"
     },
     "family_values": [
       "Phenols",
@@ -87,14 +91,19 @@
       "Polyphenols",
       "Furans",
       "SugarDerivs",
-      "Extracts"
+      "Extracts",
+      "Polymers",
+      "Oligomers",
+      "Other"
     ],
     "application_values": [
       "uvprotect",
       "conservative",
       "polymeraddit",
       "odors",
-      "greenchem"
+      "greenchem",
+      "emollients",
+      "materials"
     ]
   },
   "catalogue_metadata": {
@@ -150,7 +159,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-002",
@@ -189,7 +200,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-003",
@@ -231,7 +244,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": true,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-004",
@@ -271,7 +286,9 @@
       "actAntibacterial": true,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-005",
@@ -312,7 +329,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-006",
@@ -352,7 +371,9 @@
       "actAntibacterial": false,
       "actUVFilter": true,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-007",
@@ -393,7 +414,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-008",
@@ -432,7 +455,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-009",
@@ -472,7 +497,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-010",
@@ -514,7 +541,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": true,
-      "state": "Amorphous solid"
+      "state": "Amorphous solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-011",
@@ -555,7 +584,9 @@
       "actAntibacterial": true,
       "actUVFilter": false,
       "actPolymer": false,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     },
     {
       "id": "ABI-012",
@@ -595,7 +626,9 @@
       "actAntibacterial": false,
       "actUVFilter": false,
       "actPolymer": true,
-      "state": "Solid"
+      "state": "Solid",
+      "patented": false,
+      "tg": null
     }
   ]
 }
