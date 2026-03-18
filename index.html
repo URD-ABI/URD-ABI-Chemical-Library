@@ -337,9 +337,9 @@
     letter-spacing: 0.05em;
   }
 
-  .mol-patented-badge {
+  .mol-patented-badge, .mol-published-badge {
     position: absolute;
-    bottom: 0.6rem; left: 0.6rem;
+    bottom: 0.6rem;
     background: var(--green-dark);
     color: white;
     font-family: var(--font-mono);
@@ -349,7 +349,14 @@
     letter-spacing: 0.05em;
     display: flex; align-items: center; gap: 0.3rem;
   }
-  .mol-patented-badge i { font-size: 0.62rem; }
+  .mol-patented-badge { left: 0.6rem; }
+  .mol-published-badge {
+    left: 0.6rem;
+    background: #1a6e8e;
+  }
+  .mol-patented-badge.with-published { left: 0.6rem; }
+  .mol-published-badge.with-patented { left: 6rem; }
+  .mol-patented-badge i, .mol-published-badge i { font-size: 0.62rem; }
 
   .availability-dot {
     position: absolute;
@@ -560,6 +567,24 @@
   .data-table td:last-child { font-family: var(--font-mono); font-weight: 500; color: var(--green-dark); }
 
   .spectra-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .ref-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ref-item {
+    background: var(--gray-100);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.82rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--gray-600);
+  }
+  .ref-item a {
+    color: var(--green-mid);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    word-break: break-all;
+  }
+  .ref-item a:hover { text-decoration: underline; }
+  .ref-item i { color: var(--green-bright); flex-shrink: 0; }
   .spectra-item {
     display: flex; align-items: center; justify-content: space-between;
     background: var(--gray-100);
@@ -990,6 +1015,10 @@
         <div style="margin-top:1.5rem">
           <h3><i class="fas fa-leaf"></i> Activity</h3>
           <div id="modalBioData"></div>
+        </div>
+        <div style="margin-top:1.5rem">
+          <h3><i class="fas fa-book-open"></i> References</h3>
+          <div id="modalReferences"></div>
         </div>
       </div>
     </div>
@@ -1620,7 +1649,9 @@ function renderGrid() {
         <span class="mol-id-badge">${mol.id}</span>
         <span class="availability-dot ${mol.availability === 'yes' ? 'avail-yes' : mol.availability === 'limited' ? 'avail-limited' : 'avail-no'}"
               title="${mol.availability === 'yes' ? 'Available' : mol.availability === 'limited' ? 'Limited stock' : 'Unavailable'}"></span>
-        ${mol.patented ? '<span class="mol-patented-badge"><i class="fas fa-shield-alt"></i> Patented</span>' : ''}
+        ${mol.patented ? `<span class="mol-patented-badge${mol.published ? ' with-published' : ''}"><i class="fas fa-shield-alt"></i> Patented</span>` : ''}
+        ${mol.published && !mol.patented ? '<span class="mol-published-badge"><i class="fas fa-book"></i> Published</span>' : ''}
+        ${mol.published && mol.patented ? '<span class="mol-published-badge with-patented"><i class="fas fa-book"></i> Published</span>' : ''}
         <div class="card-actions">
           <button class="card-action-btn" title="View details" onclick="event.stopPropagation(); openDetailModal('${mol.id}')">
             <i class="fas fa-eye"></i>
@@ -1805,6 +1836,17 @@ function openDetailModal(id) {
     { key: 'actPolymer',      label: 'Polymer additive',  bg: '#f3e5f5', color: '#7b1fa2' },
   ];
   const activeActivities = ACTIVITY_DEFS.filter(a => m[a.key]);
+  // References
+  const refs = m.references && m.references.length > 0 ? m.references : [];
+  document.getElementById('modalReferences').innerHTML = refs.length
+    ? '<div class="ref-list">' + refs.map(r => {
+        const isDOI = r.startsWith('10.');
+        const url = isDOI ? 'https://doi.org/' + r : r;
+        const label = isDOI ? 'DOI: ' + r : r;
+        return `<div class="ref-item"><i class="fas fa-external-link-alt"></i><a href="${url}" target="_blank" rel="noopener">${label}</a></div>`;
+      }).join('') + '</div>'
+    : '<p style="color:var(--gray-400);font-size:0.84rem;font-style:italic">No references recorded.</p>';
+
   document.getElementById('modalBioData').innerHTML = activeActivities.length
     ? '<div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.4rem 0">'
       + activeActivities.map(a =>

@@ -56,7 +56,7 @@
       "synthesizedBy": "Name or initials of synthesizer",
       "dateAdded": "ISO date string YYYY-MM-DD",
       "notes": "Free text notes (storage, hazards, batch info…)",
-      "references": "Array of DOI strings",
+      "references": "Liste de références. Accepte des DOIs (ex: '10.1039/C8GC00282G') ou des URLs complètes. Les DOIs sont automatiquement transformés en liens https://doi.org/...",
       "spectraPaths": "(Optional) Custom paths to spectra files. Overrides the auto-generated path. Example: { \"nmr\": \"spectra/ABI-001/ABI-001_NMR.pdf\", \"uv\": \"spectra/ABI-001/ABI-001_UV.pdf\", \"ms\": \"spectra/ABI-001/ABI-001_MS.pdf\" }. Leave absent to use the auto-generated path: spectra/{id}/{id}_NMR.pdf etc.",
       "formula": "Molecular formula as string, e.g. 'C12H14O5'",
       "bp": "Boiling point as string, e.g. '312°C' or null",
@@ -70,7 +70,8 @@
       "patents": "Number of patents — displayed in the hero banner. Update manually.",
       "publications": "Number of publications linked to the catalogue — displayed in the hero banner. Update manually.",
       "patented": "true → affiche le badge 'Patented' sur la carte. false ou absent → badge masqué.",
-      "tg": "Température de transition vitreuse en °C. Ex: \"78°C\" ou null si non applicable."
+      "tg": "Température de transition vitreuse en °C. Ex: \"78°C\" ou null si non applicable.",
+      "published": "true → affiche le badge 'Published' sur la carte. false ou absent → badge masqué. Si patented ET published sont tous les deux true, les deux badges s'affichent côte à côte."
     },
     "application_tags": {
       "uvprotect": "UV protection",
@@ -114,7 +115,7 @@
     "website": "https://urd-abi-agroparistech.com",
     "catalogue_version": "1.0",
     "last_updated": "2026-03-13",
-    "total_molecules": 12,
+    "total_molecules": 5,
     "patents": 17,
     "publications": 208
   },
@@ -125,7 +126,10 @@
       "commonName": null,
       "iupac": "(S,E)-2-((3-(4-hydroxyphenyl)acryloyl)oxy)propanoic acid",
       "casNumber": "2982643-06-9",
-      "family": ["Phenols", "Coumaric"],
+      "family": [
+        "Phenols",
+        "Coumaric"
+      ],
       "smiles": "OC1=CC=C(/C=C/C(O[C@H](C(O)=O)C)=O)C=C1",
       "mw": 236.22,
       "logP": null,
@@ -140,7 +144,6 @@
       "applications": [
         "uvprotect"
       ],
-      "spectraPath": {},
       "nmr": true,
       "uv": true,
       "sds": true,
@@ -157,7 +160,9 @@
       "actAntibacterial": false,
       "actUVFilter": true,
       "actPolymer": false,
-      "patented": true
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
     },
     {
       "id": "ABI-002",
@@ -165,7 +170,10 @@
       "commonName": null,
       "iupac": "(S,E)-2-((3-(4-hydroxy-3-methoxyphenyl)acryloyl)oxy)propanoic acid",
       "casNumber": "2982643-08-1",
-      "family": ["Phenols", "Ferulic"],
+      "family": [
+        "Phenols",
+        "Ferulic"
+      ],
       "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@H](C(O)=O)C)=O)C=C1",
       "mw": 266.25,
       "logP": null,
@@ -180,7 +188,6 @@
       "applications": [
         "uvprotect"
       ],
-      "spectraPath": {},
       "nmr": true,
       "uv": true,
       "sds": true,
@@ -197,7 +204,9 @@
       "actAntibacterial": false,
       "actUVFilter": true,
       "actPolymer": false,
-      "patented": true
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
     },
     {
       "id": "ABI-003",
@@ -205,7 +214,10 @@
       "commonName": null,
       "iupac": "(S,E)-2-((3-(3,4-dihydroxyphenyl)acryloyl)oxy)propanoic acid",
       "casNumber": "2982643-07-0",
-      "family": ["Phenols", "Caffeic"],
+      "family": [
+        "Phenols",
+        "Caffeic"
+      ],
       "smiles": "OC1=C(O)C=C(/C=C/C(O[C@H](C(O)=O)C)=O)C=C1",
       "mw": 252.22,
       "logP": null,
@@ -220,7 +232,6 @@
       "applications": [
         "uvprotect"
       ],
-      "spectraPath": {},
       "nmr": true,
       "uv": true,
       "sds": true,
@@ -237,7 +248,9 @@
       "actAntibacterial": true,
       "actUVFilter": true,
       "actPolymer": false,
-      "patented": true
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
     },
     {
       "id": "ABI-004",
@@ -245,7 +258,10 @@
       "commonName": null,
       "iupac": "(S,E)-2-((3-(4-hydroxy-3,5-dimethoxyphenyl)acryloyl)oxy)propanoic acid",
       "casNumber": "2982643-09-2",
-      "family": ["Phenols", "Sinapic"],
+      "family": [
+        "Phenols",
+        "Sinapic"
+      ],
       "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@H](C(O)=O)C)=O)C=C1OC",
       "mw": 296.28,
       "logP": null,
@@ -260,7 +276,6 @@
       "applications": [
         "uvprotect"
       ],
-      "spectraPath": {},
       "nmr": true,
       "uv": true,
       "sds": true,
@@ -277,7 +292,9 @@
       "actAntibacterial": false,
       "actUVFilter": true,
       "actPolymer": false,
-      "patented": true
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
     },
     {
       "id": "ABI-005",
@@ -285,7 +302,10 @@
       "commonName": null,
       "iupac": "(S,E)-2-((3-(4-hydroxyphenyl)acryloyl)oxy)succinic acid",
       "casNumber": "1808266-35-4",
-      "family": ["Phenols", "Coumaric"],
+      "family": [
+        "Phenols",
+        "Coumaric"
+      ],
       "smiles": "OC1=CC=C(/C=C/C(O[C@H](C(O)=O)CC(O)=O)=O)C=C1",
       "mw": 280.23,
       "logP": null,
@@ -300,7 +320,6 @@
       "applications": [
         "uvprotect"
       ],
-      "spectraPath": {},
       "nmr": true,
       "uv": true,
       "sds": true,
@@ -317,7 +336,9 @@
       "actAntibacterial": true,
       "actUVFilter": true,
       "actPolymer": false,
-      "patented": true
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
     }
   ]
 }
