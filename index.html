@@ -1498,12 +1498,13 @@ function fallbackSVG(mol) {
   const colors = { Phenolic:'#2d7a4f', Ferulate:'#1a9e7a', Flavonoid:'#7b1fa2',
                    Terpene:'#e65100', Polymer:'#1565c0', 'Amino acid':'#c62828',
                    Sugar:'#f57f17', 'Fatty acid':'#558b2f', Other:'#546e7a' };
-  const col = colors[mol.family] || '#546e7a';
+  const families = Array.isArray(mol.family) ? mol.family : [mol.family];
+  const col = colors[families[0]] || '#546e7a';
   return '<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">'
     + '<rect width="300" height="200" fill="#f5f9f7" rx="4"/>'
     + '<circle cx="150" cy="88" r="44" fill="none" stroke="' + col + '" stroke-width="2" stroke-dasharray="8 4" opacity="0.5"/>'
     + '<text x="150" y="97" text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="' + col + '">' + initials + '</text>'
-    + '<text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">' + mol.family + '</text>'
+    + '<text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">' + families.join(', ') + '</text>'
     + '<text x="150" y="170" text-anchor="middle" font-family="monospace" font-size="10" fill="#aaa">MW ' + mol.mw + '</text>'
     + '</svg>';
 }
@@ -1633,7 +1634,7 @@ function renderGrid() {
         <div class="mol-name">${mol.name}</div>
         <div class="mol-iupac">${mol.iupac}</div>
         <div class="mol-tags">
-          <span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${mol.family}</span>
+          ${(Array.isArray(mol.family) ? mol.family : [mol.family]).map(f => `<span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${f}</span>`).join("")}
           ${mol.applications.slice(0,2).map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}
         </div>
         <div class="mol-data-row">
@@ -1724,7 +1725,10 @@ function filterMolecules() {
 
   filteredMolecules = molecules.filter(m => {
     const mwVal = parseFloat(m.mw) || 0;
-    if (currentFamily !== 'all' && m.family !== currentFamily) return false;
+    if (currentFamily !== 'all') {
+      const mFamilies = Array.isArray(m.family) ? m.family : [m.family];
+      if (!mFamilies.includes(currentFamily)) return false;
+    }
     if (activeApps.size > 0 && !m.applications.some(a => activeApps.has(a))) return false;
     if (mwVal < mwMin || mwVal > mwMax) return false;
     if (needNmr && !m.nmr) return false;
