@@ -1635,7 +1635,7 @@ function renderGrid() {
         <div class="mol-iupac">${mol.iupac}</div>
         <div class="mol-tags">
           ${(Array.isArray(mol.family) ? mol.family : [mol.family]).map(f => `<span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${f}</span>`).join("")}
-          ${mol.applications.slice(0,2).map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}
+          ${mol.applications.map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}
         </div>
         <div class="mol-data-row">
           <span class="mol-data-pill"><strong>MW</strong> ${mol.mw} g/mol</span>
