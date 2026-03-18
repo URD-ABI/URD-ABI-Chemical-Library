@@ -153,7 +153,8 @@
       "dateAdded": "2024-01-15",
       "notes": "Store at room temperature, protected from light.",
       "references": [
-        "10.1039/C8GC00282G"
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
       ],
       "formula": null,
       "actAntioxidant": false,
@@ -197,7 +198,8 @@
       "dateAdded": "2024-01-15",
       "notes": "Store at room temperature, protected from light.",
       "references": [
-        "10.1039/C8GC00282G"
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
       ],
       "formula": null,
       "actAntioxidant": true,
@@ -230,7 +232,8 @@
       "storage": "Room Temp.",
       "availability": "yes",
       "applications": [
-        "uvprotect"
+        "uvprotect",
+        "conservative"
       ],
       "nmr": true,
       "uv": true,
@@ -241,7 +244,8 @@
       "dateAdded": "2024-01-15",
       "notes": "Store at room temperature, protected from light.",
       "references": [
-        "10.1039/C8GC00282G"
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
       ],
       "formula": null,
       "actAntioxidant": true,
@@ -285,7 +289,8 @@
       "dateAdded": "2024-01-15",
       "notes": "Store at room temperature, protected from light.",
       "references": [
-        "10.1039/C8GC00282G"
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
       ],
       "formula": null,
       "actAntioxidant": true,
@@ -318,6 +323,374 @@
       "storage": "Room Temp.",
       "availability": "yes",
       "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": false,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-006",
+      "name": "Feruloyl-L-Malate",
+      "commonName": null,
+      "iupac": "(S,E)-2-((3-(4-hydroxy-3-methoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "1204743-52-1",
+      "family": [
+        "Phenols",
+        "Ferulic"
+      ],
+      "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@H](C(O)=O)CC(O)=O)=O)C=C1",
+      "mw": 310.26,
+      "logP": null,
+      "state": "Yellow Solid",
+      "mp": "153-155 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-007",
+      "name": "Caffeoyl-L-Malate",
+      "commonName": null,
+      "iupac": "(S,E)-2-((3-(3,4-dihydroxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "53755-04-7",
+      "family": [
+        "Phenols",
+        "Caffeic"
+      ],
+      "smiles": "OC1=C(O)C=C(/C=C/C(O[C@H](C(O)=O)CC(O)=O)=O)C=C1",
+      "mw": 296.23,
+      "logP": null,
+      "state": "Light-Brown Solid",
+      "mp": "170-173 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-008",
+      "name": "Sinapoyl-L-Malate",
+      "commonName": null,
+      "iupac": "(S,E)-2-((3-(4-hydroxy-3,5-dimethoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "1204743-53-2",
+      "family": [
+        "Phenols",
+        "Sinapic"
+      ],
+      "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@H](C(O)=O)CC(O)=O)=O)C=C1OC",
+      "mw": 340.28,
+      "logP": null,
+      "state": "Light-Yellow Solid",
+      "mp": "140-143 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-009",
+      "name": "Coumaroyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2-hydroxy-3-(((E)-3-(4-hydroxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "27174-07-8",
+      "family": [
+        "Phenols",
+        "Coumaric"
+      ],
+      "smiles": "OC1=CC=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](O)C(O)=O)=O)C=C1",
+      "mw": 296.23,
+      "logP": null,
+      "state": "Off-White Solid",
+      "mp": "190-193 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": false,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-010",
+      "name": "Feruloyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2-hydroxy-3-(((E)-3-(4-hydroxy-3-methoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "74282-22-7",
+      "family": [
+        "Phenols",
+        "Ferulic"
+      ],
+      "smiles": "OC1=CC=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](O)C(O)=O)=O)C=C1",
+      "mw": 296.23,
+      "logP": null,
+      "state": "Yellow Solid",
+      "mp": "80-83 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-011",
+      "name": "Caffeoyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2-(((E)-3-(3,4-dihydroxyphenyl)acryloyl)oxy)-3-hydroxysuccinic acid",
+      "casNumber": "67879-58-7",
+      "family": [
+        "Phenols",
+        "Caffeic"
+      ],
+      "smiles": "OC1=C(O)C=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](O)C(O)=O)=O)C=C1",
+      "mw": 312.23,
+      "logP": null,
+      "state": "Pale-Yellow Solid",
+      "mp": "181-184 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-012",
+      "name": "Sinapoyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2-hydroxy-3-(((E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "1690266-67-1",
+      "family": [
+        "Phenols",
+        "Sinapic"
+      ],
+      "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](O)C(O)=O)=O)C=C1OC",
+      "mw": 356.28,
+      "logP": null,
+      "state": "Yellow Solid",
+      "mp": "193-196 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-013",
+      "name": "Dicoumaroyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2,3-bis(((E)-3-(4-hydroxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "77357-30-3",
+      "family": [
+        "Phenols",
+        "Coumaric"
+      ],
+      "smiles": "OC1=CC=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](OC(/C=C/C2=CC=C(O)C=C2)=O)C(O)=O)=O)C=C1",
+      "mw": 442.38,
+      "logP": null,
+      "state": "Pale-Yellow Solid",
+      "mp": "87-89 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
         "uvprotect"
       ],
       "nmr": true,
@@ -329,11 +702,150 @@
       "dateAdded": "2024-01-15",
       "notes": "Store at room temperature, protected from light.",
       "references": [
-        "10.1039/C8GC00282G"
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
       ],
       "formula": null,
       "actAntioxidant": false,
+      "actAntibacterial": false,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-014",
+      "name": "Diferuloyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2,3-bis(((E)-3-(4-hydroxy-3-methoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "99119-76-3",
+      "family": [
+        "Phenols",
+        "Ferulic"
+      ],
+      "smiles": "OC1=CC=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](OC(/C=C/C2=CC=C(O)C(OC)=C2)=O)C(O)=O)=O)C=C1OC",
+      "mw": 502.43,
+      "logP": null,
+      "state": "Pale-Yellow Solid",
+      "mp": "183-185 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-015",
+      "name": "Dicaffeoyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2,3-bis(((E)-3-(3,4-dihydroxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "70831-56-0",
+      "family": [
+        "Phenols",
+        "Caffeic"
+      ],
+      "smiles": "OC1=CC=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](OC(/C=C/C2=CC=C(O)C(O)=C2)=O)C(O)=O)=O)C=C1O",
+      "mw": 474.37,
+      "logP": null,
+      "state": "Pale-Yellow Solid",
+      "mp": "84-86 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants, Water",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
       "actAntibacterial": true,
+      "actUVFilter": true,
+      "actPolymer": false,
+      "patented": true,
+      "spectraPaths": {},
+      "published": false
+    },
+    {
+      "id": "ABI-016",
+      "name": "Disinapoyl-L-Tartrate",
+      "commonName": null,
+      "iupac": "(2R,3R)-2,3-bis(((E)-3-(4-hydroxy-3,5-dimethoxyphenyl)acryloyl)oxy)succinic acid",
+      "casNumber": "2684316-84-3",
+      "family": [
+        "Phenols",
+        "Sinapic"
+      ],
+      "smiles": "OC1=C(OC)C=C(/C=C/C(O[C@@H](C(O)=O)[C@@H](OC(/C=C/C2=CC(OC)=C(O)C(OC)=C2)=O)C(O)=O)=O)C=C1OC",
+      "mw": 562.48,
+      "logP": null,
+      "state": "Light-Brown Solid",
+      "mp": "104-106 °C",
+      "bp": null,
+      "tg": null,
+      "solubility": "Organic solvants",
+      "purity": null,
+      "storage": "Room Temp.",
+      "availability": "yes",
+      "applications": [
+        "uvprotect",
+        "conservative"
+      ],
+      "nmr": true,
+      "uv": true,
+      "sds": true,
+      "bioData": true,
+      "svgPath": "",
+      "synthesizedBy": "",
+      "dateAdded": "2024-01-15",
+      "notes": "Store at room temperature, protected from light.",
+      "references": [
+        "10.1039/D0GC02763D",
+        "https://patents.google.com/patent/FR3107058B1/"
+      ],
+      "formula": null,
+      "actAntioxidant": true,
+      "actAntibacterial": false,
       "actUVFilter": true,
       "actPolymer": false,
       "patented": true,
