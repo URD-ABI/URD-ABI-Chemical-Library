@@ -395,7 +395,8 @@
   .mol-name { font-size: 0.95rem; font-weight: 700; color: var(--green-dark); margin-bottom: 0.2rem; line-height: 1.3; }
   .mol-iupac { font-size: 0.72rem; color: var(--gray-400); font-style: italic; margin-bottom: 0.6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .mol-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.8rem; }
+  .mol-tags { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.8rem; }
+  .mol-tags-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
   .mol-tag {
     font-size: 0.68rem; font-weight: 600;
     padding: 0.18rem 0.55rem;
@@ -1665,8 +1666,10 @@ function renderGrid() {
         <div class="mol-name">${mol.name}</div>
         <div class="mol-iupac">${mol.iupac}</div>
         <div class="mol-tags">
-          ${(Array.isArray(mol.family) ? mol.family : [mol.family]).map(f => `<span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${f}</span>`).join("")}
-          ${mol.applications.map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}
+          <div class="mol-tags-row">
+            ${(Array.isArray(mol.family) ? mol.family : [mol.family]).map(f => `<span class="mol-tag" style="background:#e8f5e9;color:#2e7d32">${f}</span>`).join("")}
+          </div>
+          ${mol.applications.length > 0 ? `<div class="mol-tags-row">${mol.applications.map(a => `<span class="mol-tag ${a}">${appLabel(a)}</span>`).join('')}</div>` : ''}
         </div>
         <div class="mol-data-row">
           <span class="mol-data-pill"><strong>MW</strong> ${mol.mw} g/mol</span>
