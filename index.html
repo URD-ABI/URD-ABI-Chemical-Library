@@ -930,8 +930,6 @@
         <span class="tag" data-app="greenchem" onclick="toggleAppFilter(this, 'greenchem')">Green Chem.</span>
         <span class="tag" data-app="emollients" onclick="toggleAppFilter(this, 'emollients')">Emollients</span>
         <span class="tag" data-app="materials" onclick="toggleAppFilter(this, 'materials')">Materials</span>
-        <span class="tag" data-app="emollients" onclick="toggleAppFilter(this, 'emollients')">Emollients</span>
-        <span class="tag" data-app="materials" onclick="toggleAppFilter(this, 'materials')">Materials</span>
       </div>
     </div>
 
@@ -1837,6 +1835,7 @@ function openDetailModal(id) {
     { key: 'actAntibacterial',label: 'Antibacterial',     bg: '#e3f2fd', color: '#0277bd' },
     { key: 'actUVFilter',     label: 'UV Filter',         bg: '#fff8e1', color: '#f57f17' },
     { key: 'actPolymer',      label: 'Polymer additive',  bg: '#f3e5f5', color: '#7b1fa2' },
+    { key: 'actEmollient',    label: 'Emollient',         bg: '#fce4ec', color: '#880e4f' },
   ];
   const activeActivities = ACTIVITY_DEFS.filter(a => m[a.key]);
   // References
