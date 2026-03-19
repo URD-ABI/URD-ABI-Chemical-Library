@@ -1295,7 +1295,7 @@
         "Phenols",
         "Furans"
       ],
-      "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=CC2)CC)(C)C",
+      "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=C(C2)C)C)(C)C",
       "mw": 250.25,
       "logP": null,
       "state": "Brown Powder",
