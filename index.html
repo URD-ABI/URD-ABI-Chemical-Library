@@ -183,6 +183,8 @@
   }
   .stat .num { font-size: 1.8rem; font-weight: 800; color: var(--green-light); line-height: 1; }
   .stat .label { font-size: 0.72rem; opacity: 0.7; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  a.stat { transition: transform 0.15s, box-shadow 0.15s; color: inherit; }
+  a.stat:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
 
   /* ===== MAIN LAYOUT ===== */
   .main-layout {
@@ -418,7 +420,7 @@
   .mol-tag.polymeraddit { background: #f3e5f5; color: #7b1fa2; }
   .mol-tag.odors { background: #fce4ec; color: #c2185b; }
   .mol-tag.greenchem { background: #e0f2f1; color: #00695c; }
-  .mol-tag.emollients { background: #fdf2f8; color: #9c27b0; }
+  .mol-tag.emollients { background: #fce4ec; color: #880e4f; }
   .mol-tag.materials  { background: #e8eaf6; color: #283593; }
 
   .mol-data-row {
@@ -876,14 +878,14 @@
         <div class="num" id="statTotal">—</div>
         <div class="label">Molecules</div>
       </div>
-      <div class="stat">
+      <a class="stat" href="https://urd-abi-agroparistech.com/Patents/" target="_blank" style="text-decoration:none;cursor:pointer">
         <div class="num" id="statPatents">17</div>
-        <div class="label">Patents</div>
-      </div>
-      <div class="stat">
+        <div class="label">Patents ↗</div>
+      </a>
+      <a class="stat" href="https://urd-abi-agroparistech.com/Publications/" target="_blank" style="text-decoration:none;cursor:pointer">
         <div class="num" id="statPublications">—</div>
-        <div class="label">Publications</div>
-      </div>
+        <div class="label">Publications ↗</div>
+      </a>
     </div>
   </div>
 </div>
@@ -1050,8 +1052,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Institution / Laboratory *</label>
-          <input type="text" class="form-input" id="institution" placeholder="University of…">
+          <label>Institution / Laboratory / Company *</label>
+          <input type="text" class="form-input" id="institution" placeholder="University, laboratory or company…">
         </div>
         <div class="form-group">
           <label>Email *</label>
@@ -1105,8 +1107,8 @@
           </div>
         </div>
         <div class="form-group">
-          <label>Institution / Laboratory *</label>
-          <input type="text" class="form-input" id="contactInstitution" placeholder="University of…">
+          <label>Institution / Laboratory / Company *</label>
+          <input type="text" class="form-input" id="contactInstitution" placeholder="University, laboratory or company…">
         </div>
         <div class="form-group">
           <label>Email *</label>
