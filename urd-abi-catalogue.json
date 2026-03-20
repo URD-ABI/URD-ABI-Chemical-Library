@@ -1246,7 +1246,6 @@
       "iupac": "5-(furan-2-ylmethylene)-2,2-dimethyl-1,3-dioxane-4,6-dione",
       "casNumber": "15875-49-7",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC=CC2)(C)C",
@@ -1292,7 +1291,6 @@
       "iupac": "5-((4,5-dimethylfuran-2-yl)methylene)-2,2-dimethyl-1,3-dioxane-4,6-dione",
       "casNumber": "145623-60-5",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=C(C2)C)C)(C)C",
@@ -1338,7 +1336,6 @@
       "iupac": "5-((5-ethylfuran-2-yl)methylene)-2,2-dimethyl-1,3-dioxane-4,6-dione",
       "casNumber": "25729-11-7",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=CC2)CC)(C)C",
@@ -1384,7 +1381,6 @@
       "iupac": "5-((5-(hydroxymethyl)furan-2-yl)methylene)-2,2-dimethyl-1,3-dioxane-4,6-dione",
       "casNumber": "257295-22-0",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=CC2)CO)(C)C",
@@ -1430,7 +1426,6 @@
       "iupac": "5-(benzofuran-2-ylmethylene)-2,2-dimethyl-1,3-dioxane-4,6-dione",
       "casNumber": "257295-13-9",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC=3C=CC=CC3C2)(C)C",
@@ -1476,7 +1471,6 @@
       "iupac": "(5-((2,2-dimethyl-4,6-dioxo-1,3-dioxan-5-ylidene)methyl)furan-2-yl)methyl acetate",
       "casNumber": "2445789-27-3",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=CC2)COC(=O)C)(C)C",
@@ -1522,7 +1516,6 @@
       "iupac": "5,5'-(furan-2,5-diylbis(methaneylylidene))bis(2,2-dimethyl-1,3-dioxane-4,6-dione)",
       "casNumber": "109310-96-0",
       "family": [
-        "Phenols",
         "Furans"
       ],
       "smiles": "O=C1OC(OC(=O)C1=CC=2OC(=CC2)C=C3C(=O)OC(OC3=O)(C)C)(C)C",

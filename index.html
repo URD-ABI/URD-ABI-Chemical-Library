@@ -196,7 +196,10 @@
   }
 
   /* ===== SIDEBAR ===== */
-  .sidebar { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 1rem; }
+  .sidebar { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 1rem; max-height: calc(100vh - 108px); overflow-y: auto; padding-right: 0.3rem; scrollbar-width: thin; scrollbar-color: var(--gray-200) transparent; }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 99px; }
   .filter-card {
     background: white;
     border-radius: var(--radius-lg);
@@ -415,14 +418,8 @@
   .mol-tag.polymeraddit { background: #f3e5f5; color: #7b1fa2; }
   .mol-tag.odors { background: #fce4ec; color: #c2185b; }
   .mol-tag.greenchem { background: #e0f2f1; color: #00695c; }
-  .mol-tag.emollients { background: #fce4ec; color: #880e4f; }
+  .mol-tag.emollients { background: #fdf2f8; color: #9c27b0; }
   .mol-tag.materials  { background: #e8eaf6; color: #283593; }
-  .mol-tag.emollients { background: #fce4ec; color: #ad1457; }
-  .mol-tag.materials  { background: #e8eaf6; color: #283593; }
-  .mol-tag.emolients { background: #fce4ec; color: #c2185b; }
-  .mol-tag.materials { background: #e8eaf6; color: #3949ab; }
-  .mol-tag.emollients { background: #fce4ec; color: #c2185b; }
-  .mol-tag.materials  { background: #e8eaf6; color: #3949ab; }
 
   .mol-data-row {
     display: flex; gap: 0.5rem; flex-wrap: wrap;
@@ -762,10 +759,11 @@
     box-shadow: var(--shadow-lg);
     display: flex; align-items: center; gap: 0.6rem;
     z-index: 300;
-    transform: translateY(120%);
+    transform: translateY(calc(100% + 4rem));
     transition: transform 0.3s ease;
+    pointer-events: none;
   }
-  .toast.show { transform: translateY(0); }
+  .toast.show { transform: translateY(0); pointer-events: auto; }
   .toast i { color: var(--green-bright); }
 
   /* ===== FOOTER ===== */
@@ -831,7 +829,7 @@
 <!-- HEADER -->
 <header>
   <div class="header-inner">
-    <a href="#" class="logo-area">
+    <a href="https://urd-abi-agroparistech.com" target="_blank" class="logo-area">
       <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
       <div class="logo-text">
         <span class="lab">URD ABI — AgroParisTech</span>
@@ -848,10 +846,13 @@
     <div class="header-actions">
       <button class="btn-cart" onclick="openOrderModal()">
         <i class="fas fa-flask"></i>
-        Request List
+        Request Quote
         <span class="cart-count" id="cartCount">0</span>
       </button>
-
+      <button class="btn-cart" onclick="openContactModal()" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2)">
+        <i class="fas fa-envelope"></i>
+        Request Contact
+      </button>
     </div>
   </div>
 </header>
@@ -944,12 +945,8 @@
         <label for="chk-uv">UV spectra</label>
       </div>
       <div class="filter-check">
-        <input type="checkbox" id="chk-bio" onchange="filterMolecules()">
-        <label for="chk-bio">Activity data</label>
       </div>
       <div class="filter-check">
-        <input type="checkbox" id="chk-avail" onchange="filterMolecules()">
-        <label for="chk-avail">Available only</label>
       </div>
     </div>
   </aside>
@@ -968,7 +965,7 @@
           <option value="name">Sort: Name</option>
           <option value="mw">Sort: MW ↑</option>
           <option value="mw-desc">Sort: MW ↓</option>
-          <option value="ref">Sort: Reference</option>
+          <option value="ref" selected>Sort: Reference</option>
         </select>
       </div>
     </div>
@@ -1026,7 +1023,7 @@
         <i class="fas fa-plus-circle"></i> Add to request list
       </button>
       <button class="btn-order" onclick="closeDetailAndOrder()">
-        <i class="fas fa-paper-plane"></i> Request this molecule
+        <i class="fas fa-paper-plane"></i> Request a quote
       </button>
     </div>
   </div>
@@ -1036,7 +1033,7 @@
 <div class="modal-overlay" id="orderModal" onclick="closeOrderOnOverlay(event)">
   <div class="order-modal" id="orderModalContent">
     <div class="order-modal-header">
-      <h2><i class="fas fa-paper-plane" style="margin-right:0.5rem"></i>Request Molecules</h2>
+      <h2><i class="fas fa-paper-plane" style="margin-right:0.5rem"></i>Request Quote</h2>
       <button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
     </div>
     <div class="order-modal-body" id="orderModalBody">
@@ -1088,6 +1085,60 @@
 </div>
 
 <!-- TOAST -->
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal" onclick="closeContactOnOverlay(event)">
+  <div class="order-modal" id="contactModalContent">
+    <div class="order-modal-header">
+      <h2><i class="fas fa-envelope" style="margin-right:0.5rem"></i>Request Contact</h2>
+      <button class="modal-close" onclick="closeContactModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="order-modal-body" id="contactModalBody">
+      <div id="contactStep1">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name *</label>
+            <input type="text" class="form-input" id="contactFname" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label>Last name *</label>
+            <input type="text" class="form-input" id="contactLname" placeholder="Doe">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Institution / Laboratory *</label>
+          <input type="text" class="form-input" id="contactInstitution" placeholder="University of…">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" class="form-input" id="contactEmail" placeholder="john.doe@example.com">
+        </div>
+        <div class="form-group">
+          <label>Subject *</label>
+          <input type="text" class="form-input" id="contactSubject" placeholder="e.g. Collaboration, Information request…">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea class="form-input" id="contactMessage" placeholder="Your message…" style="min-height:120px"></textarea>
+        </div>
+        <button class="btn-submit" onclick="submitContact()">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </div>
+      <div id="contactStep2" style="display:none">
+        <div class="success-message">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <h2>Message Sent!</h2>
+          <p>Thank you for reaching out. Our team will get back to you as soon as possible at <strong id="contactConfirmEmail"></strong>.</p>
+          <br>
+          <button class="btn-order" style="max-width:240px;margin:0 auto" onclick="closeContactModal()">
+            <i class="fas fa-flask"></i> Back to catalogue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
 
 <!-- FOOTER -->
@@ -1095,7 +1146,6 @@
   <div class="footer-logo">URD ABI — Chemical Library</div>
   <div class="footer-sub">
     AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle · 
-    <a href="/cdn-cgi/l/email-protection#9efdf1f0eafffdeadeebecfab3fffcf7b0f8ec"><span class="__cf_email__" data-cfemail="2744484953464453675255430a46454e094155">[email&#160;protected]</span></a> · 
     <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
   </div>
 </footer>
@@ -1466,6 +1516,44 @@ let currentMolecule = null;
 let currentPage = 1;
 let perPage = 12;
 
+// ===== CONTACT MODAL =====
+function openContactModal() {
+  document.getElementById('contactStep1').style.display = '';
+  document.getElementById('contactStep2').style.display = 'none';
+  document.getElementById('contactFname').value = '';
+  document.getElementById('contactLname').value = '';
+  document.getElementById('contactInstitution').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactSubject').value = '';
+  document.getElementById('contactMessage').value = '';
+  document.getElementById('contactModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeContactModal() {
+  document.getElementById('contactModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeContactOnOverlay(e) {
+  if (e.target === document.getElementById('contactModal')) closeContactModal();
+}
+
+function submitContact() {
+  const fname = document.getElementById('contactFname').value;
+  const lname = document.getElementById('contactLname').value;
+  const email = document.getElementById('contactEmail').value;
+  const institution = document.getElementById('contactInstitution').value;
+  const subject = document.getElementById('contactSubject').value;
+  if (!fname || !lname || !email || !institution || !subject) {
+    showToast('Please fill in all required fields');
+    return;
+  }
+  document.getElementById('contactConfirmEmail').textContent = email;
+  document.getElementById('contactStep1').style.display = 'none';
+  document.getElementById('contactStep2').style.display = '';
+}
+
 // ===== SPECTRA DOWNLOAD HELPER =====
 async function checkFileExists(event, url) {
   // Let the browser handle the download naturally.
@@ -1607,7 +1695,7 @@ async function loadCatalogue() {
 
   // Generate SVGs — use RDKit if available, else fallback
   molecules = rawMolecules.map(m => ({ ...m, _svg: getSVG(m) }));
-  filteredMolecules = [...molecules];
+  filteredMolecules = [...molecules].sort((a, b) => a.id.localeCompare(b.id));
 
   // Show RDKit status in console
   if (RDKitReady) {
@@ -1752,8 +1840,8 @@ function filterMolecules() {
   const mwMax = parseInt(document.getElementById('mwMax').value);
   const needNmr = document.getElementById('chk-nmr').checked;
   const needUv = document.getElementById('chk-uv').checked;
-  const needBio = document.getElementById('chk-bio').checked;
-  const onlyAvail = document.getElementById('chk-avail').checked;
+  const needBio = false;
+  const onlyAvail = false;
 
   filteredMolecules = molecules.filter(m => {
     const mwVal = parseFloat(m.mw) || 0;
