@@ -1579,7 +1579,6 @@ function submitContact() {
     reply_to:    email,
   })
   .then(() => {
-    document.getElementById('contactConfirmEmail').textContent = email;
     document.getElementById('contactStep1').style.display = 'none';
     document.getElementById('contactStep2').style.display = '';
   })
@@ -2142,7 +2141,6 @@ function submitOrder() {
     reply_to:    email,
   })
   .then(() => {
-    document.getElementById('confirmEmail').textContent = email;
     document.getElementById('orderStep1').style.display = 'none';
     document.getElementById('orderStep2').style.display = '';
     cart = [];
