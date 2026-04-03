@@ -416,7 +416,8 @@
   .mol-tag.food { background: #fff8e1; color: #f57f17; }
   .mol-tag.poly { background: #f3e5f5; color: #7b1fa2; }
   .mol-tag.uvprotect { background: #fff8e1; color: #f57f17; }
-  .mol-tag.conservative { background: #e3f2fd; color: #0277bd; }
+  .mol-tag.antioxidant   { background: #e8f5e9; color: #2e7d32; }
+  .mol-tag.antimicrobial { background: #e3f2fd; color: #0277bd; }
   .mol-tag.polymeraddit { background: #f3e5f5; color: #7b1fa2; }
   .mol-tag.odors { background: #fce4ec; color: #c2185b; }
   .mol-tag.greenchem { background: #e0f2f1; color: #00695c; }
@@ -452,7 +453,8 @@
   .spec-nmr { background: #e3f2fd; color: #0277bd; }
   .spec-uv { background: #f8bbd0; color: #880e4f; }
   .spec-ms { background: #fff3e0; color: #e65100; }
-  .spec-sds { background: #ede7f6; color: #4527a0; }
+  .spec-hplc { background: #e8f5e9; color: #2e7d32; }
+  .spec-sds  { background: #ede7f6; color: #4527a0; }
 
   .btn-detail {
     background: none;
@@ -927,7 +929,8 @@
       <h3><i class="fas fa-bullseye"></i> Activity</h3>
       <div class="filter-tags" id="appFilters">
         <span class="tag" data-app="uvprotect" onclick="toggleAppFilter(this, 'uvprotect')">UV protect.</span>
-        <span class="tag" data-app="conservative" onclick="toggleAppFilter(this, 'conservative')">Conservative</span>
+        <span class="tag" data-app="antioxidant" onclick="toggleAppFilter(this, 'antioxidant')">Antioxidant</span>
+        <span class="tag" data-app="antimicrobial" onclick="toggleAppFilter(this, 'antimicrobial')">Antimicrobial</span>
         <span class="tag" data-app="polymeraddit" onclick="toggleAppFilter(this, 'polymeraddit')">Polymer addit.</span>
         <span class="tag" data-app="odors" onclick="toggleAppFilter(this, 'odors')">Odors</span>
         <span class="tag" data-app="greenchem" onclick="toggleAppFilter(this, 'greenchem')">Green Chem.</span>
@@ -945,6 +948,10 @@
       <div class="filter-check">
         <input type="checkbox" id="chk-uv" onchange="filterMolecules()">
         <label for="chk-uv">UV spectra</label>
+      </div>
+      <div class="filter-check">
+        <input type="checkbox" id="chk-hplc" onchange="filterMolecules()">
+        <label for="chk-hplc">HPLC data</label>
       </div>
       <div class="filter-check">
       </div>
@@ -1767,9 +1774,10 @@ function renderGrid() {
       </div>
       <div class="card-footer">
         <div class="mol-spectra">
-          ${mol.nmr ? '<span class="spectra-badge spec-nmr">NMR</span>' : ''}
-          ${mol.uv ? '<span class="spectra-badge spec-uv">UV</span>' : ''}
-          ${mol.sds ? '<span class="spectra-badge spec-sds">SDS</span>' : ''}
+          ${mol.nmr  ? '<span class="spectra-badge spec-nmr">NMR</span>'   : ''}
+          ${mol.uv   ? '<span class="spectra-badge spec-uv">UV</span>'    : ''}
+          ${mol.hplc ? '<span class="spectra-badge spec-hplc">HPLC</span>': ''}
+          ${mol.sds  ? '<span class="spectra-badge spec-sds">SDS</span>'  : ''}
         </div>
         <button class="btn-detail" onclick="event.stopPropagation(); openDetailModal('${mol.id}')">Details →</button>
       </div>
@@ -1781,7 +1789,7 @@ function renderGrid() {
 
 function appLabel(a) {
   const map = {
-    uvprotect:'UV protect.', conservative:'Conservative',
+    uvprotect:'UV protect.', antioxidant:'Antioxidant', antimicrobial:'Antimicrobial',
     polymeraddit:'Polymer addit.', odors:'Odors', greenchem:'Green Chem.',
     emollients:'Emollients', materials:'Materials'
   };
@@ -1842,6 +1850,7 @@ function filterMolecules() {
   const mwMax = parseInt(document.getElementById('mwMax').value);
   const needNmr = document.getElementById('chk-nmr').checked;
   const needUv = document.getElementById('chk-uv').checked;
+  const needHplc = document.getElementById('chk-hplc').checked;
   const needBio = false;
   const onlyAvail = false;
 
@@ -1855,6 +1864,7 @@ function filterMolecules() {
     if (mwVal < mwMin || mwVal > mwMax) return false;
     if (needNmr && !m.nmr) return false;
     if (needUv && !m.uv) return false;
+    if (needHplc && !m.hplc) return false;
     if (needBio && !m.bioData) return false;
     if (onlyAvail && m.availability !== 'yes') return false;
     if (search && !m.name.toLowerCase().includes(search) &&
@@ -1949,9 +1959,10 @@ function openDetailModal(id) {
 
   // Build spectra list — check file existence then render download links
   const spectraDefs = [
-    { key: 'nmr', type: 'NMR', label: '¹H / ¹³C NMR',           cls: 'spec-nmr' },
-    { key: 'uv',  type: 'UV',  label: 'UV-Vis Spectrum',          cls: 'spec-uv'  },
-    { key: 'sds', type: 'SDS', label: 'Security Data Sheet (SDS)', cls: 'spec-sds' },
+    { key: 'nmr',  type: 'NMR',  label: '¹H / ¹³C NMR',            cls: 'spec-nmr'  },
+    { key: 'uv',   type: 'UV',   label: 'UV-Vis Spectrum',           cls: 'spec-uv'   },
+    { key: 'hplc', type: 'HPLC', label: 'HPLC Data',                 cls: 'spec-hplc' },
+    { key: 'sds',  type: 'SDS',  label: 'Security Data Sheet (SDS)', cls: 'spec-sds'  },
   ];
 
   const availableSpectra = spectraDefs.filter(s => m[s.key]);
