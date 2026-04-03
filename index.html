@@ -7,6 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+<!-- EmailJS — Form submission service -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function(){ emailjs.init({ publicKey: "_yliLyfi3W4ZvOE01" }); })();
+</script>
 <!-- RDKit.js — WebAssembly cheminformatics for molecule rendering -->
 <script src="https://unpkg.com/@rdkit/rdkit/dist/RDKit_minimal.js"></script>
 <style>
@@ -1549,18 +1554,41 @@ function closeContactOnOverlay(e) {
 }
 
 function submitContact() {
-  const fname = document.getElementById('contactFname').value;
-  const lname = document.getElementById('contactLname').value;
-  const email = document.getElementById('contactEmail').value;
+  const fname       = document.getElementById('contactFname').value;
+  const lname       = document.getElementById('contactLname').value;
+  const email       = document.getElementById('contactEmail').value;
   const institution = document.getElementById('contactInstitution').value;
-  const subject = document.getElementById('contactSubject').value;
+  const subject     = document.getElementById('contactSubject').value;
+  const message     = document.getElementById('contactMessage').value;
+
   if (!fname || !lname || !email || !institution || !subject) {
     showToast('Please fill in all required fields');
     return;
   }
-  document.getElementById('contactConfirmEmail').textContent = email;
-  document.getElementById('contactStep1').style.display = 'none';
-  document.getElementById('contactStep2').style.display = '';
+
+  const btn = document.querySelector('#contactStep1 .btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+  emailjs.send('service_iy4i3ir', 'template_contact_evvpxhh', {
+    from_name:   `${fname} ${lname}`,
+    from_email:  email,
+    institution: institution,
+    subject:     subject,
+    message:     message || '(no message)',
+    reply_to:    email,
+  })
+  .then(() => {
+    document.getElementById('contactConfirmEmail').textContent = email;
+    document.getElementById('contactStep1').style.display = 'none';
+    document.getElementById('contactStep2').style.display = '';
+  })
+  .catch(err => {
+    console.error('EmailJS error:', err);
+    showToast('Sending failed — please try again or contact us directly.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+  });
 }
 
 // ===== SPECTRA DOWNLOAD HELPER =====
@@ -2086,16 +2114,46 @@ function closeOrderOnOverlay(e) {
 }
 
 function submitOrder() {
-  const email = document.getElementById('email').value;
-  const fname = document.getElementById('fname').value;
-  const lname = document.getElementById('lname').value;
+  const email       = document.getElementById('email').value;
+  const fname       = document.getElementById('fname').value;
+  const lname       = document.getElementById('lname').value;
+  const institution = document.getElementById('institution').value;
+  const quantity    = document.getElementById('quantity').value;
+  const usecase     = document.getElementById('usecase').value;
+
   if (!email || !fname || !lname) { showToast('Please fill in required fields'); return; }
 
-  document.getElementById('confirmEmail').textContent = email;
-  document.getElementById('orderStep1').style.display = 'none';
-  document.getElementById('orderStep2').style.display = '';
-  cart = [];
-  updateCartCount();
+  const moleculesList = cart.map(c => {
+    const mol = molecules.find(m => m.id === c.id);
+    return mol ? `${mol.id} — ${mol.name} (MW: ${mol.mw} g/mol, CAS: ${mol.casNumber || 'N/A'})` : c.id;
+  }).join('\n');
+
+  const btn = document.querySelector('#orderStep1 .btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+  emailjs.send('service_iy4i3ir', 'template_xo8jydr', {
+    from_name:   `${fname} ${lname}`,
+    from_email:  email,
+    institution: institution,
+    molecules:   moleculesList,
+    quantity:    quantity || 'Not specified',
+    usecase:     usecase  || 'Not specified',
+    reply_to:    email,
+  })
+  .then(() => {
+    document.getElementById('confirmEmail').textContent = email;
+    document.getElementById('orderStep1').style.display = 'none';
+    document.getElementById('orderStep2').style.display = '';
+    cart = [];
+    updateCartCount();
+  })
+  .catch(err => {
+    console.error('EmailJS error:', err);
+    showToast('Sending failed — please try again or contact us directly.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Request';
+  });
 }
 
 // ===== TOAST =====
