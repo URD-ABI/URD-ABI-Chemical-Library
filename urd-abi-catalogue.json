@@ -72,16 +72,19 @@
       "patented": "true → affiche le badge 'Patented' sur la carte. false ou absent → badge masqué.",
       "tg": "Température de transition vitreuse en °C. Ex: \"78°C\" ou null si non applicable.",
       "published": "true → affiche le badge 'Published' sur la carte. false ou absent → badge masqué. Si patented ET published sont tous les deux true, les deux badges s'affichent côte à côte.",
-      "actEmollient": "true/false — Emollient activity"
+      "actEmollient": "true/false — Emollient activity",
+      "hplc": "true/false — HPLC data available as PDF",
+      "actAntimicrobial": "true/false — Antimicrobial activity"
     },
     "application_tags": {
       "uvprotect": "UV protection",
-      "conservative": "Conservative / antimicrobial",
       "polymeraddit": "Polymer additive",
       "odors": "Odors / fragrance",
       "greenchem": "Green chemistry",
       "emollients": "Emollients",
-      "materials": "Materials"
+      "materials": "Materials",
+      "antioxidant": "Antioxidant",
+      "antimicrobial": "Antimicrobial"
     },
     "family_values": [
       "Phenols",
@@ -100,12 +103,13 @@
     ],
     "application_values": [
       "uvprotect",
-      "conservative",
+      "antioxidant",
       "polymeraddit",
       "odors",
       "greenchem",
       "emollients",
-      "materials"
+      "materials",
+      "antimicrobial"
     ]
   },
   "catalogue_metadata": {
@@ -115,8 +119,8 @@
     "contact_email": "kevin.magnien@agroparistech.fr",
     "website": "https://urd-abi-agroparistech.com",
     "catalogue_version": "1.0",
-    "last_updated": "2026-03-13",
-    "total_molecules": 5,
+    "last_updated": "2026-04-01",
+    "total_molecules": 34,
     "patents": 17,
     "publications": 208
   },
@@ -165,7 +169,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-002",
@@ -211,7 +217,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-003",
@@ -236,7 +244,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -258,7 +266,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-004",
@@ -304,7 +314,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-005",
@@ -329,7 +341,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -351,7 +363,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-006",
@@ -376,7 +390,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -398,7 +412,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-007",
@@ -423,7 +439,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -445,7 +461,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-008",
@@ -470,7 +488,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -492,7 +510,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-009",
@@ -517,7 +537,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -539,7 +559,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-010",
@@ -564,7 +586,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -586,7 +608,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-011",
@@ -611,7 +635,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -633,7 +657,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-012",
@@ -658,7 +684,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -680,7 +706,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-013",
@@ -726,7 +754,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-014",
@@ -751,7 +781,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -773,7 +803,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-015",
@@ -798,7 +830,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -820,7 +852,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-016",
@@ -845,7 +879,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -867,7 +901,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": false,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-017",
@@ -912,7 +948,9 @@
       "patented": false,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-018",
@@ -937,7 +975,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -958,7 +996,9 @@
       "patented": false,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-019",
@@ -983,7 +1023,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -1004,7 +1044,9 @@
       "patented": false,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-020",
@@ -1029,7 +1071,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -1050,7 +1092,9 @@
       "patented": false,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-021",
@@ -1096,7 +1140,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-022",
@@ -1121,7 +1167,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -1143,7 +1189,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-023",
@@ -1168,7 +1216,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -1190,7 +1238,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-024",
@@ -1215,7 +1265,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative"
+        "antioxidant"
       ],
       "nmr": true,
       "uv": true,
@@ -1237,7 +1287,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-025",
@@ -1282,7 +1334,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-026",
@@ -1327,7 +1381,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-027",
@@ -1372,7 +1428,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-028",
@@ -1417,7 +1475,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-029",
@@ -1462,7 +1522,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-030",
@@ -1507,7 +1569,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-031",
@@ -1552,7 +1616,9 @@
       "patented": true,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": false
+      "actEmollient": false,
+      "hplc": false,
+      "actAntimicrobial": false
     },
     {
       "id": "ABI-032",
@@ -1577,7 +1643,7 @@
       "availability": "yes",
       "applications": [
         "uvprotect",
-        "conservative",
+        "antioxidant",
         "emollient"
       ],
       "nmr": true,
@@ -1599,7 +1665,9 @@
       "patented": false,
       "spectraPaths": {},
       "published": true,
-      "actEmollient": true
+      "actEmollient": true,
+      "hplc": false,
+      "actAntimicrobial": false
     }
   ]
 }
