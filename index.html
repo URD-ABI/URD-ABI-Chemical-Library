@@ -674,10 +674,13 @@
     background: white;
     border-radius: var(--radius-lg);
     width: 100%; max-width: 560px;
+    max-height: 90vh;
+    display: flex; flex-direction: column;
     box-shadow: 0 30px 80px rgba(0,0,0,0.3);
     animation: slideUp 0.3s ease;
     overflow: hidden;
   }
+  .order-modal-body { padding: 2rem; overflow-y: auto; flex: 1; }
   .order-modal-header {
     background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
     color: white;
@@ -685,7 +688,6 @@
     display: flex; align-items: center; justify-content: space-between;
   }
   .order-modal-header h2 { font-size: 1.2rem; font-weight: 700; }
-  .order-modal-body { padding: 2rem; }
   .form-group { margin-bottom: 1.2rem; }
   .form-group label {
     display: block;
@@ -1540,6 +1542,9 @@ function openContactModal() {
   document.getElementById('contactEmail').value = '';
   document.getElementById('contactSubject').value = '';
   document.getElementById('contactMessage').value = '';
+  // Reset submit button state
+  const btn = document.querySelector('#contactStep1 .btn-submit');
+  if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
   document.getElementById('contactModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2080,6 +2085,9 @@ function openOrderModal() {
   renderCartPreview();
   document.getElementById('orderStep1').style.display = '';
   document.getElementById('orderStep2').style.display = 'none';
+  // Reset submit button state
+  const btn = document.querySelector('#orderStep1 .btn-submit');
+  if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Request'; }
   document.getElementById('orderModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
