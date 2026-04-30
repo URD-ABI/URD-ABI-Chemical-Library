@@ -117,36 +117,14 @@
   }
   .subsection-title h3 { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
 
-  /* ── EDITABLE ZONE ── */
-  .editable {
-    background: var(--gray-100);
-    border: 1.5px dashed var(--gray-200);
-    border-radius: 8px;
-    padding: 1.2rem 1.4rem;
-    font-size: 0.9rem; line-height: 1.75;
+  /* ── TEXT ZONE ── */
+  .text-zone {
+    font-size: 0.9rem; line-height: 1.8;
     color: var(--gray-600);
-    min-height: 80px;
-    transition: border-color 0.2s, background 0.2s;
-    outline: none;
-    cursor: text;
   }
-  .editable:focus {
-    border-color: var(--green-bright);
-    background: white;
-    color: var(--gray-800);
-  }
-  .editable:empty::before {
-    content: attr(data-placeholder);
-    color: var(--gray-400);
-    font-style: italic;
-    pointer-events: none;
-  }
-  .editable-hint {
-    font-size: 0.72rem; color: var(--gray-400);
-    margin-top: 0.4rem;
-    display: flex; align-items: center; gap: 0.3rem;
-  }
-  .editable-hint::before { content: "✏️"; }
+  .text-zone p { margin-bottom: 0.8rem; }
+  .text-zone p:last-child { margin-bottom: 0; }
+  .text-zone a { color: var(--green-mid); }
 
   .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1.5rem 0; }
 
@@ -225,8 +203,17 @@
           <span class="subsection-num">1.1</span>
           <h3>Éditeur du site</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez ici les informations de l'éditeur du site : raison sociale, adresse, téléphone, email, numéro SIRET, etc."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Ce site est édité par AgroParisTech Innovation S.A.S., pour le compte du laboratoire URD ABI.
+            Siège social : 22 place de l'Agronomie, 91120 Palaiseau
+            Adresse du laboratoire : CEBB, 3 rue des Rouges Terres, 51110 Pomacle
+            SIRET : 944 581 586 00012
+            Contact : matthieu.mention@agroparistech.fr / +33 (0) 3 52 62 04 63]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -237,8 +224,13 @@
           <span class="subsection-num">1.2</span>
           <h3>Directeur de la publication</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez le nom et la qualité du directeur de la publication."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Pr. Florent Allais ]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -249,8 +241,13 @@
           <span class="subsection-num">1.3</span>
           <h3>Hébergeur du site</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez les informations de l'hébergeur : nom, adresse, contact. Ex : GitHub Pages — GitHub, Inc., 88 Colin P Kelly Jr Street, San Francisco, CA 94107, États-Unis."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Ce site est hébergé par GitHub, Inc. (88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis) ]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -261,8 +258,13 @@
           <span class="subsection-num">1.4</span>
           <h3>Propriété intellectuelle</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez les informations relatives à la propriété intellectuelle : droits sur le contenu, les images, les données, les structures moléculaires, etc."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ L'ensemble des contenus (textes, images, structures moléculaires) est la propriété exclusive d'AgroParisTech Innovation S.A.S. / URD ABI. Toute reproduction est interdite sans accord préalable. ]</p>
+        </div>
       </div>
 
     </div>
@@ -280,8 +282,13 @@
           <span class="subsection-num">2.1</span>
           <h3>Finalité du traitement</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Décrivez la finalité du traitement des données collectées via les formulaires : demande de devis, prise de contact, relation commerciale ou scientifique, etc."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Les données collectées via le formulaire servent uniquement à répondre à vos demandes de devis ou d'information. ]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -292,8 +299,13 @@
           <span class="subsection-num">2.2</span>
           <h3>Conservation</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez la durée de conservation des données personnelles collectées."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Les données sont conservées pendant 3 ans maximum après le dernier contact. ]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -304,8 +316,13 @@
           <span class="subsection-num">2.3</span>
           <h3>Destinataire et sous-traitance</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez les destinataires des données (équipe URD ABI, prestataires techniques comme EmailJS, GitHub, etc.) et les éventuels sous-traitants."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Les données sont destinées à l'équipe de l'URD ABI. Le service EmailJS intervient comme sous-traitant technique pour l'envoi des messages. ]</p>
+        </div>
       </div>
 
       <hr class="divider">
@@ -316,8 +333,13 @@
           <span class="subsection-num">2.4</span>
           <h3>Vos droits</h3>
         </div>
-        <div class="editable" contenteditable="true" data-placeholder="Indiquez les droits des personnes concernées : droit d'accès, de rectification, d'effacement, de limitation, d'opposition, de portabilité. Précisez le contact pour exercer ces droits et le droit de réclamation auprès de la CNIL."></div>
-        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>[ Vous disposez d'un droit d'accès, de rectification et de suppression de vos données en écrivant à : matthieu.mention@agroparistech.fr ]</p>
+        </div>
       </div>
 
     </div>
