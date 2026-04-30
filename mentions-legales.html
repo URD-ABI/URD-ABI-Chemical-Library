@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentions Légales & Confidentialité — URD ABI Chemical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #1a4a2e;
+    --green-mid:    #2d7a4f;
+    --green-bright: #3db872;
+    --green-light:  #a8e6c1;
+    --green-pale:   #e8f7ef;
+    --gray-100:     #f0f4f2;
+    --gray-200:     #d9e4de;
+    --gray-400:     #8aa898;
+    --gray-600:     #4a6358;
+    --gray-800:     #1e2e27;
+    --white:        #ffffff;
+    --off-white:    #f8fdfb;
+    --font-main:    'Outfit', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+    --radius:       12px;
+    --shadow:       0 4px 20px rgba(26,74,46,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-main); background: var(--off-white); color: var(--gray-800); }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-dark);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-area {
+    display: flex; align-items: center; gap: 0.8rem;
+    text-decoration: none;
+  }
+  .logo-badge {
+    height: 42px; width: auto; object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  .logo-text span { display: block; }
+  .logo-text .lab   { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); opacity: 0.8; }
+  .logo-text .title { font-size: 1rem; font-weight: 700; color: white; }
+  .back-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: white;
+    padding: 0.45rem 1rem; font-family: var(--font-main);
+    font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white; padding: 3rem 2rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .hero h1 span { color: var(--green-light); }
+  .hero p { font-size: 0.95rem; opacity: 0.75; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 3rem; align-items: start; }
+
+  /* ── TOC SIDEBAR ── */
+  .toc { position: sticky; top: 88px; }
+  .toc-card { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 1.4rem; box-shadow: var(--shadow); }
+  .toc-card h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 1rem; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .toc-list a { text-decoration: none; font-size: 0.84rem; color: var(--gray-600); display: block; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.15s; border-left: 2px solid transparent; }
+  .toc-list a:hover { background: var(--green-pale); color: var(--green-dark); border-left-color: var(--green-bright); }
+  .toc-list a.sub { padding-left: 1.2rem; font-size: 0.8rem; }
+
+  /* ── CONTENT ── */
+  .content { min-width: 0; }
+  .section-block { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 2.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .section-number {
+    background: var(--green-dark); color: white;
+    font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.25rem; font-weight: 800; color: var(--green-dark); }
+
+  .subsection { margin-bottom: 2rem; }
+  .subsection:last-child { margin-bottom: 0; }
+
+  .subsection-title {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .subsection-num {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--green-mid); background: var(--green-pale);
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .subsection-title h3 { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+
+  /* ── EDITABLE ZONE ── */
+  .editable {
+    background: var(--gray-100);
+    border: 1.5px dashed var(--gray-200);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    font-size: 0.9rem; line-height: 1.75;
+    color: var(--gray-600);
+    min-height: 80px;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+    cursor: text;
+  }
+  .editable:focus {
+    border-color: var(--green-bright);
+    background: white;
+    color: var(--gray-800);
+  }
+  .editable:empty::before {
+    content: attr(data-placeholder);
+    color: var(--gray-400);
+    font-style: italic;
+    pointer-events: none;
+  }
+  .editable-hint {
+    font-size: 0.72rem; color: var(--gray-400);
+    margin-top: 0.4rem;
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .editable-hint::before { content: "✏️"; }
+
+  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1.5rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.7);
+    padding: 2.5rem; text-align: center; margin-top: 3rem;
+  }
+  footer .footer-logo { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+  footer .footer-sub { font-size: 0.82rem; }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .footer-copy { font-size: 0.78rem; margin-top: 0.6rem; opacity: 0.6; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-area">
+      <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
+      <div class="logo-text">
+        <span class="lab">URD ABI — AgroParisTech</span>
+        <span class="title">Chemical Library</span>
+      </div>
+    </a>
+    <a href="index.html" class="back-btn">← Retour au catalogue</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Mentions légales & <span>Confidentialité</span></h1>
+    <p>Informations légales relatives au site URD ABI Chemical Library</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-card">
+      <h3>Sommaire</h3>
+      <ul class="toc-list">
+        <li><a href="#mentions-legales">1. Mentions légales</a></li>
+        <li><a href="#editeur" class="sub">1.1 Éditeur du site</a></li>
+        <li><a href="#directeur" class="sub">1.2 Directeur de la publication</a></li>
+        <li><a href="#hebergeur" class="sub">1.3 Hébergeur du site</a></li>
+        <li><a href="#propriete" class="sub">1.4 Propriété intellectuelle</a></li>
+        <li><a href="#confidentialite" style="margin-top:0.5rem;display:block">2. Confidentialité</a></li>
+        <li><a href="#finalite" class="sub">2.1 Finalité du traitement</a></li>
+        <li><a href="#conservation" class="sub">2.2 Conservation</a></li>
+        <li><a href="#destinataire" class="sub">2.3 Destinataire & sous-traitance</a></li>
+        <li><a href="#droits" class="sub">2.4 Vos droits</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SECTION 1 -->
+    <div class="section-block" id="mentions-legales">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Mentions légales</h2>
+      </div>
+
+      <!-- 1.1 -->
+      <div class="subsection" id="editeur">
+        <div class="subsection-title">
+          <span class="subsection-num">1.1</span>
+          <h3>Éditeur du site</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez ici les informations de l'éditeur du site : raison sociale, adresse, téléphone, email, numéro SIRET, etc."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 1.2 -->
+      <div class="subsection" id="directeur">
+        <div class="subsection-title">
+          <span class="subsection-num">1.2</span>
+          <h3>Directeur de la publication</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez le nom et la qualité du directeur de la publication."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 1.3 -->
+      <div class="subsection" id="hebergeur">
+        <div class="subsection-title">
+          <span class="subsection-num">1.3</span>
+          <h3>Hébergeur du site</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez les informations de l'hébergeur : nom, adresse, contact. Ex : GitHub Pages — GitHub, Inc., 88 Colin P Kelly Jr Street, San Francisco, CA 94107, États-Unis."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 1.4 -->
+      <div class="subsection" id="propriete">
+        <div class="subsection-title">
+          <span class="subsection-num">1.4</span>
+          <h3>Propriété intellectuelle</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez les informations relatives à la propriété intellectuelle : droits sur le contenu, les images, les données, les structures moléculaires, etc."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-block" id="confidentialite">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Confidentialité et protection des données</h2>
+      </div>
+
+      <!-- 2.1 -->
+      <div class="subsection" id="finalite">
+        <div class="subsection-title">
+          <span class="subsection-num">2.1</span>
+          <h3>Finalité du traitement</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Décrivez la finalité du traitement des données collectées via les formulaires : demande de devis, prise de contact, relation commerciale ou scientifique, etc."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.2 -->
+      <div class="subsection" id="conservation">
+        <div class="subsection-title">
+          <span class="subsection-num">2.2</span>
+          <h3>Conservation</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez la durée de conservation des données personnelles collectées."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.3 -->
+      <div class="subsection" id="destinataire">
+        <div class="subsection-title">
+          <span class="subsection-num">2.3</span>
+          <h3>Destinataire et sous-traitance</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez les destinataires des données (équipe URD ABI, prestataires techniques comme EmailJS, GitHub, etc.) et les éventuels sous-traitants."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.4 -->
+      <div class="subsection" id="droits">
+        <div class="subsection-title">
+          <span class="subsection-num">2.4</span>
+          <h3>Vos droits</h3>
+        </div>
+        <div class="editable" contenteditable="true" data-placeholder="Indiquez les droits des personnes concernées : droit d'accès, de rectification, d'effacement, de limitation, d'opposition, de portabilité. Précisez le contact pour exercer ces droits et le droit de réclamation auprès de la CNIL."></div>
+        <p class="editable-hint">Cliquez pour modifier ce texte</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">URD ABI — Chemical Library</div>
+  <div class="footer-sub">
+    AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle ·
+    <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+  <div class="footer-copy">© 2026 URD ABI - AgroParisTech Innovation. Tous droits réservés.</div>
+</footer>
+
+</body>
+</html>

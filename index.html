@@ -427,6 +427,7 @@
   .mol-tag.odors { background: #fce4ec; color: #c2185b; }
   .mol-tag.greenchem { background: #e0f2f1; color: #00695c; }
   .mol-tag.emollients { background: #fce4ec; color: #880e4f; }
+  .mol-tag.emollient  { background: #fce4ec; color: #880e4f; }
   .mol-tag.materials  { background: #e8eaf6; color: #283593; }
 
   .mol-data-row {
@@ -726,6 +727,16 @@
   .cart-item-qty { font-family: var(--font-mono); color: var(--gray-600); }
   .remove-item { background: none; border: none; color: var(--coral); cursor: pointer; font-size: 0.8rem; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .rgpd-check {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    background: var(--gray-100); border-radius: 8px;
+    padding: 0.9rem 1rem; margin-bottom: 1rem;
+    border: 1.5px solid var(--gray-200);
+    transition: border-color 0.15s;
+  }
+  .rgpd-check.error { border-color: #e53935; background: #fff5f5; }
+  .rgpd-check input[type="checkbox"] { accent-color: var(--green-bright); width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0; }
+  .rgpd-check label { font-size: 0.8rem; color: var(--gray-600); line-height: 1.5; cursor: pointer; }
   .btn-submit {
     width: 100%;
     background: linear-gradient(135deg, var(--green-bright), var(--teal));
@@ -880,7 +891,7 @@
   <div class="hero-inner">
     <div class="hero-text">
       <h1>URD ABI <span>Chemical Library</span></h1>
-      <p>Explore our catalogue of bio-based molecules synthesized from agro-resources. Browse structures, physicochemical data, and biological activities — then request a quote for the compounds you need. Or contact us for custom molecules.</p>
+      <p>Explore our catalogue of bio-based molecules synthesized from agro-resources. Browse structures, physicochemical data, and biological activities — then request the compounds you need.</p>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -1081,6 +1092,10 @@
           <label>Desired quantity (each)</label>
           <input type="text" class="form-input" id="quantity" placeholder="e.g. 10 mg, 100 mg…">
         </div>
+        <div class="rgpd-check" id="rgpdOrderCheck">
+          <input type="checkbox" id="rgpdOrder">
+          <label for="rgpdOrder">En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées par l'URD ABI dans le cadre de ma demande de contact et de la relation commerciale ou scientifique qui peut en découler.</label>
+        </div>
         <button class="btn-submit" onclick="submitOrder()">
           <i class="fas fa-paper-plane"></i> Send Request
         </button>
@@ -1136,6 +1151,10 @@
           <label>Message</label>
           <textarea class="form-input" id="contactMessage" placeholder="Your message…" style="min-height:120px"></textarea>
         </div>
+        <div class="rgpd-check" id="rgpdContactCheck">
+          <input type="checkbox" id="rgpdContact">
+          <label for="rgpdContact">En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées par l'URD ABI dans le cadre de ma demande de contact et de la relation commerciale ou scientifique qui peut en découler.</label>
+        </div>
         <button class="btn-submit" onclick="submitContact()">
           <i class="fas fa-paper-plane"></i> Send Message
         </button>
@@ -1163,6 +1182,10 @@
   <div class="footer-sub">
     AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle · 
     <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+  <div class="footer-sub" style="margin-top:0.5rem;font-size:0.78rem;opacity:0.65">
+    © 2026 URD ABI - AgroParisTech Innovation. Tous droits réservés. 
+    <a href="mentions-legales.html" style="color:var(--green-light)">Mentions légales</a>
   </div>
 </footer>
 
@@ -1542,9 +1565,11 @@ function openContactModal() {
   document.getElementById('contactEmail').value = '';
   document.getElementById('contactSubject').value = '';
   document.getElementById('contactMessage').value = '';
-  // Reset submit button state
+  // Reset submit button and RGPD checkbox
   const btn = document.querySelector('#contactStep1 .btn-submit');
   if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; }
+  const rgpd = document.getElementById('rgpdContact');
+  if (rgpd) { rgpd.checked = false; document.getElementById('rgpdContactCheck').classList.remove('error'); }
   document.getElementById('contactModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1570,6 +1595,12 @@ function submitContact() {
     showToast('Please fill in all required fields');
     return;
   }
+  if (!document.getElementById('rgpdContact').checked) {
+    document.getElementById('rgpdContactCheck').classList.add('error');
+    showToast('Please accept the data usage terms before submitting.');
+    return;
+  }
+  document.getElementById('rgpdContactCheck').classList.remove('error');
 
   const btn = document.querySelector('#contactStep1 .btn-submit');
   btn.disabled = true;
@@ -1823,7 +1854,7 @@ function appLabel(a) {
   const map = {
     uvprotect:'UV protect.', antioxidant:'Antioxidant', antimicrobial:'Antimicrobial',
     polymeraddit:'Polymer addit.', odors:'Odors', greenchem:'Green Chem.',
-    emollients:'Emollients', materials:'Materials'
+    emollients:'Emollients', emollient:'Emollient', materials:'Materials'
   };
   return map[a] || a;
 }
@@ -1892,7 +1923,11 @@ function filterMolecules() {
       const mFamilies = Array.isArray(m.family) ? m.family : [m.family];
       if (!mFamilies.includes(currentFamily)) return false;
     }
-    if (activeApps.size > 0 && !m.applications.some(a => activeApps.has(a))) return false;
+    if (activeApps.size > 0) {
+      const normalize = a => a.replace(/emollient$/, 'emollients');
+      const appNorm = m.applications.map(normalize);
+      if (![...activeApps].some(a => appNorm.includes(normalize(a)))) return false;
+    }
     if (mwVal < mwMin || mwVal > mwMax) return false;
     if (needNmr && !m.nmr) return false;
     if (needUv && !m.uv) return false;
@@ -2085,9 +2120,11 @@ function openOrderModal() {
   renderCartPreview();
   document.getElementById('orderStep1').style.display = '';
   document.getElementById('orderStep2').style.display = 'none';
-  // Reset submit button state
+  // Reset submit button and RGPD checkbox
   const btn = document.querySelector('#orderStep1 .btn-submit');
   if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Request'; }
+  const rgpd = document.getElementById('rgpdOrder');
+  if (rgpd) { rgpd.checked = false; document.getElementById('rgpdOrderCheck').classList.remove('error'); }
   document.getElementById('orderModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2129,6 +2166,12 @@ function submitOrder() {
   const usecase     = document.getElementById('usecase').value;
 
   if (!email || !fname || !lname) { showToast('Please fill in required fields'); return; }
+  if (!document.getElementById('rgpdOrder').checked) {
+    document.getElementById('rgpdOrderCheck').classList.add('error');
+    showToast('Please accept the data usage terms before submitting.');
+    return;
+  }
+  document.getElementById('rgpdOrderCheck').classList.remove('error');
 
   const moleculesList = cart.map(c => {
     const mol = molecules.find(m => m.id === c.id);
