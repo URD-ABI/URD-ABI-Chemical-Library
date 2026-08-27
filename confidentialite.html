@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de confidentialité — URD ABI Chemical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #1a4a2e;
+    --green-mid:    #2d7a4f;
+    --green-bright: #3db872;
+    --green-light:  #a8e6c1;
+    --green-pale:   #e8f7ef;
+    --gray-100:     #f0f4f2;
+    --gray-200:     #d9e4de;
+    --gray-400:     #8aa898;
+    --gray-600:     #4a6358;
+    --gray-800:     #1e2e27;
+    --white:        #ffffff;
+    --off-white:    #f8fdfb;
+    --font-main:    'Outfit', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+    --radius:       12px;
+    --shadow:       0 4px 20px rgba(26,74,46,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-main); background: var(--off-white); color: var(--gray-800); }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-dark);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-area {
+    display: flex; align-items: center; gap: 0.8rem;
+    text-decoration: none;
+  }
+  .logo-badge {
+    height: 42px; width: auto; object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  .logo-text span { display: block; }
+  .logo-text .lab   { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); opacity: 0.8; }
+  .logo-text .title { font-size: 1rem; font-weight: 700; color: white; }
+  .back-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: white;
+    padding: 0.45rem 1rem; font-family: var(--font-main);
+    font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white; padding: 3rem 2rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .hero h1 span { color: var(--green-light); }
+  .hero p { font-size: 0.95rem; opacity: 0.75; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 3rem; align-items: start; }
+
+  /* ── TOC SIDEBAR ── */
+  .toc { position: sticky; top: 88px; }
+  .toc-card { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 1.4rem; box-shadow: var(--shadow); }
+  .toc-card h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 1rem; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .toc-list a { text-decoration: none; font-size: 0.84rem; color: var(--gray-600); display: block; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.15s; border-left: 2px solid transparent; }
+  .toc-list a:hover { background: var(--green-pale); color: var(--green-dark); border-left-color: var(--green-bright); }
+  .toc-list a.sub { padding-left: 1.2rem; font-size: 0.8rem; }
+
+  /* ── CONTENT ── */
+  .content { min-width: 0; }
+  .section-block { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 2.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .section-number {
+    background: var(--green-dark); color: white;
+    font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.25rem; font-weight: 800; color: var(--green-dark); }
+
+  .subsection { margin-bottom: 2rem; }
+  .subsection:last-child { margin-bottom: 0; }
+
+  .subsection-title {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .subsection-num {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--green-mid); background: var(--green-pale);
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .subsection-title h3 { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+
+  /* ── TEXT ZONE ── */
+  .text-zone {
+    font-size: 0.9rem; line-height: 1.5;
+    color: var(--gray-600);
+  }
+  .text-zone p { margin-bottom: 0.8rem; }
+  .text-zone p:last-child { margin-bottom: 0; }
+  .text-zone a { color: var(--green-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1.5rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.7);
+    padding: 2.5rem; text-align: center; margin-top: 3rem;
+  }
+  footer .footer-logo { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+  footer .footer-sub { font-size: 0.82rem; }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .footer-copy { font-size: 0.78rem; margin-top: 0.6rem; opacity: 0.6; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-area">
+      <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
+      <div class="logo-text">
+        <span class="lab">URD ABI — AgroParisTech</span>
+        <span class="title">Chemical Library</span>
+      </div>
+    </a>
+    <a href="index.html" class="back-btn">← Retour au catalogue</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Politique de <span>Confidentialité</span></h1>
+    <p>Catalogue de molécules de l'Unité de Recherche et Développement Agro-Biotechnologies Industrielles (ABI)</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-card">
+      <h3>Sommaire</h3>
+      <ul class="toc-list">
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#responsable">1. Responsable de traitement</a></li>
+        <li><a href="#activites">2. Activités de traitement</a></li>
+        <li><a href="#commande" class="sub">2.1 Commande et facturation</a></li>
+        <li><a href="#formulaire" class="sub">2.2 Formulaire de contact</a></li>
+        <li><a href="#cookies" class="sub">2.3 Cookies</a></li>
+        <li><a href="#transfert">3. Transfert de données hors de l'Union européenne</a></li>
+        <li><a href="#droits">4. Vos droits</a></li>
+        <li><a href="#securite">5. Sécurité des données</a></li>
+        <li><a href="#modifications">6. Modifications de la politique de confidentialité</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SECTION Intro -->
+    <div class="section-block" id="introduction">
+      <div class="section-header">
+        <h2>Introduction</h2>
+      </div>
+      <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p><b>Dernière mise à jour :</b> 27/08/2026.<br><br>
+L'URD ABI fait de votre confidentialité et de la protection de vos données personnelles une priorité.<br><br>
+La présente politique de confidentialité a pour objet d'expliquer comment et pourquoi nous collectons et traitons vos données personnelles. Elle s'adresse à l'ensemble des utilisateurs du site, fournisseurs, acheteurs, vendeurs, personnes de contact et autres personnes concernées. Elle désigne également AgroParisTech Innovation en tant que responsable du traitement. <br><br>
+Les « données personnelles » désignent toute information relative à une personne physique identifiée ou identifiable, par des moyens directs ou indirects. <br><br>
+Nous ne collectons que les données strictement nécessaires à la gestion de la commande, à la relation client. Seuls les cookies indispensables au fonctionnement du site sont déposés sans votre accord. <br><br>
+Vos données restent hébergées au sein de l'Union européenne ; tout transfert hors de l’Union européenne fait l'objet de garanties spécifiques, notamment en cas d’acheteurs hors de l’Espace économique européen.<br><br> 
+Vous disposez des droits d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité, que vous pouvez exercer auprès de notre DPO. Nous mettons en œuvre des mesures techniques et organisationnelles proportionnées pour protéger vos données. <br><br>
+Cette politique peut évoluer ; la date de la dernière mise à jour, indiquée en tête de document, fait foi.
+</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-block" id="responsable">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Les responsables de traitement</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>AgroParisTech Innovation (« APTI »), situé 22 Place de l’Agronomie 94440 - Palaiseau, est le responsable du traitement des données à caractère personnel collectées via ce site. Vous pouvez contacter notre Délégué à la Protection des Données (« DPO ») à l'adresse <b>clara.laforet@agroparistech.fr</b>. </p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-block" id="activites">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Activités de traitement</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Nous traitons vos données personnelles dans diverses situations que nous décrivons dans cette section, pour chaque usage de vos données, la finalité poursuivie, la base légale retenue, les données concernées, les destinataires et la durée de conservation.</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.1 -->
+      <div class="subsection" id="commande">
+        <div class="subsection-title">
+          <span class="subsection-num">2.1</span>
+          <h3>Commande et facturation</h3>
+        </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>L’URD ABI traite vos données personnelles pour la gestion administrative des demandes de commandes et des tâches associées, à la fois en ligne et hors ligne. <br><br>
+
+La finalité est de traiter, livrer et facturer votre demande de commande de produit(s).<br><br>
+
+La base légale est l’exécution du contrat.<br><br>
+
+Les données personnelles concernées par ce traitement incluent : 
+<ul style="margin-left: 0.5rem; padding-left: 1.5rem; list-style-position: inside;">
+  <li><b>Identité</b> : prénom, nom, âge, date de naissance </li>
+  <li><b>Coordonnées professionnelles</b> : Kbis</li>
+  <li><b>Adresse de livraison/facturation</b></li>
+  <li><b>Données de paiement</b> : coordonnées bancaires</li>
+</ul>
+<br>
+Les destinataires de ces données personnelles sont les services internes de l’URD ABI, les transporteurs, les prestataires de facturations.
+
+La durée de conservation de ces données personnelles est de 10 ans à compter de l'émission de la facture (obligation légale de conservation comptable). 
+</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.2 -->
+      <div class="subsection" id="formulaire">
+        <div class="subsection-title">
+          <span class="subsection-num">2.2</span>
+          <h3>Formulaire de contact</h3>
+        </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>Pour répondre au mieux à vos demandes d'information, des données personnelles peuvent être traitées et collectées. 
+<br><br>
+La base légale du traitement est l’intérêt légitime à traiter les demandes qui nous sont adressées. 
+<br>
+Les données personnelles concernées par ce traitement incluent : 
+<ul style="margin-left: 0.5rem; padding-left: 1.5rem; list-style-position: inside;">
+  <li><b>Identité</b> : prénom, nom, âge, date de naissance </li>
+  <li><b>Coordonnées professionnelles</b> : Kbis</li>
+  <li><b>Contenu du message</b> : informations personnelles de la personne physique. </li>
+</ul>
+<br>
+Les destinataires de ces données personnelles sont les services internes de l’URD ABI. 
+
+La durée de conservation est de 12 mois à compter du dernier échange. 
+</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 2.3 -->
+      <div class="subsection" id="cookies">
+        <div class="subsection-title">
+          <span class="subsection-num">2.3</span>
+          <h3>Cookies</h3>
+        </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>Les cookies strictement nécessaires au fonctionnement du site (panier, session de connexion, sécurité) ne sont soumis à aucun consentement préalable, conformément aux recommandations de la CNIL. La base légale est l’intérêt légitime pour les cookies strictement nécessaires. Sont strictement nécessaires les cookies pour le fonctionnement technique du site, la sécurité du site (protection contre la fraude, répartition de charge - load balancing). </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-block" id="transfert">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2>Transferts de données hors de l'Union européenne</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Lorsqu'un de nos acheteurs est situé hors de l'Espace économique européen, le transfert de données est encadré par les clauses contractuelles types de la Commission européenne ou tout autre mécanisme reconnu par le RGPD comme offrant un niveau de protection adéquat.</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-block" id="droits">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2>Vos droits</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Conformément au Règlement (UE) 2016/679 (RGPD) et à la loi Informatique et Libertés modifiée, vous disposez des droits suivants sur vos données personnelles :
+<ul style="margin-left: 0.5rem; padding-left: 1.5rem; list-style-position: inside;">
+<li>droit d'accès et de rectification ;</li>  
+<li>droit à l'effacement, dans les limites prévues par la réglementation (notamment lorsque la conservation résulte d'une obligation légale, par exemple comptable) ;</li>
+<li>droit à la limitation du traitement ;</li>
+<li>droit d'opposition, notamment pour les traitements fondés sur l'intérêt légitime ;</li>
+<li>droit à la portabilité des données que vous nous avez fournies ;</li>
+<li>droit de retirer votre consentement à tout moment, pour les traitements qui reposent sur celui-ci (, cookies non essentiels), sans remettre en cause la licéité des traitements effectués avant ce retrait.</li></ul>
+<br>
+Vous pouvez exercer ces droits auprès de notre DPO à l'adresse <b>clara.laforet@agroparistech.fr</b> ; Une réponse vous sera apportée dans un délai d'un (1) mois, éventuellement prolongé de deux mois pour les demandes complexes. Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL (3 Place de Fontenoy, 75007 Paris — www.cnil.fr).
+</p>
+      </div>
+
+    </div>
+  
+    <!-- SECTION 5 -->
+    <div class="section-block" id="securite">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2>Sécurité des données</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Nous mettons en œuvre les mesures de sécurité technique et organisationnelle appropriées pour protéger vos données contre toute perte, accès non autorisé, divulgation ou altération.</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section-block" id="modifications">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2>Modifications de la politique de confidentialité</h2>
+      </div>
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Nous pouvons être amenés à modifier la présente politique, notamment en cas d'évolution du site, de nouveaux traitements ou d'évolution réglementaire. La version applicable est celle publiée sur le site à la date de votre visite, identifiée par sa date de mise à jour.</p>
+      </div>
+
+      
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">URD ABI — Chemical Library</div>
+  <div class="footer-sub">
+    AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle ·
+    <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+  <div class="footer-copy">© 2026 URD ABI - AgroParisTech Innovation S.A.S.. Tous droits réservés.</div>
+  <div class="footer-sub" style="margin-top:0.5rem;font-size:0.78rem;opacity:0.65">
+    <a href="mentions-legales.html" style="color:var(--green-light)">Mentions légales</a> - 
+    <a href="confidentialite.html" style="color:var(--green-light)">Confidentialité</a> - 
+    <a href="mentions-legales.html" style="color:var(--green-light)">CGU</a> - 
+    <a href="mentions-legales.html" style="color:var(--green-light)">CGV</a>
+  </div>
+</footer>
+
+</body>
+</html>
