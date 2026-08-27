@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditions Générales d'Utilisation — URD ABI Chemical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #1a4a2e;
+    --green-mid:    #2d7a4f;
+    --green-bright: #3db872;
+    --green-light:  #a8e6c1;
+    --green-pale:   #e8f7ef;
+    --gray-100:     #f0f4f2;
+    --gray-200:     #d9e4de;
+    --gray-400:     #8aa898;
+    --gray-600:     #4a6358;
+    --gray-800:     #1e2e27;
+    --white:        #ffffff;
+    --off-white:    #f8fdfb;
+    --font-main:    'Outfit', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+    --radius:       12px;
+    --shadow:       0 4px 20px rgba(26,74,46,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-main); background: var(--off-white); color: var(--gray-800); }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-dark);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-area {
+    display: flex; align-items: center; gap: 0.8rem;
+    text-decoration: none;
+  }
+  .logo-badge {
+    height: 42px; width: auto; object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  .logo-text span { display: block; }
+  .logo-text .lab   { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); opacity: 0.8; }
+  .logo-text .title { font-size: 1rem; font-weight: 700; color: white; }
+  .back-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: white;
+    padding: 0.45rem 1rem; font-family: var(--font-main);
+    font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white; padding: 3rem 2rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .hero h1 span { color: var(--green-light); }
+  .hero p { font-size: 0.95rem; opacity: 0.75; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 3rem; align-items: start; }
+
+  /* ── TOC SIDEBAR ── */
+  .toc { position: sticky; top: 88px; }
+  .toc-card { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 1.4rem; box-shadow: var(--shadow); }
+  .toc-card h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 1rem; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .toc-list a { text-decoration: none; font-size: 0.84rem; color: var(--gray-600); display: block; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.15s; border-left: 2px solid transparent; }
+  .toc-list a:hover { background: var(--green-pale); color: var(--green-dark); border-left-color: var(--green-bright); }
+  .toc-list a.sub { padding-left: 1.2rem; font-size: 0.8rem; }
+
+  /* ── CONTENT ── */
+  .content { min-width: 0; }
+  .section-block { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 2.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .section-number {
+    background: var(--green-dark); color: white;
+    font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.25rem; font-weight: 800; color: var(--green-dark); }
+
+  .subsection { margin-bottom: 2rem; }
+  .subsection:last-child { margin-bottom: 0; }
+
+  .subsection-title {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .subsection-num {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--green-mid); background: var(--green-pale);
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .subsection-title h3 { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+
+  /* ── TEXT ZONE ── */
+  .text-zone {
+    font-size: 0.9rem; line-height: 1.5;
+    color: var(--gray-600);
+  }
+  .text-zone p { margin-bottom: 0.8rem; }
+  .text-zone p:last-child { margin-bottom: 0; }
+  .text-zone a { color: var(--green-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1.5rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.7);
+    padding: 2.5rem; text-align: center; margin-top: 3rem;
+  }
+  footer .footer-logo { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+  footer .footer-sub { font-size: 0.82rem; }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .footer-copy { font-size: 0.78rem; margin-top: 0.6rem; opacity: 0.6; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-area">
+      <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
+      <div class="logo-text">
+        <span class="lab">URD ABI — AgroParisTech</span>
+        <span class="title">Chemical Library</span>
+      </div>
+    </a>
+    <a href="index.html" class="back-btn">← Retour au catalogue</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Conditions Générales d'Utilisation</h1>
+    <p>Catalogue de molécules de l'Unité de Recherche et Développement Agro-Biotechnologies Industrielles (ABI)</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-card">
+      <h3>Sommaire</h3>
+      <ul class="toc-list">
+        <li><a href="#preambule">Préambule</a></li>
+        <li><a href="#application">1. Objet et champ d'application</a></li>
+        <li><a href="#acces">2. Accès au site</a></li>
+        <li><a href="#contact">3. Demandes de devis et formulaire de contact</a></li>
+        <li><a href="#PI">4. Propriété intellectuelle du Site</a></li>
+        <li><a href="#obligations">5. Obligations de l'Utilisateur</a></li>
+        <li><a href="#depot">6. Dépôt de documents par les Utilisateurs</a></li>
+        <li><a href="#disponibilite">7. Disponibilité et évolution du Site</a></li>
+        <li><a href="#responsabilite">8. Responsabilité</a></li>
+        <li><a href="#cookies">9. Données personnelles et cookies</a></li>
+        <li><a href="#modification">10. Modification des CGU</a></li>
+        <li><a href="#droit">11. Droit applicable, juridiction compétente et contact</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SECTION Intro -->
+    <div class="section-block" id="preambule">
+      <div class="section-header">
+        <h2>Préambule</h2>
+      </div>
+      <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Les présentes Conditions Générales d'Utilisation (les « <b>CGU</b> ») régissent l'accès et l'utilisation du site internet <a href="https://urd-abi.github.io/URD-ABI-Chemical-Library/" target="_blank">https://urd-abi.github.io/URD-ABI-Chemical-Library/</a> (le <b>« Site »</b>), édité par AgroParisTech Innovation (l'« <b>Éditeur</b> »). Elles sont distinctes des Conditions Générales de Vente (« <b>CGV</b> »), qui régissent exclusivement la vente de Produits : les CGU s'appliquent à la navigation et à l'usage général du Site. En cas de contradiction entre les deux documents sur un point relatif à la vente, les CGV prévalent.<br><br>
+Toute connexion et navigation sur le Site implique l'acceptation sans réserve des présentes CGU par l'utilisateur (l'« <b>Utilisateur</b> »).
+
+</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-block" id="application">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Objet et champ d'application</h2>
+      </div>
+      <!-- 1.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">1.1</span> Le Site permet à des utilisateurs professionnels de consulter le catalogue de produits (« <b>Produit</b> » ou « <b>Produits</b> ») de l'URD ABI et de réaliser une demande de devis personnalisée. Il peut également proposer une prise de contact. </p>
+          <p><span class="subsection-num">1.2</span> Le Site est réservé à un usage professionnel. Il ne s'adresse pas aux consommateurs au sens du Code de la consommation. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-block" id="acces">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Accès au Site</h2>
+      </div>
+      <!-- 2.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">2.1</span> La consultation du catalogue de Produits est accessible librement à des fins d'information. </p>
+          <p><span class="subsection-num">2.2</span> La passation d'une commande est réservée aux Utilisateurs disposant d'un compte professionnel validé par l'URD ABI, dans les conditions de l'Article 3, ou le cas échéant selon d'autres modalités de vérification définies par l'Éditeur. Cette vérification vise à s'assurer de la qualité de professionnel de l'Utilisateur, conformément à l'Article 2.3 des CGV. </p>
+          <p><span class="subsection-num">2.3</span> L'Éditeur s'efforce d'assurer un accès au Site 24 heures sur 24, 7 jours sur 7, sous réserve des cas de maintenance, de mise à jour ou de force majeure prévus à l'Article 8. </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-block" id="contact">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2>Demandes de devis et formulaire de contact</h2>
+      </div>
+      <!-- 3.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">3.1</span> Le formulaire de demande de devis ou de contact permet à l'Utilisateur d'adresser une demande personnalisée à l'URD ABI. Cette demande ne constitue ni une commande, ni un engagement contractuel : seule la confirmation de commande émise par le Vendeur dans les conditions des CGV forme le contrat de vente. </p>
+          <p><span class="subsection-num">3.2</span> L'Éditeur s'efforce de répondre aux demandes dans un délai raisonnable, sans garantie de délai déterminé. </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-block" id="PI">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2>Propriété intellectuelle du Site</h2>
+      </div>
+      <!-- 4.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">4.1</span> La structure du Site, ses textes, images, logos, bases de données et tout autre élément le composant sont protégés par le droit de la propriété intellectuelle et demeurent la propriété exclusive de l'Éditeur ou de ses concédants. </p>
+          <p><span class="subsection-num">4.2</span> Toute reproduction, représentation, extraction substantielle de la base de données du catalogue, ou réutilisation du Site, en tout ou partie, à des fins autres que la consultation personnelle dans le cadre d'un usage professionnel normal, est interdite sans autorisation écrite préalable de l'Éditeur. </p>
+          <p><span class="subsection-num">4.3</span> Les marques, logos et signes distinctifs figurant sur le Site ne peuvent être utilisés sans autorisation écrite préalable. </p>
+        </div>
+      </div>
+
+    </div>
+  
+    <!-- SECTION 5 -->
+    <div class="section-block" id="obligations">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2>Objet et champ d'application</h2>
+      </div>
+      <!-- 5.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> L'Utilisateur s'engage à utiliser le Site conformément à sa destination et à son usage professionnel normal, et s'interdit notamment de :
+            <ul style="margin-top:0.5rem; margin-bottom:0.5rem; padding-left:1.2rem;">
+            <li>porter atteinte au bon fonctionnement du Site (introduction de virus, tentative d'intrusion, extraction automatisée non autorisée du catalogue) ;</li>
+            <li>utiliser le Site à des fins autres que celles pour lesquelles il est mis à disposition (consultation du catalogue, contact, demande de devis dans un cadre professionnel) ;</li>
+            <li>contourner les mesures de vérification de la qualité de professionnel mises en place par l'Éditeur.</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section-block" id="depot">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2>Dépôt de documents par les Utilisateurs</h2>
+      </div>
+      <!-- 6.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">6.1</span> Lorsque le Site propose une fonctionnalité de dépôt de documents, celle-ci est réservée à la transmission de justificatifs strictement nécessaires à la validation de la qualité professionnelle de l'Utilisateur ou à l'exécution d'une commande. </p>
+          <p><span class="subsection-num">6.2</span> Les documents déposés ne sont utilisés qu'aux fins de vérification ou d'exécution du Contrat, et ne sont conservés que le temps nécessaire à cette finalité, conformément à la <b>Politique de Confidentialité</b>. </p>
+          <p><span class="subsection-num">6.3</span> L'Utilisateur garantit être titulaire des droits nécessaires sur les documents déposés et s'interdit de déposer tout fichier illicite, contrefaisant ou contenant un contenu malveillant. L'Éditeur ne saurait être tenu responsable du contenu des documents déposés par les Utilisateurs. </p>
+        </div>
+      </div>
+    </div>
+
+<!-- SECTION 7 -->
+    <div class="section-block" id="disponibilite">
+      <div class="section-header">
+        <div class="section-number">7</div>
+        <h2>Disponibilité et évolution du Site</h2>
+      </div>
+      <!-- 7.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">7.1</span> L'Éditeur peut, à tout moment et sans préavis, faire évoluer, suspendre ou interrompre tout ou partie du Site, notamment pour des raisons de maintenance, de sécurité ou d'évolution technique, sans que sa responsabilité puisse être engagée de ce fait. </p>
+          <p><span class="subsection-num">7.2</span> L'Éditeur ne garantit pas que le Site sera exempt d'erreurs ou d'interruptions. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="section-block" id="responsabilite">
+      <div class="section-header">
+        <div class="section-number">8</div>
+        <h2>Responsabilité</h2>
+      </div>
+      <!-- 8.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">8.1</span> L'Éditeur met en œuvre les moyens raisonnables pour assurer l'exactitude des informations publiées sur le Site (descriptions de Produits, disponibilité, prix indicatifs). Ces informations sont toutefois susceptibles d'évoluer et ne sauraient engager l'Éditeur en dehors du cadre contractuel formé par une confirmation de commande conformément aux <b>CGV</b>. </p>
+          <p><span class="subsection-num">8.2</span> L'Éditeur ne saurait être tenu responsable des dommages résultant d'une utilisation du Site non conforme aux présentes <b>CGU</b>, d'une interruption du Site, ou de l'utilisation par l'Utilisateur d'informations générales publiées sur le Site en dehors du cadre d'une commande. </p>
+          <p><span class="subsection-num">8.3</span> Les stipulations de responsabilité et de garantie propres à la vente de Produits relèvent exclusivement des <b>CGV</b> et non des présentes <b>CGU</b>. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="section-block" id="cookies">
+      <div class="section-header">
+        <div class="section-number">9</div>
+        <h2>Données personnelles et cookies</h2>
+      </div>
+      <!-- 9.1 -->
+      <div class="subsection" id="cookies">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> Les données à caractère personnel collectées via le Site (demande de devis, formulaire de contact) sont traitées conformément à la Politique de Confidentialité disponible à l'adresse [https://urd-abi.github.io/URD-ABI-Chemical-Library/confidentialite.html], qui précise notamment les finalités, bases légales, durées de conservation et modalités d'exercice des droits des personnes concernées. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 10 -->
+    <div class="section-block" id="modification">
+      <div class="section-header">
+        <div class="section-number">10</div>
+        <h2>Modification des CGU</h2>
+      </div>
+      <!-- 10.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> L'Éditeur peut modifier les présentes <b>CGU</b> à tout moment, notamment pour tenir compte d'évolutions du Site ou de la réglementation. La version applicable est celle en vigueur à la date de connexion de l'Utilisateur, identifiée par sa date de mise à jour. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 11 -->
+    <div class="section-block" id="droit">
+      <div class="section-header">
+        <div class="section-number">11</div>
+        <h2>Droit applicable, juridiction compétente et contact</h2>
+      </div>
+      <!-- 11.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">11.1</span> Les présentes CGU sont régies par le droit français. Le ressort de la Cour d’appel de Paris est compétente.  </p>
+          <p><span class="subsection-num">11.2</span> Pour toute question relative aux présentes CGU, l'Utilisateur peut contacter l'Éditeur à l'adresse <b>matthieu.mention@agroparistech.fr</b>. Les mentions légales du Site sont disponibles à l'adresse <a href="https://urd-abi.github.io/URD-ABI-Chemical-Library/mentions-legales.html" target="_blank">https://urd-abi.github.io/URD-ABI-Chemical-Library/mentions-legales.html</a>. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">URD ABI — Chemical Library</div>
+  <div class="footer-sub">
+    AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle ·
+    <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+  <div class="footer-copy">© 2026 URD ABI - AgroParisTech Innovation S.A.S.. Tous droits réservés.</div>
+  <div class="footer-sub" style="margin-top:0.5rem;font-size:0.78rem;opacity:0.65">
+    <a href="mentions-legales.html" style="color:var(--green-light)">Mentions légales</a> - 
+    <a href="confidentialite.html" style="color:var(--green-light)">Confidentialité</a> - 
+    <a href="CGU.html" style="color:var(--green-light)">CGU</a> - 
+    <a href="mentions-legales.html" style="color:var(--green-light)">CGV</a>
+  </div>
+</footer>
+
+</body>
+</html>
