@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditions Générales d'Utilisation — URD ABI Chemical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:   #1a4a2e;
+    --green-mid:    #2d7a4f;
+    --green-bright: #3db872;
+    --green-light:  #a8e6c1;
+    --green-pale:   #e8f7ef;
+    --gray-100:     #f0f4f2;
+    --gray-200:     #d9e4de;
+    --gray-400:     #8aa898;
+    --gray-600:     #4a6358;
+    --gray-800:     #1e2e27;
+    --white:        #ffffff;
+    --off-white:    #f8fdfb;
+    --font-main:    'Outfit', sans-serif;
+    --font-mono:    'DM Mono', monospace;
+    --radius:       12px;
+    --shadow:       0 4px 20px rgba(26,74,46,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-main); background: var(--off-white); color: var(--gray-800); }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-dark);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-area {
+    display: flex; align-items: center; gap: 0.8rem;
+    text-decoration: none;
+  }
+  .logo-badge {
+    height: 42px; width: auto; object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  .logo-text span { display: block; }
+  .logo-text .lab   { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-light); opacity: 0.8; }
+  .logo-text .title { font-size: 1rem; font-weight: 700; color: white; }
+  .back-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px; color: white;
+    padding: 0.45rem 1rem; font-family: var(--font-main);
+    font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(120deg, var(--green-dark), #1a5c3a);
+    color: white; padding: 3rem 2rem;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .hero h1 span { color: var(--green-light); }
+  .hero p { font-size: 0.95rem; opacity: 0.75; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 3rem; align-items: start; }
+
+  /* ── TOC SIDEBAR ── */
+  .toc { position: sticky; top: 88px; }
+  .toc-card { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 1.4rem; box-shadow: var(--shadow); }
+  .toc-card h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green-dark); margin-bottom: 1rem; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .toc-list a { text-decoration: none; font-size: 0.84rem; color: var(--gray-600); display: block; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.15s; border-left: 2px solid transparent; }
+  .toc-list a:hover { background: var(--green-pale); color: var(--green-dark); border-left-color: var(--green-bright); }
+  .toc-list a.sub { padding-left: 1.2rem; font-size: 0.8rem; }
+
+  /* ── CONTENT ── */
+  .content { min-width: 0; }
+  .section-block { background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 2.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem; padding-bottom: 1rem;
+    border-bottom: 2px solid var(--green-pale);
+  }
+  .section-number {
+    background: var(--green-dark); color: white;
+    font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.25rem; font-weight: 800; color: var(--green-dark); }
+
+  .subsection { margin-bottom: 2rem; }
+  .subsection:last-child { margin-bottom: 0; }
+
+  .subsection-title {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .subsection-num {
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--green-mid); background: var(--green-pale);
+    padding: 0.2rem 0.55rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .subsection-title h3 { font-size: 1rem; font-weight: 700; color: var(--gray-800); }
+
+  /* ── TEXT ZONE ── */
+  .text-zone {
+    font-size: 0.9rem; line-height: 1.5;
+    color: var(--gray-600);
+  }
+  .text-zone p { margin-bottom: 0.8rem; }
+  .text-zone p:last-child { margin-bottom: 0; }
+  .text-zone a { color: var(--green-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1.5rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.7);
+    padding: 2.5rem; text-align: center; margin-top: 3rem;
+  }
+  footer .footer-logo { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 0.5rem; }
+  footer .footer-sub { font-size: 0.82rem; }
+  footer a { color: var(--green-light); text-decoration: none; }
+  footer .footer-copy { font-size: 0.78rem; margin-top: 0.6rem; opacity: 0.6; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .toc { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo-area">
+      <img class="logo-badge" src="https://urd-abi-agroparistech.com/public/assets/images/logo.png" alt="URD ABI Logo">
+      <div class="logo-text">
+        <span class="lab">URD ABI — AgroParisTech</span>
+        <span class="title">Chemical Library</span>
+      </div>
+    </a>
+    <a href="index.html" class="back-btn">← Retour au catalogue</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Conditions Générales de Vente</h1>
+    <p>Catalogue de molécules de l'Unité de Recherche et Développement Agro-Biotechnologies Industrielles (ABI)</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TOC -->
+  <aside class="toc">
+    <div class="toc-card">
+      <h3>Sommaire</h3>
+      <ul class="toc-list">
+        <li><a href="#preambule">Préambule</a></li>
+        <li><a href="#application">1. Champ d'application et opposabilité</a></li>
+        <li><a href="#contrat">2. Commande et formation du Contrat</a></li>
+        <li><a href="#produits">3. Nature et utilisation des Produits</a></li>
+        <li><a href="#livraison">4. Livraison</a></li>
+        <li><a href="#inspection">5. Inspection et non-conformité</a></li>
+        <li><a href="#prix">6. Prix et conditions de paiement</a></li>
+        <li><a href="#retours">7. Retours</a></li>
+        <li><a href="#PI">8. Propriété intellectuelle</a></li>
+        <li><a href="#garanties">9. Garanties et limitation de garantie</a></li>
+        <li><a href="#limitation">10. Limitation de responsabilité</a></li>
+        <li><a href="#conformite">11. Conformité réglementaire</a></li>
+        <li><a href="#investissement">12. Absence de conseil en investissement</a></li>
+        <li><a href="#resiliation">13. Résiliation</a></li>
+        <li><a href="#confidentialite">14. Confidentialité</a></li>
+        <li><a href="#force">15. Force majeure</a></li>
+        <li><a href="#données">16. Protection des données à caractère personnel</a></li>
+        <li><a href="#divers">17. Dispositions diverses</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SECTION Intro -->
+    <div class="section-block" id="preambule">
+      <div class="section-header">
+        <h2>Préambule</h2>
+      </div>
+      <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+      <div class="text-zone">
+          <p>Les présentes Conditions Générales de Vente (les « <b>CGV</b> ») régissent les ventes de produits chimiques et biologiques, molécules, extraits, réactifs et substances apparentées (les « <b>Produits</b> ») commercialisés par l’URD ABI. 
+Les présentes CGV sont réservées aux ventes conclues avec des acheteurs (« <b>Acheteurs</b> ») agissant dans le cadre de leur activité professionnelle (laboratoires, entreprises, instituts de recherche), à l'exclusion de toute vente à des particuliers.
+Les CGV sont accompagnées de la « <b>Documentation</b> », qui désigne tout document émis par le vendeur, AgroParisTech Innovation, (« <b>Vendeur</b> ») au cours du processus de vente à l’Acheteur, incluant sans limitation tout devis, bon de commande, confirmation de commande (« <b>Confirmation</b> ») ou document d'expédition.
+</p>
+      </div>
+
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-block" id="application">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2>Champ d'application et opposabilité</h2>
+      </div>
+      <!-- 1.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">1.1</span> Les présentes CGV s'appliquent à toutes les ventes de Produits conclues par le Vendeur avec un Acheteur professionnel, quel que soit le canal de commande (site internet, bon de commande, devis signé). </p>
+          <p><span class="subsection-num">1.2</span> Les CGV prévalent sur l'ensemble des conditions générales d'achat de l'Acheteur, sans considération du moment auquel ces dernières auraient été portées à la connaissance du Vendeur. Le traitement d'une commande ne saurait être interprété comme une acceptation, même tacite, des conditions de l'Acheteur. La passation d'une commande emporte adhésion sans réserve de l'Acheteur aux présentes CGV, sauf conditions particulières convenues par écrit avec le Vendeur. </p>
+          <p><span class="subsection-num">1.3</span> Les CGV applicables sont celles en vigueur à la date de la commande, telles que publiées sur le site internet du Vendeur ou annexées au devis. </p>
+          <p><span class="subsection-num">1.4</span> Certains Produits, en raison de leur nature dangereuse, contrôlée ou réglementée, peuvent faire l'objet de conditions particulières complémentaires précisées dans la documentation (« <b>Documentation</b> ») ; celles-ci prévalent sur les présentes CGV en cas de contradiction pour les seuls aspects qu'elles régissent. </p>
+          <p><span class="subsection-num">1.5</span> La vente est réputée conclue lorsque le Vendeur confirme, par écrit électronique ou manuscrit, l'acceptation de la commande (« <b>Contrat</b> »). L'Acheteur ne peut modifier ou annuler sa commande sans l'accord écrit préalable du Vendeur ; toute annulation ou modification postérieure à la Confirmation peut donner lieu à facturation des coûts déjà engagés par le Vendeur (approvisionnement, conditionnement, transport). </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-block" id="contrat">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2>Commande et formation du Contrat</h2>
+      </div>
+      <!-- 2.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">2.1</span> Les commandes sont passées par différents types de canal (mail, manuscrit). Le site internet du Vendeur permet de consulter les Produits disponibles à la vente et de demander un devis. Il sert de plateformes d’intermédiation entre l’Acheteur et le Vendeur. Toute commande implique l'acceptation tacite ou expresse préalable, sans réserve, des présentes CGV. </p>
+          <p><span class="subsection-num">2.2</span> Le Vendeur reste libre de refuser toute commande émanant d'un Acheteur avec lequel existerait un litige relatif au paiement d'une commande antérieure, ou pour tout motif légitime tenant à la disponibilité du Produit, à la réglementation applicable (contrôle des substances, licences) ou à la vérification de la qualité de professionnel de l'Acheteur. </p>
+          <p><span class="subsection-num">2.3</span> Le Vendeur se réserve le droit de demander à l'Acheteur, avant toute expédition, tout justificatif de sa qualité de professionnel de la recherche ou de l'industrie et de l'usage envisagé des Produits, notamment pour les substances soumises à un contrôle réglementaire particulier (précurseurs, substances classées, produits à double usage). </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="section-block" id="produits">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2>Nature et utilisation des Produits</h2>
+      </div>
+      <!-- 3.1 -->
+      <div class="subsection" id="nature">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">3.1</span> <b>Produits réservés à un usage professionnel de recherche.</b> Sauf mention contraire expresse figurant dans la Documentation, les Produits sont fournis exclusivement à des fins de recherche et de développement (« Research Use Only »). <b>Ils n'ont fait l'objet d'aucune évaluation ni validation</b> au regard d'une utilisation alimentaire, thérapeutique, cosmétique, dans un dispositif médical, ou de toute autre application destinée à l'homme ou à l'animal.    </p>
+          <p><span class="subsection-num">3.2</span> L'Acheteur s'interdit toute utilisation des Produits à des fins de diagnostic clinique, d'incorporation dans des denrées alimentaires, médicaments, dispositifs médicaux ou produits cosmétiques destinés à l'homme ou à l'animal, ou toute autre application commerciale non expressément autorisée par écrit par le Vendeur. </p>
+          <p><span class="subsection-num">3.3</span> L'Acheteur s'engage à (a) respecter l'ensemble des instructions, spécifications, restrictions d'usage et conditions de conservation communiquées par le Vendeur (les « Instructions ») et (b) procéder lui-même, sous sa seule responsabilité, aux tests, contrôles et validations nécessaires à l'usage qu'il envisage de faire des Produits. </p>
+          <p><span class="subsection-num">3.4</span> L'Acheteur est seul responsable de l'obtention des autorisations réglementaires et des droits de propriété intellectuelle nécessaires à l'utilisation qu'il fait des Produits, ainsi que de la conformité de cette utilisation à la réglementation applicable (notamment le règlement(CE) n°1907/2006 REACH et la réglementation relative aux substances classées, à la biosécurité). </p>
+          <p><span class="subsection-num">3.5</span> L'Acheteur s'interdit de revendre, distribuer, sous-licencier ou céder les Produits en l'état à des tiers sans l'autorisation écrite préalable du Vendeur, sauf lorsque cela résulte de l'usage normal de recherche (mise en œuvre dans le cadre de collaborations scientifiques dûment encadrées). </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-block" id="livraison">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2>Livraison</h2>
+      </div>
+      <!-- 4.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">4.1</span> Les délais de livraison indiqués par le Vendeur sont donnés à titre indicatif et ne constituent pas un engagement de résultat. Le Vendeur ne pourra être tenu responsable des retards, pertes ou dommages imputables au transporteur. </p>
+          <p><span class="subsection-num">4.2</span> Les frais de transport et d'emballage sont, sauf stipulation contraire, à la charge de l'Acheteur et facturés en sus du prix des Produits. </p>
+          <p><span class="subsection-num">4.3</span> Le transfert des risques s'opère à la livraison, selon l'Incoterm applicable. Le transfert de propriété intervient à la livraison, sous réserve du paiement intégral du prix (clause de réserve de propriété). </p>
+          <p><span class="subsection-num">4.4</span> Le Vendeur peut procéder à des expéditions partielles, facturées au fur et à mesure. Certains Produits, en particulier ceux nécessitant une conservation à température dirigée ou fabriqués sur mesure, ne peuvent être vendus que par lot ou en quantité minimale précisée dans la Documentation. </p>
+        </div>
+      </div>
+
+    </div>
+  
+    <!-- SECTION 5 -->
+    <div class="section-block" id="inspection">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2>Inspection et non-conformité</h2>
+      </div>
+      <!-- 5.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">5.1</span> Constitue une « Non-Conformité » toute inadéquation, en quantité ou en nature, entre les Produits livrés et la Confirmation. </p>
+          <p><span class="subsection-num">5.2</span> L'Acheteur est tenu d'inspecter les Produits dans un délai de cinq (5) jours ouvrés à compter de leur réception. À défaut de notification écrite d'une non-conformité dans ce délai, accompagnée des éléments de preuve utiles, l'Acheteur est réputé avoir accepté les Produits livrés. </p>
+          <p><span class="subsection-num">5.3</span> En cas de Non-Conformité dûment notifiée, le Vendeur procède, à son choix :
+            <ul style="margin-top:0.5rem; margin-bottom:0.5rem; padding-left:1.2rem;">
+            <li>(a) au remplacement des Produits non conformes, ou</li>
+            <li>(b) au remboursement du prix correspondant, ou</li>
+            <li>(c) en cas de livraison partielle, à l'ajustement de la facture.</li>
+            </ul>
+            Ces recours constituent les seuls recours de l'Acheteur au titre d'une Non-Conformité.
+          </p>
+          <p><span class="subsection-num">5.4</span> Tout retour est subordonné à l'autorisation écrite préalable du Vendeur et s'effectue dans les conditions de l'Article 7. </p>
+          <p><span class="subsection-num">5.5</span> Cet article ne prive pas l'Acheteur de la garantie de l'article 9. </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section-block" id="prix">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2>Prix et conditions de paiement</h2>
+      </div>
+      <!-- 6.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">6.1</span> Les Produits sont facturés selon les tarifs en vigueur communiqués par le Vendeur (devis, catalogue en ligne) à la date de la Confirmation. Les prix sont indiqués hors taxes ; ils s'entendent hors TVA et hors toute taxe, droit de douane ou redevance applicable, qui restent à la charge de l'Acheteur. </p>
+          <p><span class="subsection-num">6.2</span> Sauf stipulation contraire, les factures sont payables dans un délai de trente (30) jours à compter de leur émission, par virement sur le compte désigné par le Vendeur. </p>
+          <p><span class="subsection-num">6.3</span> Tout retard de paiement entraîne, de plein droit, l'application d'intérêts calculés sur la base du taux directeur de la Banque Centrale Européenne majoré de dix (10) points, ainsi qu'une indemnité forfaitaire de recouvrement de quarante (40) euros, conformément aux articles L. 441-10 et D. 441-5 du Code de commerce, sans préjudice d'une indemnisation complémentaire sur justificatifs si les frais exposés sont supérieurs.  </p>
+          <p><span class="subsection-num">6.4</span> En cas de retard de paiement, le Vendeur peut, après mise en demeure restée infructueuse trente (30) jours à compter de la réception, suspendre les expéditions en cours et subordonner toute nouvelle commande à un paiement préalable. </p>
+          <p><span class="subsection-num">6.5</span> L'Acheteur ne peut opérer aucune compensation ni retenir le paiement de sommes dues, sauf accord écrit du Vendeur ou décision de justice exécutoire. </p>
+        </div>
+      </div>
+    </div>
+
+<!-- SECTION 7 -->
+    <div class="section-block" id="retours">
+      <div class="section-header">
+        <div class="section-number">7</div>
+        <h2>Retours</h2>
+      </div>
+      <!-- 7.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> Aucun retour ne peut être effectué sans l'autorisation écrite préalable du Vendeur, qui peut conditionner celle-ci à une inspection préalable des Produits. Compte tenu de leur nature, les Produits conditionnés sur mesure, fabriqués à la demande, réfrigérés, à température dirigée ou dont l'intégrité de l'emballage ne peut être garantie après ouverture ne peuvent faire l'objet d'aucun retour. Tout retour autorisé s'effectue dans l'emballage d'origine, non altéré, aux frais et risques de l'Acheteur, sauf accord contraire. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <div class="section-block" id="PI">
+      <div class="section-header">
+        <div class="section-number">8</div>
+        <h2>Propriété intellectuelle</h2>
+      </div>
+      <!-- 8.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">8.1</span> Le Vendeur demeure titulaire de l'ensemble des droits de propriété intellectuelle attachés à ses savoir-faire, méthodes, procédés d'obtention, bases de données et résultats de recherche relatifs aux Produits. La vente d'un Produit n'emporte cession d'aucun droit de propriété intellectuelle du Vendeur, ni licence implicite autre que le droit d'utiliser le Produit conformément à sa destination définie à l'Article 3. </p>
+          <p><span class="subsection-num">8.2</span> Toute reproduction, analyse structurale à des fins de reproduction commerciale, rétro-ingénierie chimique ou synthèse des Produits à des fins de commercialisation, sans autorisation écrite préalable du Vendeur, est interdite. </p>
+          <p><span class="subsection-num">8.3</span> Les résultats obtenus par l'Acheteur du fait de l'utilisation des Produits dans ses propres travaux de recherche demeurent la propriété de l'Acheteur, sous réserve des droits antérieurs du Vendeur et, le cas échéant, des stipulations d'un accord de collaboration ou de transfert de matériel biologique (MTA) applicable. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9 -->
+    <div class="section-block" id="garanties">
+      <div class="section-header">
+        <div class="section-number">9</div>
+        <h2>Garanties et limitations de garantie</h2>
+      </div>
+      <!-- 9.1 -->
+      <div class="subsection" id="garanties">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">9.1</span> Le Vendeur garantit que les Produits sont conformes aux spécifications qu'il a émises, pendant la plus courte des durées suivantes : (a) un (1) an à compter de la date d'expédition, ou (b) la durée de conservation du Produit ou la date de péremption indiquée. </p>
+          <p><span class="subsection-num">9.2</span> À l'exception de la garantie ci-dessus, le Vendeur ne consent aucune garantie, explicite ou implicite, notamment de qualité marchande, d'adéquation à un usage particulier ou de non-atteinte aux droits de tiers. Toute recommandation du Vendeur relative à l'utilisation, la sélection ou l'application des Produits ne saurait être interprétée comme une garantie. </p>
+          <p><span class="subsection-num">9.3</span> La garantie n'est due que si (a) l'Acheteur a signalé le défaut par écrit dès sa découverte, (b) le Vendeur a pu inspecter les Produits concernés, et (c) le défaut est confirmé par le Vendeur. </p>
+          <p><span class="subsection-num">9.4</span> La garantie est exclue en cas de non-respect des Instructions ou de l'Article 3, d'intervention non autorisée, de conditions de conservation ou d'utilisation anormales, ou de défaillance résultant d'une cause étrangère au Vendeur. </p>
+          <p><span class="subsection-num">9.5</span> En cas de défaut avéré couvert par la garantie, le Vendeur procède, à son choix, au remplacement du Produit ou au remboursement du prix payé. Ces recours constituent les seuls et uniques recours de l'Acheteur au titre de la présente garantie. </p>
+          <p><span class="subsection-num">9.6</span> La garantie concerne les défauts non couverts par le régime de réception de l'article 5, ou au minimum les défauts qui ne pouvaient pas raisonnablement être détectés lors de l'inspection. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 10 -->
+    <div class="section-block" id="limitation">
+      <div class="section-header">
+        <div class="section-number">10</div>
+        <h2>Limitation de responsabilité</h2>
+      </div>
+      <!-- 10.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">10.1</span> L'Acheteur assume l'ensemble des risques liés au transport, au stockage, à la manipulation et à l'utilisation des Produits, notamment en matière de sécurité, d'hygiène et d'environnement, et est seul responsable du respect des règles applicables à cet égard au sein de ses locaux.  </p>
+          <p><span class="subsection-num">10.2</span> L'Acheteur garantit le Vendeur contre toute réclamation de tiers résultant de l'utilisation, du stockage ou de la revente non autorisée des Produits, ou d'un manquement de l'Acheteur aux présentes CGV.  </p>
+          <p><span class="subsection-num">10.3</span> Sauf en cas de faute lourde ou dolosive, la responsabilité du Vendeur au titre du Contrat, tous préjudices confondus, est limitée au prix effectivement payé par l'Acheteur pour les Produits à l'origine du dommage. Le Vendeur n'est en aucun cas responsable des dommages indirects (perte d'exploitation, de données, de chance, atteinte à l'image).   </p>
+          <p><span class="subsection-num">10.4</span> Toute réclamation doit être présentée dans un délai d'un (1) an à compter de la livraison des Produits concernés, à peine de forclusion.  </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 11 -->
+    <div class="section-block" id="conformite">
+      <div class="section-header">
+        <div class="section-number">11</div>
+        <h2>Conformité réglementaire</h2>
+      </div>
+      <!-- 11.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">11.1</span> L'Acheteur s'engage à respecter l'ensemble de la réglementation applicable à la détention, à la manipulation, au transport et à l'utilisation des Produits, notamment le règlement REACH (CE n° 1907/2006), la réglementation relative au transport des marchandises dangereuses, et, le cas échéant, la réglementation applicable aux substances classées ou aux précurseurs de drogues ou d'explosifs.</p>
+          <p><span class="subsection-num">11.2</span> Les ventes réalisées au titre des présentes CGV sont limitées au territoire français, à l'Union européenne . L'Acheteur s'interdit toute réexportation des Produits hors de ce périmètre sans en informer préalablement le Vendeur et sans avoir vérifié la conformité d'une telle opération à la réglementation applicable en matière de contrôle des exportations. </p>
+          <p><span class="subsection-num">11.3</span> L'Acheteur informe sans délai le Vendeur de toute incohérence entre l'usage déclaré des Produits et leur utilisation effective portée à sa connaissance, notamment en cas de risque avéré de détournement à des fins prohibées.  </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 12 -->
+    <div class="section-block" id="investissement">
+      <div class="section-header">
+        <div class="section-number">12</div>
+        <h2>Absence de conseil en investissement</h2>
+      </div>
+      <!-- 12.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> Les informations, données et analyses fournies par le Vendeur dans la Documentation sont communiquées à titre purement scientifique et technique. Elles ne sauraient être interprétées comme un conseil réglementaire, commercial ou en investissement, et sont fournies « en l'état », sans garantie d'exhaustivité au regard de l'usage spécifique envisagé par l'Acheteur.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 13 -->
+    <div class="section-block" id="resiliation">
+      <div class="section-header">
+        <div class="section-number">13</div>
+        <h2>Résiliation</h2>
+      </div>
+      <!-- 13.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">13.1</span> Le Vendeur peut résilier le Contrat à tout moment avant livraison, sans avoir à se justifier, par notification écrite, moyennant remboursement intégral des sommes déjà versées par l'Acheteur.</p>
+          <p><span class="subsection-num">13.2</span> Le Vendeur peut suspendre ou résilier le Contrat de plein droit, par notification écrite, en cas : 
+          <ul style="list-style-type: disc; margin-left: 20px;">
+            <li>(a) de défaut de paiement de l'Acheteur, ou</li>
+            <li>(b) de manquement de l'Acheteur à ses obligations au titre du Contrat, notamment celles de l'Article 3 ou de l'Article 11, ou</li>
+            <li>(c) d'insolvabilité de l'Acheteur, dans les conditions de l'article L. 622-13 du Code de commerce.</li>
+          </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 14 -->
+    <div class="section-block" id="confidentialite">
+      <div class="section-header">
+        <div class="section-number">14</div>
+        <h2>Confidentialité</h2>
+      </div>
+      <!-- 14.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p> Les informations non publiques échangées entre les parties à l'occasion de la vente (spécifications, données techniques, conditions commerciales) sont réputées confidentielles et ne peuvent être divulguées à des tiers ni utilisées à d'autres fins que l'exécution du Contrat, sauf accord écrit préalable de la partie qui les a communiquées. Cette obligation ne s'applique pas aux informations publiques, déjà connues du destinataire, ou obtenues légitimement d'un tiers non tenu à confidentialité. Cette obligation perdure pendant une durée de cinq (5) ans à compter de la fin du Contrat.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 15 -->
+    <div class="section-block" id="force">
+      <div class="section-header">
+        <div class="section-number">15</div>
+        <h2>Force majeure</h2>
+      </div>
+      <!-- 15.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p>Aucune des parties ne peut être tenue responsable d'un manquement ou d'un retard dans l'exécution de ses obligations (à l'exception des obligations de paiement) résultant d'un événement de force majeure au sens de l'article 1218 du Code civil. </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 16 -->
+    <div class="section-block" id="protection">
+      <div class="section-header">
+        <div class="section-number">16</div>
+        <h2>Protection des données à caractère personnel</h2>
+      </div>
+      <!-- 16.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">16.1</span> Le Vendeur traite les données à caractère personnel des contacts de l'Acheteur aux fins de gestion de la relation commerciale et d'exécution du Contrat, sur le fondement de l'exécution du Contrat.</p>
+          <p><span class="subsection-num">16.2</span> Ces données sont destinées aux services du Vendeur et, le cas échéant, à ses prestataires intervenant dans la livraison et la facturation. Tout transfert hors de l'Espace économique européen fait l'objet des garanties appropriées (clauses contractuelles types de la Commission européenne).</p>
+          <p><span class="subsection-num">16.3</span> Les données sont conservées pendant la durée du Contrat puis archivées pour la durée légale de conservation et de prescription applicable.</p>
+          <p><span class="subsection-num">16.4</span> Conformément au Règlement (UE) 2016/679 (RGPD), les personnes concernées disposent d'un droit d'accès, de rectification, d'effacement, de portabilité, d'opposition et de limitation, qu'elles peuvent exercer auprès du Délégué à la Protection des Données à l'adresse mail : <b>clara.laforêt@agroparistech.fr</b> – 22 Place de l’Agronomie 9440 - Palaiseau. Pour plus d'informations, voir la politique de confidentialité disponible à l'adresse <a href="https://urd-abi.github.io/URD-ABI-Chemical-Library/confidentialite.html" target="_blank">https://urd-abi.github.io/URD-ABI-Chemical-Library/confidentialite.html</a>. Toute réclamation peut être adressée à la CNIL, 3 Place de Fontenoy, 75007 Paris (<a href="https://www.cnil.fr" target="_blank">www.cnil.fr</a>).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 17 -->
+    <div class="section-block" id="divers">
+      <div class="section-header">
+        <div class="section-number">17</div>
+        <h2>Dispositions diverses</h2>
+      </div>
+      <!-- 17.1 -->
+      <div class="subsection" id="commande">
+        <!-- ============================================================
+     MODIFIEZ LE TEXTE CI-DESSOUS DANS VOTRE ÉDITEUR (VS Code, Notepad++...)
+     puis faites un git push pour mettre la page en ligne.
+     ============================================================ -->
+        <div class="text-zone">
+          <p><span class="subsection-num">17.1</span> Non-renonciation. Le fait pour le Vendeur de ne pas se prévaloir d'un manquement ne vaut pas renonciation à s'en prévaloir ultérieurement.</p>
+          <p><span class="subsection-num">17.2</span> Cession. L'Acheteur ne peut céder le Contrat ni les droits et obligations qui en découlent sans l'accord écrit préalable du Vendeur. </p>
+          <p><span class="subsection-num">17.3</span> Indépendance des parties. Les parties agissent en qualité de cocontractants indépendants. Le Contrat ne crée entre elles aucun mandat, partenariat, coentreprise ou relation d'emploi.  </p>
+          <p><span class="subsection-num">17.4</span> Communication. L'Acheteur ne peut faire référence au Vendeur, à ses marques ou à ses Produits à des fins promotionnelles sans l'accord écrit préalable de ce dernier.</p>
+          <p><span class="subsection-num">17.5</span> Droit applicable et juridiction compétente. Le Contrat est régi par le droit français, à l'exclusion de ses règles de conflit de lois.</p>
+          <p><span class="subsection-num">17.6</span> Divisibilité. La nullité, l'illégalité ou l'inopposabilité d'une clause du Contrat n'affecte pas la validité des autres clauses.</p>
+          <p><span class="subsection-num">17.7</span> Survie. Les articles 3, 8, 9, 10, 11, 14, 17.5 et 17.9 (le cas échéant) survivent à l'expiration ou à la résiliation du Contrat.</p>
+          <p><span class="subsection-num">17.8</span> Modification. Les CGV ne peuvent être modifiées que par un accord écrit signé des représentants habilités des parties, sauf mise à jour générale des CGV publiée par le Vendeur pour les commandes futures.</p>
+          <p><span class="subsection-num">17.9</span> Langue. Les présentes CGV sont rédigées en langue française.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">URD ABI — Chemical Library</div>
+  <div class="footer-sub">
+    AgroParisTech · CEBB, 3 rue des Rouges Terres, 51110 Pomacle ·
+    <a href="https://urd-abi-agroparistech.com" target="_blank">urd-abi-agroparistech.com</a>
+  </div>
+  <div class="footer-copy">© 2026 URD ABI - AgroParisTech Innovation S.A.S.. Tous droits réservés.</div>
+  <div class="footer-sub" style="margin-top:0.5rem;font-size:0.78rem;opacity:0.65">
+    <a href="mentions-legales.html" style="color:var(--green-light)">Mentions légales</a> - 
+    <a href="confidentialite.html" style="color:var(--green-light)">Confidentialité</a> - 
+    <a href="CGU.html" style="color:var(--green-light)">CGU</a> - 
+    <a href="CGV.html" style="color:var(--green-light)">CGV</a>
+  </div>
+</footer>
+
+</body>
+</html>
